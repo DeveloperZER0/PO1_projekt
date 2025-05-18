@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Parametry połączenia z bazą danych -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/healthtracker</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
+
+        <!-- Ustawienia dialektu SQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <!-- Opcjonalne: pokaż SQL w logach -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Automatyczne tworzenie/aktualizacja tabel -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Zarejestruj swoje klasy encji -->
+        <mapping class="com.healthtracker.model.User"/>
+        <mapping class="com.healthtracker.model.Measurement"/>
+        <mapping class="com.healthtracker.model.Activity"/>
+        <mapping class="com.healthtracker.model.ActivityType"/>
+        <mapping class="com.healthtracker.model.BloodPressureMeasurement"/>
+        <mapping class="com.healthtracker.model.Goal"/>
+        <mapping class="com.healthtracker.model.HeartRateMeasurement"/>
+        <mapping class="com.healthtracker.model.Meal"/>
+        <mapping class="com.healthtracker.model.MealType"/>
+        <mapping class="com.healthtracker.model.WeightMeasurement"/>
+    </session-factory>
+</hibernate-configuration>

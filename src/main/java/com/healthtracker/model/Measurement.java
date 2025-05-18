@@ -8,14 +8,16 @@ import java.time.LocalDateTime;
 @Table(name = "measurements")
 public abstract class Measurement {
     // protected Long id; @Id @GeneratedValue
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     // protected LocalDateTime timestamp;
+    @Column(nullable = false)
     protected LocalDateTime timestamp;
 
     // @ManyToOne protected User user;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     protected User user;
 
     // public Measurement() {}     ← pusty

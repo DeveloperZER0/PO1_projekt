@@ -17,15 +17,18 @@ public class Activity {
 
     // @ManyToOne private ActivityType type;
     @ManyToOne
+    @JoinColumn(name = "type_id", nullable = false)
     private ActivityType type;
 
     // private int durationMinutes;
+    @Column(nullable = false)
     private int durationMinutes;
 
     // private double distanceKm;
     private double distanceKm;
 
     // private LocalDateTime timestamp;
+    @Column(nullable = false)
     private LocalDateTime timestamp;
 
     // public Activity() {}

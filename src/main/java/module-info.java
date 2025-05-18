@@ -1,4 +1,6 @@
 module com.healthtracker.healthtracker {
+    requires java.naming;
+
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -9,7 +11,11 @@ module com.healthtracker.healthtracker {
     requires eu.hansolo.tilesfx;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires net.bytebuddy;
 
     opens com.healthtracker to javafx.fxml;
+    opens com.healthtracker.model to org.hibernate.orm.core, net.bytebuddy;
+    opens com.healthtracker.util to org.hibernate.orm.core;
     exports com.healthtracker;
+    exports com.healthtracker.model;
 }

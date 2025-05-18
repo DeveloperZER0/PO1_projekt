@@ -8,4 +8,6 @@ public interface GenericDao<T> {
     void delete(T entity);
     T findById(Long id);
     List<T> findAll();
+    //List<T> findByField(String fieldName, Object value);  // do dynamicznych zapytań
+
 }

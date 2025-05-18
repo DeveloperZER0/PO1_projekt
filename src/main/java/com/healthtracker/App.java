@@ -1,9 +1,11 @@
 package com.healthtracker;
 
+import com.healthtracker.util.HibernateUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.hibernate.Session;
 
 import java.io.IOException;
 
@@ -18,6 +20,11 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            System.out.println("✔ Połączenie działa!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         launch();
     }
 }
