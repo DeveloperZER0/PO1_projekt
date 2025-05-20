@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.healthtracker.views.UserCard"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" spacing="10" style="-fx-padding: 10;">
+    <VBox spacing="5">
+        <Label text="Login: " style="-fx-font-weight: bold;"/>
+        <Label text="E-mail: "/>
+        <Label text="Rola: "/>
+    </VBox>
+    <VBox spacing="5">
+        <Label fx:id="usernameLabel"/>
+        <Label fx:id="emailLabel"/>
+        <Label fx:id="roleLabel"/>
+    </VBox>
+</HBox>

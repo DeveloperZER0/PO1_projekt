@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.healthtracker.ui.components.ActivityFormController"
+      spacing="15" alignment="CENTER" style="-fx-padding: 20;">
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.healthtracker.views.ActivityForm"
-            prefHeight="400.0" prefWidth="600.0">
+    <Label text="Dodaj aktywność fizyczną" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
 
-</AnchorPane>
+    <TextField fx:id="durationField" promptText="Czas trwania (minuty)" maxWidth="200"/>
+    <TextField fx:id="distanceField" promptText="Dystans (km)" maxWidth="200"/>
+
+    <ComboBox fx:id="typeCombo" promptText="Wybierz typ aktywności" maxWidth="200"/>
+
+    <Button text="Zapisz" fx:id="saveButton" onAction="#onSaveClicked"/>
+</VBox>

@@ -3,9 +3,17 @@ package com.healthtracker.service;
 import com.healthtracker.model.User;
 import java.util.List;
 
+/**
+ * Serwis odpowiedzialny za operacje na użytkownikach.
+ * Używany do rejestracji, pobierania danych oraz listowania użytkowników.
+ */
 public interface UserService {
-    User register(User user);
-    List<User> getAllUsers();           // dla admina
+
+    User register(User user) throws IllegalArgumentException;
+    boolean isUsernameAvailable(String username);
+    boolean isEmailValid(String email);
+    boolean isPasswordValid(String password);
+    List<User> getAllUsers();
     User getById(Long id);
-    // inne metody związane z profilem
+    void updateUser(User user);
 }
