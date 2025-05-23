@@ -7,7 +7,19 @@
 
     <Label text="Twoje pomiary" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
 
-    <TableView fx:id="measurementTable" prefHeight="200" prefWidth="400"/>
+    <TableView fx:id="measurementTable" prefHeight="300">
+        <columns>
+            <TableColumn fx:id="timestampColumn" text="Data"/>
+            <TableColumn fx:id="bpColumn" text="Ciśnienie"/>
+            <TableColumn fx:id="hrColumn" text="Tętno"/>
+            <TableColumn fx:id="weightColumn" text="Waga"/>
+            <TableColumn fx:id="summaryColumn" text="Opis"/>
+        </columns>
+    </TableView>
+
 
     <Button text="Dodaj pomiar" fx:id="addMeasurementButton" onAction="#onAddMeasurement"/>
+
+    <Button text="Eksportuj dane" onAction="#onExportClicked"/>
+    <Button text="Importuj dane" onAction="#onImportClicked"/>
 </VBox>
