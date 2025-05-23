@@ -24,7 +24,7 @@ public class UserDashboardController {
     @FXML private TableColumn<MeasurementRow, String> hrColumn;
     @FXML private TableColumn<MeasurementRow, String> weightColumn;
     @FXML private TableColumn<MeasurementRow, String> summaryColumn;
-
+    @FXML private Button addMeasurementButton;
     private final MeasurementService measurementService = new MeasurementServiceImpl();
     private final ExportImportService exportImportService = new ExportImportServiceImpl(measurementService);
 
@@ -49,12 +49,13 @@ public class UserDashboardController {
             grouped.putIfAbsent(key, new MeasurementRow(m.getTimestamp()));
             MeasurementRow row = grouped.get(key);
 
-            if (m instanceof BloodPressureMeasurement bpm)
-                row.setBloodPressure(bpm.getSystolic() + "/" + bpm.getDiastolic() + " mmHg");
-            else if (m instanceof HeartRateMeasurement hr)
-                row.setHeartRate(hr.getBpm() + " BPM");
-            else if (m instanceof WeightMeasurement wm)
-                row.setWeight(wm.getWeight() + " kg");
+            switch (m) {
+                case BloodPressureMeasurement bpm -> row.setBloodPressure(bpm.getSystolic() + "/" + bpm.getDiastolic() + " mmHg");
+                case HeartRateMeasurement hr -> row.setHeartRate(hr.getBpm() + " BPM");
+                case WeightMeasurement wm -> row.setWeight(wm.getWeight() + " kg");
+                default -> {
+                }
+            }
         }
 
         measurementTable.setItems(FXCollections.observableArrayList(grouped.values()));

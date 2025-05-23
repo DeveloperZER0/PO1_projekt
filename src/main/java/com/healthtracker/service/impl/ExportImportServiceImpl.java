@@ -73,24 +73,28 @@ public class ExportImportServiceImpl implements ExportImportService {
 
                 try {
                     Measurement m = null;
-                    if (type.equals("WeightMeasurement")) {
-                        double weight = Double.parseDouble(summary.replace(" kg", ""));
-                        WeightMeasurement wm = new WeightMeasurement();
-                        wm.setWeight(weight);
-                        m = wm;
-                    } else if (type.equals("BloodPressureMeasurement")) {
-                        String[] bp = summary.replace(" mmHg", "").split("/");
-                        int sys = Integer.parseInt(bp[0]);
-                        int dia = Integer.parseInt(bp[1]);
-                        BloodPressureMeasurement bpm = new BloodPressureMeasurement();
-                        bpm.setSystolic(sys);
-                        bpm.setDiastolic(dia);
-                        m = bpm;
-                    } else if (type.equals("HeartRateMeasurement")) {
-                        int bpm = Integer.parseInt(summary.replace(" BPM", ""));
-                        HeartRateMeasurement hrm = new HeartRateMeasurement();
-                        hrm.setBpm(bpm);
-                        m = hrm;
+                    switch (type) {
+                        case "WeightMeasurement" -> {
+                            double weight = Double.parseDouble(summary.replace(" kg", ""));
+                            WeightMeasurement wm = new WeightMeasurement();
+                            wm.setWeight(weight);
+                            m = wm;
+                        }
+                        case "BloodPressureMeasurement" -> {
+                            String[] bp = summary.replace(" mmHg", "").split("/");
+                            int sys = Integer.parseInt(bp[0]);
+                            int dia = Integer.parseInt(bp[1]);
+                            BloodPressureMeasurement bpm = new BloodPressureMeasurement();
+                            bpm.setSystolic(sys);
+                            bpm.setDiastolic(dia);
+                            m = bpm;
+                        }
+                        case "HeartRateMeasurement" -> {
+                            int bpm = Integer.parseInt(summary.replace(" BPM", ""));
+                            HeartRateMeasurement hrm = new HeartRateMeasurement();
+                            hrm.setBpm(bpm);
+                            m = hrm;
+                        }
                     }
 
                     if (m != null) {
