@@ -1,25 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.healthtracker.ui.UserDashboardController"
-      spacing="15" alignment="CENTER" style="-fx-padding: 20;">
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.*?>
 
-    <Label text="Twoje pomiary" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.healthtracker.ui.UserDashboardController"
+            stylesheets="@../style.css">
 
-    <TableView fx:id="measurementTable" prefHeight="300">
-        <columns>
-            <TableColumn fx:id="timestampColumn" text="Data"/>
-            <TableColumn fx:id="bpColumn" text="Ciśnienie"/>
-            <TableColumn fx:id="hrColumn" text="Tętno"/>
-            <TableColumn fx:id="weightColumn" text="Waga"/>
-            <TableColumn fx:id="summaryColumn" text="Opis"/>
-        </columns>
-    </TableView>
+    <!-- Lewy sidebar -->
+    <left>
+        <VBox spacing="20" styleClass="sidebar" prefWidth="300">
+            <Label text="HealthTracker" styleClass="sidebar-title"/>
 
+            <Button text="Dashboard" styleClass="menu-btn"/>
+            <Button text="Statystyki" styleClass="menu-btn"/>
+            <Button text="Profil" styleClass="menu-btn"/>
+            <Button text="Wyloguj się" styleClass="logout-btn"/>
+        </VBox>
+    </left>
 
-    <Button text="Dodaj pomiar" fx:id="addMeasurementButton" onAction="#onAddMeasurement"/>
+    <!-- Główna zawartość -->
+    <center>
+        <VBox spacing="10" styleClass="main-content">
+            <Label text="Twoje pomiary" styleClass="header-label"/>
 
-    <Button text="Eksportuj dane" onAction="#onExportClicked"/>
-    <Button text="Importuj dane" onAction="#onImportClicked"/>
-</VBox>
+            <!-- Twoja istniejąca tabela pomiarów -->
+            <TableView fx:id="measurementTable" styleClass="measurement-table">
+                <columns>
+                    <TableColumn fx:id="timestampColumn" text="Data i czas" prefWidth="150"/>
+                    <TableColumn fx:id="bpColumn" text="Ciśnienie krwi" prefWidth="120"/>
+                    <TableColumn fx:id="hrColumn" text="Tętno" prefWidth="80"/>
+                    <TableColumn fx:id="weightColumn" text="Waga" prefWidth="80"/>
+                    <TableColumn fx:id="summaryColumn" text="Podsumowanie" prefWidth="200"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" styleClass="button-bar">
+                <Button fx:id="addMeasurementButton" text="Dodaj pomiar" onAction="#onAddMeasurement"/>
+                <Button text="Eksportuj CSV" onAction="#onExportClicked"/>
+                <Button text="Importuj CSV" onAction="#onImportClicked"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

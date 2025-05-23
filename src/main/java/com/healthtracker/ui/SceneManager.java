@@ -23,7 +23,7 @@ public class SceneManager {
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
             Parent root = loader.load();
             primaryStage.setTitle(title);
-            primaryStage.setScene(new Scene(root, 600, 400));
+            primaryStage.setScene(new Scene(root, 1200, 800));
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace(); // Można zastąpić Loggerem

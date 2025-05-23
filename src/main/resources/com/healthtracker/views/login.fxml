@@ -7,13 +7,13 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.healthtracker.ui.LoginController"
-            prefHeight="400" prefWidth="600"
+            prefHeight="800" prefWidth="1200"
             style="-fx-background-color: #f5f5f5;">
 
     <!-- Główny kontener - wyśrodkowany -->
     <VBox alignment="CENTER" spacing="30"
-          AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="50"
-          AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="100">
+          AnchorPane.topAnchor="200" AnchorPane.bottomAnchor="200"
+          AnchorPane.leftAnchor="400" AnchorPane.rightAnchor="400">
 
         <!-- Nagłówek -->
         <Text text="Logowanie" style="-fx-font-size: 24; -fx-font-weight: bold;"/>

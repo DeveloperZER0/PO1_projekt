@@ -1,0 +1,39 @@
+/* Sidebar */
+.sidebar {
+    -fx-background-color: #ffffff;
+    -fx-padding: 25px;
+    -fx-spacing: 15px;
+}
+
+.sidebar-title {
+    -fx-text-fill: #000000;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 20px 0;
+}
+
+.menu-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #000000;
+    -fx-font-size: 16px;
+    -fx-alignment: center-left;
+    -fx-padding: 10px 15px;
+    -fx-cursor: hand;
+}
+
+.menu-btn:hover {
+    -fx-text-fill: #3fdb34;
+    -fx-background-color: rgba(52, 152, 219, 0.1);
+}
+
+.logout-btn {
+    -fx-background-color: #e73c3c;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 5px;
+}
+
+.logout-btn:hover {
+    -fx-background-color: #c0392b;
+}
