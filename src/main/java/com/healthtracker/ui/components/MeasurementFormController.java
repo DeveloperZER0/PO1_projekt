@@ -9,6 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.time.LocalDateTime;
 
 /**
  * Kontroler formularza dodawania pomiaru masy ciała.
@@ -23,24 +26,33 @@ public class MeasurementFormController {
 
     private final MeasurementService measurementService = new MeasurementServiceImpl();
 
+    private WeightMeasurement editing;
+
+    public void setMeasurement(WeightMeasurement wm) {
+        this.editing = wm;
+        weightField.setText(String.valueOf(wm.getWeight()));
+    }
+
     @FXML
     private void onSaveClicked() {
         try {
             double weight = Double.parseDouble(weightField.getText());
-            User user = SessionManager.getCurrentUser();
+            if (editing != null) {
+                editing.setWeight(weight);
+                editing.setTimestamp(LocalDateTime.now());
+                editing.setUser(SessionManager.getCurrentUser());
+                new MeasurementServiceImpl().addMeasurement(editing);
+            } else {
+                WeightMeasurement wm = new WeightMeasurement();
+                wm.setUser(SessionManager.getCurrentUser());
+                wm.setWeight(weight);
+                wm.setTimestamp(LocalDateTime.now());
+                new MeasurementServiceImpl().addMeasurement(wm);
+            }
 
-            WeightMeasurement m = new WeightMeasurement();
-            m.setWeight(weight);
-            m.setUser(user);
-            m.setTimestamp(java.time.LocalDateTime.now());
-
-            measurementService.addMeasurement(m);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Pomiar zapisany!");
-            alert.showAndWait();
+            ((Stage) saveButton.getScene().getWindow()).close();
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Nieprawidłowa wartość.");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Nieprawidłowa waga").showAndWait();
         }
     }
 }

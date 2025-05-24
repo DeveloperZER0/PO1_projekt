@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.cell.*?>
+<?import javafx.fxml.FXMLLoader?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.healthtracker.ui.UserDashboardController"
             stylesheets="@../style.css">
 
-    <!-- Lewy sidebar -->
     <left>
-        <VBox spacing="20" styleClass="sidebar" prefWidth="300">
-            <Label text="HealthTracker" styleClass="sidebar-title"/>
-
-            <Button text="Dashboard" styleClass="menu-btn"/>
-            <Button text="Statystyki" styleClass="menu-btn"/>
-            <Button text="Profil" styleClass="menu-btn"/>
-            <Button text="Wyloguj się" styleClass="logout-btn"/>
-        </VBox>
+        <fx:include source="components/sidebar.fxml"/>
     </left>
 
-    <!-- Główna zawartość -->
     <center>
         <VBox spacing="10" styleClass="main-content">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
             <Label text="Twoje pomiary" styleClass="header-label"/>
 
-            <!-- Twoja istniejąca tabela pomiarów -->
             <TableView fx:id="measurementTable" styleClass="measurement-table">
                 <columns>
                     <TableColumn fx:id="timestampColumn" text="Data i czas" prefWidth="150"/>

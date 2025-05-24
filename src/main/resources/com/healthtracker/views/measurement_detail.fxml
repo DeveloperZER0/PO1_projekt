@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.healthtracker.ui.MeasurementDetailController"
+      spacing="10" style="-fx-padding: 20;">
+    <Label text="Szczegóły pomiaru" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+    <Label fx:id="timestampLabel"/>
+    <Label fx:id="typeLabel"/>
+    <Label fx:id="valueLabel"/>
+    <Label fx:id="comparisonLabel"/>
+
+    <Button text="Zamknij" onAction="#onClose"/>
+</VBox>

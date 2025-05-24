@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.fxml.FXMLLoader?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.healthtracker.ui.ProfileController"
+            stylesheets="@../style.css">
+
+    <left>
+        <fx:include source="components/sidebar.fxml"/>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="25" alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <Label text="Profil użytkownika" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+                <HBox spacing="20">
+                    <VBox spacing="5">
+                        <Label text="Login:"/>
+                        <Label text="E-mail:"/>
+                        <Label text="Rola:"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label fx:id="usernameLabel"/>
+                        <Label fx:id="emailLabel"/>
+                        <Label fx:id="roleLabel"/>
+                    </VBox>
+                </HBox>
+
+                <Label text="Cele zdrowotne" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                <TableView fx:id="goalTable" prefHeight="150">
+                    <columns>
+                        <TableColumn fx:id="goalTypeColumn" text="Typ"/>
+                        <TableColumn fx:id="goalTargetColumn" text="Cel"/>
+                        <TableColumn fx:id="goalDueColumn" text="Termin"/>
+                    </columns>
+                </TableView>
+
+                <Label text="Waga w czasie" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                <LineChart fx:id="weightChart" title="Waga">
+                    <xAxis><CategoryAxis label="Data"/></xAxis>
+                    <yAxis><NumberAxis label="kg"/></yAxis>
+                </LineChart>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

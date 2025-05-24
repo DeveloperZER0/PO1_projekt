@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="sidebarBox" spacing="20" styleClass="sidebar"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.healthtracker.ui.components.SidebarController"
+      prefWidth="300">
+
+    <Label text="HealthTracker" styleClass="sidebar-title"/>
+
+    <Button fx:id="dashboardButton" text="Dashboard" styleClass="menu-btn"/>
+    <Button fx:id="statsButton" text="Statystyki" styleClass="menu-btn"/>
+    <Button fx:id="profileButton" text="Profil" styleClass="menu-btn"/>
+    <Button fx:id="logoutButton" text="Wyloguj się" styleClass="logout-btn"/>
+</VBox>

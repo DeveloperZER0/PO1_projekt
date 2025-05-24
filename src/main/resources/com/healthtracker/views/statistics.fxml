@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.fxml.FXMLLoader?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.healthtracker.ui.StatisticsController"
+            stylesheets="@../style.css">
+
+    <left>
+        <fx:include source="components/sidebar.fxml"/>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="25" alignment="CENTER">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <Label text="Statystyki zdrowia" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+                <LineChart fx:id="weightChart" title="Waga w czasie">
+                    <xAxis><CategoryAxis label="Data"/></xAxis>
+                    <yAxis><NumberAxis label="kg"/></yAxis>
+                </LineChart>
+
+                <BarChart fx:id="heartRateChart" title="Tętno">
+                    <xAxis><CategoryAxis label="Data"/></xAxis>
+                    <yAxis><NumberAxis label="BPM"/></yAxis>
+                </BarChart>
+
+                <LineChart fx:id="bpChart" title="Ciśnienie krwi">
+                    <xAxis><CategoryAxis label="Data"/></xAxis>
+                    <yAxis><NumberAxis label="mmHg"/></yAxis>
+                </LineChart>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>
