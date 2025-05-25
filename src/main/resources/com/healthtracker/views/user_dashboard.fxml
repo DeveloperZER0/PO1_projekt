@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.fxml.FXMLLoader?>
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
@@ -23,8 +22,8 @@
                 <columns>
                     <TableColumn fx:id="timestampColumn" text="Data i czas" prefWidth="150"/>
                     <TableColumn fx:id="bpColumn" text="Ciśnienie krwi" prefWidth="120"/>
-                    <TableColumn fx:id="hrColumn" text="Tętno" prefWidth="80"/>
-                    <TableColumn fx:id="weightColumn" text="Waga" prefWidth="80"/>
+                    <TableColumn fx:id="hrColumn" text="Tętno"/>
+                    <TableColumn fx:id="weightColumn" text="Waga"/>
                     <TableColumn fx:id="summaryColumn" text="Podsumowanie" prefWidth="200"/>
                 </columns>
             </TableView>

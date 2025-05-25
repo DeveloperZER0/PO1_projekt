@@ -29,7 +29,6 @@ public class UserDashboardController {
     @FXML private TableColumn<MeasurementRow, String> hrColumn;
     @FXML private TableColumn<MeasurementRow, String> weightColumn;
     @FXML private TableColumn<MeasurementRow, String> summaryColumn;
-    @FXML private Button addMeasurementButton;
     private final MeasurementService measurementService = new MeasurementServiceImpl();
     private final ExportImportService exportImportService = new ExportImportServiceImpl(measurementService);
 
@@ -141,49 +140,59 @@ public class UserDashboardController {
     private void setupContextMenu() {
         measurementTable.setRowFactory(tv -> {
             TableRow<MeasurementRow> row = new TableRow<>();
+
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem editItem = new MenuItem("Edytuj");
-            editItem.setOnAction(e -> {
-                MeasurementRow selected = row.getItem();
-                showEditForm(selected);
+            editItem.setOnAction(event -> {
+                MeasurementRow selectedRow = row.getItem();
+                if (selectedRow == null) return;
+
+                // znajdź Measurement z bazy (po timestamp i userze)
+                List<Measurement> all = measurementService.getMeasurementsByUser(SessionManager.getCurrentUser());
+                Measurement toEdit = all.stream()
+                        .filter(m -> m.getTimestamp().equals(selectedRow.getTimestamp()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (toEdit != null) {
+                    try {
+                        SessionManager.setAttribute("editedMeasurement", toEdit); // zapisz measurement tymczasowo
+                        SceneManager.switchScene("/com/healthtracker/views/measurement_form.fxml", "Edytuj pomiar");
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             });
 
-            contextMenu.getItems().add(editItem);
+            MenuItem deleteItem = new MenuItem("Usuń");
+            deleteItem.setOnAction(event -> {
+                MeasurementRow selectedRow = row.getItem();
+                if (selectedRow == null) return;
+
+                List<Measurement> all = measurementService.getMeasurementsByUser(SessionManager.getCurrentUser());
+                Measurement toDelete = all.stream()
+                        .filter(m -> m.getTimestamp().equals(selectedRow.getTimestamp()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (toDelete != null) {
+                    measurementService.deleteMeasurement(toDelete);
+                    initialize(); // odśwież tabelę po usunięciu
+                }
+            });
+
+            contextMenu.getItems().addAll(editItem, deleteItem);
+
             row.contextMenuProperty().bind(
-                    javafx.beans.binding.Bindings.when(row.emptyProperty())
+                    javafx.beans.binding.Bindings
+                            .when(row.emptyProperty())
                             .then((ContextMenu) null)
                             .otherwise(contextMenu)
             );
+
             return row;
         });
-    }
-
-    private void showEditForm(MeasurementRow row) {
-        // Można bazować na timestamp i typie pomiaru, by pobrać Measurement z bazy
-        // Dla uproszczenia zakładamy, że chcesz edytować wagę:
-        List<Measurement> all = measurementService.getMeasurementsByUser(SessionManager.getCurrentUser());
-        for (Measurement m : all) {
-            if (m instanceof WeightMeasurement wm &&
-                    wm.getTimestamp().equals(row.getTimestamp())) {
-
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/healthtracker/views/measurement_form.fxml"));
-                    Parent form = loader.load();
-                    MeasurementFormController controller = loader.getController();
-                    controller.setMeasurement(wm);
-
-                    Stage stage = new Stage();
-                    stage.setTitle("Edytuj pomiar");
-                    stage.setScene(new Scene(form));
-                    stage.showAndWait();
-
-                    initialize(); // Odświeżenie tabeli
-                    return;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
     }
 }

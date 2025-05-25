@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.healthtracker.ui.components.MeasurementFormController"
-      spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+      spacing="15" alignment="CENTER" style="-fx-padding: 20;">
 
-    <Label text="Dodaj pomiar masy ciała" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+    <Label text="Dodaj pomiary" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
 
-    <TextField fx:id="weightField" promptText="Waga w kg" maxWidth="200"/>
+    <!-- Waga -->
+    <HBox spacing="10">
+        <CheckBox fx:id="weightCheck" text="Waga"/>
+        <TextField fx:id="weightField" promptText="kg" maxWidth="150"/>
+    </HBox>
 
-    <Button text="Zapisz" fx:id="saveButton" onAction="#onSaveClicked"/>
+    <!-- Tętno -->
+    <HBox spacing="10">
+        <CheckBox fx:id="hrCheck" text="Tętno"/>
+        <TextField fx:id="hrField" promptText="BPM" maxWidth="150"/>
+    </HBox>
+
+    <!-- Ciśnienie -->
+    <HBox spacing="10">
+        <CheckBox fx:id="bpCheck" text="Ciśnienie"/>
+        <TextField fx:id="systolicField" promptText="Skurczowe" maxWidth="100"/>
+        <TextField fx:id="diastolicField" promptText="Rozkurczowe" maxWidth="100"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="Zapisz" fx:id="saveButton" onAction="#onSaveClicked"/>
+        <Button text="Anuluj" onAction="#onCancelClicked"/>
+    </HBox>
 </VBox>

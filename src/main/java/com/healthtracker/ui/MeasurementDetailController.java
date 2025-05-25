@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class MeasurementDetailController {
@@ -21,7 +22,7 @@ public class MeasurementDetailController {
 
         Measurement previous = history.stream()
                 .filter(m -> m.getClass() == current.getClass() && m.getTimestamp().isBefore(current.getTimestamp()))
-                .max((m1, m2) -> m1.getTimestamp().compareTo(m2.getTimestamp()))
+                .max(Comparator.comparing(Measurement::getTimestamp))
                 .orElse(null);
 
         if (previous == null) {
