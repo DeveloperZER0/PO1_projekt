@@ -30,7 +30,5 @@ public interface MeasurementService {
      */
     Measurement getById(Long id);
 
-    // opcjonalnie:
-    // List<Measurement> getMeasurementsByType(User user, Class<? extends Measurement> type);
     void updateMeasurement(Measurement measurement);
 }

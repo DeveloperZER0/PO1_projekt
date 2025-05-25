@@ -11,7 +11,6 @@ import java.io.IOException;
  * Klasa do przełączania widoków w aplikacji JavaFX.
  */
 public class SceneManager {
-
     private static Stage primaryStage;
 
     public static void setStage(Stage stage) {
@@ -26,7 +25,9 @@ public class SceneManager {
             primaryStage.setScene(new Scene(root, 1200, 800));
             primaryStage.show();
         } catch (IOException e) {
-            e.printStackTrace(); // Można zastąpić Loggerem
+            // Dodaj logger zamiast printStackTrace
+            System.err.println("Błąd podczas ładowania sceny: " + fxmlPath);
+            e.printStackTrace();
         }
     }
 }

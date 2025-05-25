@@ -30,6 +30,4 @@ public class MainController {
         SessionManager.logout();
         SceneManager.switchScene("/com/healthtracker/views/login.fxml", "Logowanie");
     }
-
-    // Możesz dodać więcej metod, np. do ładowania zawartości do BorderPane
 }

@@ -41,7 +41,7 @@ public class Goal {
         this.user = user;
     }
 
-    public Enum getGoalType() {
+    public GoalType getGoalType() {
         return goalType;
     }
 

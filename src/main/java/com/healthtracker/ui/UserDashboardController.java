@@ -3,16 +3,22 @@ package com.healthtracker.ui;
 import com.healthtracker.model.*;
 import com.healthtracker.service.impl.ExportImportServiceImpl;
 import com.healthtracker.service.impl.MeasurementServiceImpl;
+import com.healthtracker.service.impl.ActivityServiceImpl;
+import com.healthtracker.service.impl.MealServiceImpl;
 import com.healthtracker.service.ExportImportService;
 import com.healthtracker.service.MeasurementService;
+import com.healthtracker.service.ActivityService;
+import com.healthtracker.service.MealService;
 import com.healthtracker.ui.components.MeasurementFormController;
 import com.healthtracker.util.SessionManager;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -31,6 +37,28 @@ public class UserDashboardController {
     @FXML private TableColumn<MeasurementRow, String> summaryColumn;
     private final MeasurementService measurementService = new MeasurementServiceImpl();
     private final ExportImportService exportImportService = new ExportImportServiceImpl(measurementService);
+
+    // Dodaj nowe serwisy
+    private final ActivityService activityService = new ActivityServiceImpl();
+    private final MealService mealService = new MealServiceImpl();
+
+    // Dodaj nowe TabPane i kontrolki
+    @FXML private TabPane mainTabPane;
+    @FXML private Tab measurementsTab;
+    @FXML private Tab activitiesTab;
+    @FXML private Tab mealsTab;
+
+    @FXML private TableView<Activity> activitiesTable;
+    @FXML private TableColumn<Activity, String> activityTypeColumn;
+    @FXML private TableColumn<Activity, Integer> durationColumn;
+    @FXML private TableColumn<Activity, Double> distanceColumn;
+    @FXML private TableColumn<Activity, String> activityDateColumn;
+
+    @FXML private TableView<Meal> mealsTable;
+    @FXML private TableColumn<Meal, String> mealTypeColumn;
+    @FXML private TableColumn<Meal, Integer> caloriesColumn;
+    @FXML private TableColumn<Meal, String> descriptionColumn;
+    @FXML private TableColumn<Meal, String> mealDateColumn;
 
     public void initialize() {
         timestampColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
@@ -70,6 +98,11 @@ public class UserDashboardController {
                 }
             }
         });
+
+        setupActivitiesTable();
+        setupMealsTable();
+        loadActivitiesData();
+        loadMealsData();
     }
 
     private void loadData() {
@@ -92,6 +125,38 @@ public class UserDashboardController {
         }
 
         measurementTable.setItems(FXCollections.observableArrayList(grouped.values()));
+    }
+
+    private void setupActivitiesTable() {
+        activityTypeColumn.setCellValueFactory(cellData ->
+            new SimpleStringProperty(cellData.getValue().getType().getName()));
+        durationColumn.setCellValueFactory(new PropertyValueFactory<>("durationMinutes"));
+        distanceColumn.setCellValueFactory(new PropertyValueFactory<>("distanceKm"));
+        activityDateColumn.setCellValueFactory(cellData ->
+            new SimpleStringProperty(cellData.getValue().getTimestamp().format(
+                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
+    }
+
+    private void setupMealsTable() {
+        mealTypeColumn.setCellValueFactory(cellData ->
+            new SimpleStringProperty(cellData.getValue().getType().getName()));
+        caloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        mealDateColumn.setCellValueFactory(cellData ->
+            new SimpleStringProperty(cellData.getValue().getTimestamp().format(
+                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
+    }
+
+    private void loadActivitiesData() {
+        User currentUser = SessionManager.getCurrentUser();
+        List<Activity> activities = activityService.getActivitiesByUser(currentUser);
+        activitiesTable.setItems(FXCollections.observableArrayList(activities));
+    }
+
+    private void loadMealsData() {
+        User currentUser = SessionManager.getCurrentUser();
+        List<Meal> meals = mealService.getMealsByUser(currentUser);
+        mealsTable.setItems(FXCollections.observableArrayList(meals));
     }
 
     @FXML
@@ -194,5 +259,15 @@ public class UserDashboardController {
 
             return row;
         });
+    }
+
+    @FXML
+    private void onAddActivity() {
+        SceneManager.switchScene("/com/healthtracker/views/activity_form.fxml", "Dodaj aktywność");
+    }
+
+    @FXML
+    private void onAddMeal() {
+        SceneManager.switchScene("/com/healthtracker/views/meal_form.fxml", "Dodaj posiłek");
     }
 }

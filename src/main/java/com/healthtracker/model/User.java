@@ -37,8 +37,6 @@ public class User {
         this.email = email;
         this.role = role;
     }
-    // public User() {}      ← pusty konstruktor
-    // public User(String username, String passwordHash, Role role) {}  ← konstruktor wygodny
 
     // gettery i settery
 

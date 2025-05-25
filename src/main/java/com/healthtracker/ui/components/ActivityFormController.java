@@ -2,10 +2,10 @@ package com.healthtracker.ui.components;
 
 import com.healthtracker.model.Activity;
 import com.healthtracker.model.ActivityType;
-import com.healthtracker.model.User;
 import com.healthtracker.service.ActivityService;
 import com.healthtracker.service.impl.ActivityServiceImpl;
 import com.healthtracker.util.SessionManager;
+import com.healthtracker.ui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -32,15 +32,30 @@ public class ActivityFormController {
 
     @FXML
     private void initialize() {
-        typeCombo.getItems().addAll("Bieganie", "Rower", "Chodzenie");
+        typeCombo.getItems().addAll("Bieganie", "Rower", "Chodzenie", "Pływanie", "Siłownia", "Joga");
     }
 
     @FXML
     private void onSaveClicked() {
         try {
-            int duration = Integer.parseInt(durationField.getText());
-            double distance = Double.parseDouble(distanceField.getText());
+            int duration = Integer.parseInt(durationField.getText().trim());
+            double distance = Double.parseDouble(distanceField.getText().trim());
             String typeName = typeCombo.getValue();
+
+            if (typeName == null || typeName.isEmpty()) {
+                showError("Wybierz typ aktywności");
+                return;
+            }
+
+            if (duration <= 0) {
+                showError("Czas trwania musi być większy od 0");
+                return;
+            }
+
+            if (distance < 0) {
+                showError("Dystans nie może być ujemny");
+                return;
+            }
 
             ActivityType type = new ActivityType();
             type.setName(typeName);
@@ -55,11 +70,25 @@ public class ActivityFormController {
 
             activityService.addActivity(activity);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Aktywność zapisana!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Aktywność została zapisana!");
             alert.showAndWait();
+
+            SceneManager.switchScene("/com/healthtracker/views/user_dashboard.fxml", "Panel użytkownika");
+
+        } catch (NumberFormatException e) {
+            showError("Wprowadź poprawne wartości liczbowe");
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Błąd zapisu: " + e.getMessage());
-            alert.showAndWait();
+            showError("Błąd zapisu: " + e.getMessage());
         }
+    }
+
+    @FXML
+    private void onCancelClicked() {
+        SceneManager.switchScene("/com/healthtracker/views/user_dashboard.fxml", "Panel użytkownika");
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message);
+        alert.showAndWait();
     }
 }

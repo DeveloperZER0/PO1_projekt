@@ -12,28 +12,81 @@
     </left>
 
     <center>
-        <VBox spacing="10" styleClass="main-content">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-            <Label text="Twoje pomiary" styleClass="header-label"/>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" styleClass="main-tabs">
+            
+            <!-- Zakładka Pomiary -->
+            <Tab text="Pomiary" fx:id="measurementsTab">
+                <VBox spacing="10" styleClass="tab-content">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="Twoje pomiary" styleClass="header-label"/>
 
-            <TableView fx:id="measurementTable" styleClass="measurement-table">
-                <columns>
-                    <TableColumn fx:id="timestampColumn" text="Data i czas" prefWidth="150"/>
-                    <TableColumn fx:id="bpColumn" text="Ciśnienie krwi" prefWidth="120"/>
-                    <TableColumn fx:id="hrColumn" text="Tętno"/>
-                    <TableColumn fx:id="weightColumn" text="Waga"/>
-                    <TableColumn fx:id="summaryColumn" text="Podsumowanie" prefWidth="200"/>
-                </columns>
-            </TableView>
+                    <TableView fx:id="measurementTable" styleClass="measurement-table">
+                        <columns>
+                            <TableColumn fx:id="timestampColumn" text="Data i czas" prefWidth="150"/>
+                            <TableColumn fx:id="bpColumn" text="Ciśnienie krwi" prefWidth="120"/>
+                            <TableColumn fx:id="hrColumn" text="Tętno"/>
+                            <TableColumn fx:id="weightColumn" text="Waga"/>
+                            <TableColumn fx:id="summaryColumn" text="Podsumowanie" prefWidth="200"/>
+                        </columns>
+                    </TableView>
 
-            <HBox spacing="10" styleClass="button-bar">
-                <Button fx:id="addMeasurementButton" text="Dodaj pomiar" onAction="#onAddMeasurement"/>
-                <Button text="Eksportuj CSV" onAction="#onExportClicked"/>
-                <Button text="Importuj CSV" onAction="#onImportClicked"/>
-            </HBox>
-        </VBox>
+                    <HBox spacing="10" styleClass="button-bar">
+                        <Button fx:id="addMeasurementButton" text="Dodaj pomiar" onAction="#onAddMeasurement"/>
+                        <Button text="Eksportuj CSV" onAction="#onExportClicked"/>
+                        <Button text="Importuj CSV" onAction="#onImportClicked"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- Zakładka Aktywności -->
+            <Tab text="Aktywności" fx:id="activitiesTab">
+                <VBox spacing="10" styleClass="tab-content">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="Twoje aktywności" styleClass="header-label"/>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="Dodaj aktywność" onAction="#onAddActivity" styleClass="primary-btn"/>
+                    </HBox>
+
+                    <TableView fx:id="activitiesTable" styleClass="data-table">
+                        <columns>
+                            <TableColumn fx:id="activityTypeColumn" text="Typ" prefWidth="100"/>
+                            <TableColumn fx:id="durationColumn" text="Czas (min)" prefWidth="80"/>
+                            <TableColumn fx:id="distanceColumn" text="Dystans (km)" prefWidth="100"/>
+                            <TableColumn fx:id="activityDateColumn" text="Data" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- Zakładka Posiłki -->
+            <Tab text="Posiłki" fx:id="mealsTab">
+                <VBox spacing="10" styleClass="tab-content">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="Twoje posiłki" styleClass="header-label"/>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="Dodaj posiłek" onAction="#onAddMeal" styleClass="primary-btn"/>
+                    </HBox>
+
+                    <TableView fx:id="mealsTable" styleClass="data-table">
+                        <columns>
+                            <TableColumn fx:id="mealTypeColumn" text="Typ" prefWidth="100"/>
+                            <TableColumn fx:id="caloriesColumn" text="Kalorie" prefWidth="80"/>
+                            <TableColumn fx:id="descriptionColumn" text="Opis" prefWidth="200"/>
+                            <TableColumn fx:id="mealDateColumn" text="Data" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+        </TabPane>
     </center>
 
 </BorderPane>

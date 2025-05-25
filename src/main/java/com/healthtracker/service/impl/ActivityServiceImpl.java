@@ -35,7 +35,7 @@ public class ActivityServiceImpl implements ActivityService {
     public void updateActivity(Activity activity) {
         activityDao.update(activity);
     }
-    //TODO: mogę dodać do innych ServiceImpl !!!!!!!!!!!!
+
     public List<Activity> getActivitiesBetween(User user, LocalDateTime from, LocalDateTime to) {
         return activityDao.findByUser(user).stream()
                 .filter(a -> a.getTimestamp() != null &&

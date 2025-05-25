@@ -42,10 +42,22 @@ public class ProfileController {
     }
 
     private void setupGoals(User user) {
-        goalTypeColumn.setCellValueFactory(g -> new SimpleStringProperty(g.getValue().getGoalType().name()));
-        goalTargetColumn.setCellValueFactory(g -> new SimpleStringProperty(String.valueOf(g.getValue().getTargetValue())));
-        goalDueColumn.setCellValueFactory(g -> new SimpleStringProperty(g.getValue().getDueDate().toString()));
-        goalTable.setItems(FXCollections.observableArrayList(goalService.getGoalsByUser(user)));
+        goalTypeColumn.setCellValueFactory(g -> {
+            GoalType goalType = (GoalType) g.getValue().getGoalType();
+            return new SimpleStringProperty(goalType != null ? goalType.name() : "");
+        });
+        goalTargetColumn.setCellValueFactory(g -> 
+            new SimpleStringProperty(String.valueOf(g.getValue().getTargetValue())));
+        goalDueColumn.setCellValueFactory(g -> 
+            new SimpleStringProperty(g.getValue().getDueDate().toString()));
+        
+        try {
+            goalTable.setItems(FXCollections.observableArrayList(goalService.getGoalsByUser(user)));
+        } catch (Exception e) {
+            // Jeśli nie ma celów lub błąd - ustaw pustą listę
+            goalTable.setItems(FXCollections.observableArrayList());
+            System.err.println("Błąd ładowania celów: " + e.getMessage());
+        }
     }
 
     private void setupWeightChart(User user) {

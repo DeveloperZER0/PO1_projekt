@@ -11,12 +11,12 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class GoalDaoImpl implements GoalDao {
-
+    
     @Override
     public List<Goal> findByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Goal> query = session.createQuery(
-                    "FROM Goal g WHERE g.user = :user", Goal.class);
+                    "FROM Goal g WHERE g.user = :user ORDER BY g.dueDate DESC", Goal.class);
             query.setParameter("user", user);
             return query.list();
         }
@@ -59,7 +59,7 @@ public class GoalDaoImpl implements GoalDao {
     @Override
     public List<Goal> findAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Goal", Goal.class).list();
+            return session.createQuery("FROM Goal ORDER BY targetDate DESC", Goal.class).list();
         }
     }
 }

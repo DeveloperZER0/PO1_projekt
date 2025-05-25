@@ -9,6 +9,7 @@ import com.healthtracker.service.GoalService;
 import java.util.List;
 
 public class GoalServiceImpl implements GoalService {
+    
     private final GoalDao goalDao = new GoalDaoImpl();
 
     @Override
