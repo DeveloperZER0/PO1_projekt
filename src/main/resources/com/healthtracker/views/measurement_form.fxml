@@ -6,7 +6,7 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.healthtracker.ui.components.MeasurementFormController"
            styleClass="measurement-form-container"
-           stylesheets="@../style.css">
+           stylesheets="@styles/style.css">
 
     <!-- Header -->
     <top>

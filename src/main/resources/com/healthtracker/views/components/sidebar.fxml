@@ -2,16 +2,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="sidebarBox" spacing="20" styleClass="sidebar"
-      xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.healthtracker.ui.components.SidebarController"
-      prefWidth="300">
+      styleClass="sidebar"
+      stylesheets="@../styles/style.css, @../styles/sidebar.css">
 
-    <Label text="HealthTracker" styleClass="sidebar-title"/>
+    <Button fx:id="dashboardButton" text="📊 Dashboard" styleClass="sidebar-button"/>
+    <Button fx:id="statsButton" text="📈 Statystyki" styleClass="sidebar-button"/>
+    <Button fx:id="profileButton" text="👤 Profil" styleClass="sidebar-button"/>
+    
+    <!-- Spacer -->
+    <Region VBox.vgrow="ALWAYS"/>
+    
+    <Button fx:id="logoutButton" text="🚪 Wyloguj" styleClass="sidebar-button"/>
 
-    <Button fx:id="dashboardButton" text="Dashboard" styleClass="menu-btn"/>
-    <Button fx:id="statsButton" text="Statystyki" styleClass="menu-btn"/>
-    <Button fx:id="profileButton" text="Profil" styleClass="menu-btn"/>
-    <Button fx:id="logoutButton" text="Wyloguj się" styleClass="logout-btn"/>
 </VBox>

@@ -1,41 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.chart.*?>
 <?import javafx.geometry.Insets?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.healthtracker.ui.StatisticsController"
-            stylesheets="@../style.css">
 
+<BorderPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.healthtracker.ui.StatisticsController"
+           stylesheets="@styles/style.css, @styles/sidebar.css, @styles/statistics.css, @styles/dashboard.css">
+
+    <!-- Sidebar po lewej stronie -->
     <left>
         <fx:include source="components/sidebar.fxml"/>
     </left>
 
+    <!-- Główna zawartość -->
     <center>
-        <ScrollPane fitToWidth="true">
-            <VBox spacing="25" alignment="CENTER">
-                <padding>
-                    <Insets top="20" right="20" bottom="20" left="20"/>
-                </padding>
-                <Label text="Statystyki zdrowia" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-
-                <LineChart fx:id="weightChart" title="Waga w czasie">
-                    <xAxis><CategoryAxis label="Data"/></xAxis>
-                    <yAxis><NumberAxis label="kg"/></yAxis>
-                </LineChart>
-
-                <BarChart fx:id="heartRateChart" title="Tętno">
-                    <xAxis><CategoryAxis label="Data"/></xAxis>
-                    <yAxis><NumberAxis label="BPM"/></yAxis>
-                </BarChart>
-
-                <LineChart fx:id="bpChart" title="Ciśnienie krwi">
-                    <xAxis><CategoryAxis label="Data"/></xAxis>
-                    <yAxis><NumberAxis label="mmHg"/></yAxis>
-                </LineChart>
+        <VBox spacing="0" styleClass="main-content">
+            
+            <!-- Nagłówek -->
+            <VBox styleClass="dashboard-header">
+                <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-bar">
+                    <Label text="Statystyki zdrowotne" styleClass="dashboard-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label text="📊 Analiza twoich danych" styleClass="welcome-label"/>
+                </HBox>
             </VBox>
-        </ScrollPane>
+
+            <!-- Główna zawartość ze scrollem -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox spacing="30" styleClass="statistics-content">
+                    <padding>
+                        <Insets top="30" right="30" bottom="30" left="30"/>
+                    </padding>
+
+                    <!-- Sekcja analizy zdrowia -->
+                    <VBox spacing="20" styleClass="analysis-section">
+                        <Label text="📋 Analiza stanu zdrowia" styleClass="section-title"/>
+                        
+                        <GridPane hgap="20" vgap="15" styleClass="health-grid">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+                            
+                            <!-- Waga -->
+                            <VBox spacing="10" styleClass="health-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="⚖️ Waga" styleClass="card-title"/>
+                                <Label fx:id="weightStatusLabel" text="Ładowanie..." styleClass="card-content" wrapText="true"/>
+                            </VBox>
+                            
+                            <!-- Aktywność -->
+                            <VBox spacing="10" styleClass="health-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="🏃 Aktywność" styleClass="card-title"/>
+                                <Label fx:id="activityStatusLabel" text="Ładowanie..." styleClass="card-content" wrapText="true"/>
+                            </VBox>
+                            
+                            <!-- Tętno -->
+                            <VBox spacing="10" styleClass="health-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label text="❤️ Tętno" styleClass="card-title"/>
+                                <Label fx:id="heartRateStatusLabel" text="Ładowanie..." styleClass="card-content" wrapText="true"/>
+                            </VBox>
+                            
+                            <!-- Ciśnienie -->
+                            <VBox spacing="10" styleClass="health-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label text="🩺 Ciśnienie" styleClass="card-title"/>
+                                <Label fx:id="bpStatusLabel" text="Ładowanie..." styleClass="card-content" wrapText="true"/>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+
+                    <!-- Sekcja wykresów -->
+                    <VBox spacing="20" styleClass="charts-section">
+                        <Label text="📈 Wykresy trendów" styleClass="section-title"/>
+                        
+                        <GridPane hgap="20" vgap="20" styleClass="charts-grid">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+                            
+                            <!-- Wykres wagi -->
+                            <VBox spacing="10" styleClass="chart-container" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="Trend wagi" styleClass="chart-title"/>
+                                <LineChart fx:id="weightChart" styleClass="health-chart" prefHeight="250">
+                                    <xAxis>
+                                        <CategoryAxis side="BOTTOM"/>
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis side="LEFT"/>
+                                    </yAxis>
+                                </LineChart>
+                            </VBox>
+                            
+                            <!-- Wykres tętna -->
+                            <VBox spacing="10" styleClass="chart-container" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="Tętno spoczynkowe" styleClass="chart-title"/>
+                                <BarChart fx:id="heartRateChart" styleClass="health-chart" prefHeight="250">
+                                    <xAxis>
+                                        <CategoryAxis side="BOTTOM"/>
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis side="LEFT"/>
+                                    </yAxis>
+                                </BarChart>
+                            </VBox>
+                            
+                            <!-- Wykres ciśnienia -->
+                            <VBox spacing="10" styleClass="chart-container" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                                <Label text="Ciśnienie krwi" styleClass="chart-title"/>
+                                <LineChart fx:id="bpChart" styleClass="health-chart" prefHeight="250">
+                                    <xAxis>
+                                        <CategoryAxis side="BOTTOM"/>
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis side="LEFT"/>
+                                    </yAxis>
+                                </LineChart>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
     </center>
+
 </BorderPane>

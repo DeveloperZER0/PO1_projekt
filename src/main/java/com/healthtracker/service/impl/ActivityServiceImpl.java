@@ -36,12 +36,4 @@ public class ActivityServiceImpl implements ActivityService {
         activityDao.update(activity);
     }
 
-    public List<Activity> getActivitiesBetween(User user, LocalDateTime from, LocalDateTime to) {
-        return activityDao.findByUser(user).stream()
-                .filter(a -> a.getTimestamp() != null &&
-                        !a.getTimestamp().isBefore(from) &&
-                        !a.getTimestamp().isAfter(to))
-                .toList();
-    }
-
 }

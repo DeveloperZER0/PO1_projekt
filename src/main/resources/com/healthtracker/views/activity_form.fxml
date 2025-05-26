@@ -6,34 +6,78 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.healthtracker.ui.components.ActivityFormController"
            styleClass="form-container"
-           stylesheets="@../style.css">
+           stylesheets="@styles/style.css, @styles/forms.css">
 
     <top>
         <VBox styleClass="form-header">
             <Label text="Dodaj aktywność" styleClass="form-title"/>
-            <Label text="Wprowadź dane swojej aktywności fizycznej" styleClass="form-subtitle"/>
+            <Label text="Wprowadź szczegóły swojej aktywności fizycznej" styleClass="form-subtitle"/>
         </VBox>
     </top>
 
     <center>
-        <VBox spacing="20" styleClass="form-content">
-            
-            <VBox styleClass="field-group">
-                <Label text="Typ aktywności" styleClass="field-label"/>
-                <ComboBox fx:id="typeCombo" styleClass="form-field" promptText="Wybierz typ aktywności"/>
+        <ScrollPane fitToWidth="true" styleClass="form-scroll-pane">
+            <VBox spacing="20" styleClass="form-content">
+                
+                <!-- Typ aktywności -->
+                <VBox styleClass="field-group">
+                    <Label text="Typ aktywności" styleClass="field-label"/>
+                    <ComboBox fx:id="typeCombo" styleClass="form-field" promptText="Wybierz typ aktywności"/>
+                </VBox>
+                
+                <!-- Czas trwania -->
+                <VBox styleClass="field-group">
+                    <Label text="Czas trwania (minuty)" styleClass="field-label"/>
+                    <TextField fx:id="durationField" styleClass="form-field" 
+                             promptText="Wprowadź czas w minutach"/>
+                </VBox>
+                
+                <!-- Dystans (dynamicznie ukrywany) -->
+                <VBox fx:id="distanceGroup" styleClass="field-group">
+                    <Label fx:id="distanceLabel" text="Dystans" styleClass="field-label"/>
+                    <TextField fx:id="distanceField" styleClass="form-field" 
+                             promptText="Wprowadź dystans"/>
+                </VBox>
+                
+                <!-- Intensywność -->
+                <VBox styleClass="field-group">
+                    <Label text="Intensywność" styleClass="field-label"/>
+                    <ComboBox fx:id="intensityCombo" styleClass="form-field" 
+                             promptText="Wybierz intensywność"/>
+                </VBox>
+
+                <!-- Dodatkowe pola -->
+                <HBox spacing="20">
+                    <VBox spacing="10" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Średnie tętno (opcjonalne)" styleClass="field-label"/>
+                        <TextField fx:id="heartRateAvgField" styleClass="form-field" 
+                                 promptText="np. 120"/>
+                    </VBox>
+                    
+                    <VBox spacing="10" styleClass="field-group" HBox.hgrow="ALWAYS">
+                        <Label text="Maksymalne tętno (opcjonalne)" styleClass="field-label"/>
+                        <TextField fx:id="heartRateMaxField" styleClass="form-field" 
+                                 promptText="np. 150"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Szacunkowe kalorie -->
+                <VBox styleClass="field-group">
+                    <Label text="Spalone kalorie (opcjonalne)" styleClass="field-label"/>
+                    <TextField fx:id="caloriesField" styleClass="form-field" 
+                             promptText="Zostanie wyliczone automatycznie"/>
+                </VBox>
+                
+                <!-- Notatki -->
+                <VBox styleClass="field-group">
+                    <Label text="Notatki" styleClass="field-label"/>
+                    <TextArea fx:id="notesField" styleClass="form-field" 
+                             promptText="Dodaj swoje uwagi o aktywności..." 
+                             prefRowCount="3" wrapText="true"/>
+                </VBox>
+                
             </VBox>
-            
-            <VBox styleClass="field-group">
-                <Label text="Czas trwania (minuty)" styleClass="field-label"/>
-                <TextField fx:id="durationField" styleClass="form-field" promptText="Wprowadź czas w minutach"/>
-            </VBox>
-            
-            <VBox styleClass="field-group">
-                <Label text="Dystans (km)" styleClass="field-label"/>
-                <TextField fx:id="distanceField" styleClass="form-field" promptText="Wprowadź dystans w km"/>
-            </VBox>
-            
-        </VBox>
+        </ScrollPane>
     </center>
 
     <bottom>

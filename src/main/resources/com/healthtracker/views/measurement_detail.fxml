@@ -2,15 +2,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.healthtracker.ui.MeasurementDetailController"
-      spacing="10" style="-fx-padding: 20;">
-    <Label text="Szczegóły pomiaru" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+<BorderPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.healthtracker.ui.MeasurementDetailController"
+           prefWidth="500" prefHeight="400"
+           styleClass="detail-container"
+           stylesheets="@styles/style.css">
 
-    <Label fx:id="timestampLabel"/>
-    <Label fx:id="typeLabel"/>
-    <Label fx:id="valueLabel"/>
-    <Label fx:id="comparisonLabel"/>
+    <top>
+        <VBox styleClass="detail-header">
+            <Label fx:id="timestampLabel" styleClass="detail-title"/>
+        </VBox>
+    </top>
 
-    <Button text="Zamknij" onAction="#onClose"/>
-</VBox>
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="detail-scroll">
+            <VBox fx:id="measurementsContainer" spacing="15" styleClass="measurements-container">
+                <!-- Pomiary będą dodawane dynamicznie -->
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" styleClass="detail-footer">
+            <Button text="Zamknij" onAction="#onClose" styleClass="secondary-btn"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

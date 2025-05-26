@@ -2,45 +2,31 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.healthtracker.ui.LoginController"
-            prefHeight="800" prefWidth="1200"
-            style="-fx-background-color: #f5f5f5;">
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.healthtracker.ui.LoginController"
+      styleClass="login-container"
+      stylesheets="@styles/style.css, @styles/login.css">
 
-    <!-- Główny kontener - wyśrodkowany -->
-    <VBox alignment="CENTER" spacing="30"
-          AnchorPane.topAnchor="200" AnchorPane.bottomAnchor="200"
-          AnchorPane.leftAnchor="400" AnchorPane.rightAnchor="400">
-
-        <!-- Nagłówek -->
-        <Text text="Logowanie" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
-
-        <!-- Formularz -->
-        <GridPane hgap="10" vgap="15">
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" prefWidth="100"/>
-                <ColumnConstraints prefWidth="200"/>
-            </columnConstraints>
-
-            <!-- Wiersze formularza -->
-            <Label text="Login:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="usernameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-            <Label text="Hasło:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <PasswordField fx:id="passwordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-            <Button fx:id="loginButton" text="Zaloguj się"
-                    onAction="#onLoginClicked"
-                    GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.halignment="RIGHT"
-                    style="-fx-pref-width: 120; -fx-font-weight: bold;"/>
-        </GridPane>
-
-        <!-- Link do rejestracji -->
-        <Hyperlink text="Nie masz jeszcze konta? Zarejestruj się"
-                   onAction="#onRegisterLinkClicked"
-                   style="-fx-font-size: 12;"/>
+    <VBox styleClass="login-form" spacing="20" alignment="CENTER">
+        
+        <Label text="Health Tracker" styleClass="login-title"/>
+        
+        <VBox spacing="15" alignment="CENTER">
+            <TextField fx:id="usernameField" styleClass="login-field" promptText="Nazwa użytkownika"/>
+            <PasswordField fx:id="passwordField" styleClass="login-field" promptText="Hasło"/>
+        </VBox>
+        
+        <Button fx:id="loginButton" text="Zaloguj się" onAction="#onLoginClicked" styleClass="login-btn"/>
+        
+        <Hyperlink text="Nie masz jeszcze konta? Zarejestruj się" 
+                   onAction="#onRegisterLinkClicked" 
+                   styleClass="register-link"/>
+                   
+        <Label fx:id="errorLabel" styleClass="error-label" visible="false"/>
+        
     </VBox>
-</AnchorPane>
+
+</VBox>

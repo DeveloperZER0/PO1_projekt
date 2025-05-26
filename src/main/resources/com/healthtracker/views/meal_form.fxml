@@ -6,7 +6,7 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.healthtracker.ui.components.MealFormController"
            styleClass="form-container"
-           stylesheets="@../style.css">
+           stylesheets="@styles/style.css">
 
     <top>
         <VBox styleClass="form-header">

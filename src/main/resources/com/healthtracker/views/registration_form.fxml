@@ -4,7 +4,8 @@
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.healthtracker.ui.RegistrationController"
-      spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+      spacing="10" alignment="CENTER" style="-fx-padding: 20;"
+      stylesheets="@styles/style.css">
 
     <Label text="Rejestracja" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
 

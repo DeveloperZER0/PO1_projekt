@@ -6,62 +6,62 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "goals")
 public class Goal {
-    // private Long id; @Id @GeneratedValue
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // @ManyToOne private User user;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    // private String goalType;   // np. "WAGA", "KROKI"
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50) // Zwiększ długość kolumny
     private GoalType goalType;
-    // private double targetValue;
+
+    @Column(nullable = false)
     private double targetValue;
-    // private LocalDate dueDate;
+
+    @Column(nullable = false)
     private LocalDate dueDate;
-    // public Goal() {}
-    public Goal() {}
-    // get/set
 
-    public Long getId() {
-        return id;
+    @Column
+    private String description;
+
+    @Column(nullable = false)
+    private LocalDate createdDate;
+
+    // Konstruktory
+    public Goal() {
+        this.createdDate = LocalDate.now();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
+    public Goal(User user, GoalType goalType, double targetValue, LocalDate dueDate) {
+        this();
         this.user = user;
-    }
-
-    public GoalType getGoalType() {
-        return goalType;
-    }
-
-    public void setGoalType(GoalType goalType) {
         this.goalType = goalType;
-    }
-
-    public double getTargetValue() {
-        return targetValue;
-    }
-
-    public void setTargetValue(double targetValue) {
         this.targetValue = targetValue;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
+
+    // Gettery i settery
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public GoalType getGoalType() { return goalType; }
+    public void setGoalType(GoalType goalType) { this.goalType = goalType; }
+
+    public double getTargetValue() { return targetValue; }
+    public void setTargetValue(double targetValue) { this.targetValue = targetValue; }
+
+    public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public LocalDate getCreatedDate() { return createdDate; }
+    public void setCreatedDate(LocalDate createdDate) { this.createdDate = createdDate; }
 }

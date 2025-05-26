@@ -1,5 +1,6 @@
 package com.healthtracker.ui.components;
 
+import com.healthtracker.dao.impl.MealTypeDaoImpl;
 import com.healthtracker.model.Meal;
 import com.healthtracker.model.MealType;
 import com.healthtracker.service.MealService;
@@ -8,6 +9,7 @@ import com.healthtracker.util.SessionManager;
 import com.healthtracker.ui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.StringConverter;
 
 import java.time.LocalDateTime;
 
@@ -18,14 +20,50 @@ public class MealFormController {
 
     @FXML private TextField caloriesField;
     @FXML private TextArea descriptionField;
-    @FXML private ComboBox<String> typeCombo;
+    @FXML private ComboBox<MealType> typeCombo;
     @FXML private Button saveButton;
 
     private final MealService mealService = new MealServiceImpl();
+    private final MealTypeDaoImpl mealTypeDao = new MealTypeDaoImpl();
+    private Meal existingMeal; // Dodaj to pole
 
     @FXML
     private void initialize() {
-        typeCombo.getItems().addAll("Śniadanie", "Obiad", "Kolacja", "Przekąska");
+        // Inicjalizuj domyślne typy jeśli baza jest pusta
+        if (mealTypeDao.findAll().isEmpty()) {
+            initializeDefaultMealTypes();
+        }
+        
+        // Załaduj typy z bazy
+        typeCombo.getItems().addAll(mealTypeDao.findAll());
+        typeCombo.setConverter(new StringConverter<MealType>() {
+            @Override
+            public String toString(MealType mealType) {
+                return mealType != null ? mealType.getName() : "";
+            }
+
+            @Override
+            public MealType fromString(String string) {
+                return null;
+            }
+        });
+        
+        // Sprawdź czy edytujemy istniejący posiłek
+        Meal editedMeal = (Meal) SessionManager.getAttribute("editedMeal");
+        if (editedMeal != null) {
+            setMeal(editedMeal);
+            SessionManager.removeAttribute("editedMeal");
+            saveButton.setText("Zaktualizuj posiłek");
+        }
+    }
+
+    public void setMeal(Meal meal) {
+        this.existingMeal = meal;
+        
+        // Wypełnij pola danymi z posiłku
+        typeCombo.setValue(meal.getType());
+        caloriesField.setText(String.valueOf(meal.getCalories()));
+        descriptionField.setText(meal.getDescription());
     }
 
     @FXML
@@ -33,9 +71,9 @@ public class MealFormController {
         try {
             int calories = Integer.parseInt(caloriesField.getText().trim());
             String description = descriptionField.getText().trim();
-            String typeName = typeCombo.getValue();
+            MealType selectedType = typeCombo.getValue();
 
-            if (typeName == null || typeName.isEmpty()) {
+            if (selectedType == null) {
                 showError("Wybierz typ posiłku");
                 return;
             }
@@ -50,20 +88,33 @@ public class MealFormController {
                 return;
             }
 
-            MealType type = new MealType();
-            type.setName(typeName);
+            Meal meal;
+            boolean isEditing = existingMeal != null;
 
-            Meal meal = new Meal();
-            meal.setUser(SessionManager.getCurrentUser());
-            meal.setCalories(calories);
-            meal.setDescription(description);
-            meal.setType(type);
-            meal.setTimestamp(LocalDateTime.now());
+            if (isEditing) {
+                // Tryb edycji - zaktualizuj istniejący posiłek
+                meal = existingMeal;
+                meal.setType(selectedType);
+                meal.setCalories(calories);
+                meal.setDescription(description);
+                // Nie zmieniamy timestamp przy edycji
+            } else {
+                // Tryb dodawania - stwórz nowy posiłek
+                meal = new Meal();
+                meal.setUser(SessionManager.getCurrentUser());
+                meal.setType(selectedType);
+                meal.setCalories(calories);
+                meal.setDescription(description);
+                meal.setTimestamp(LocalDateTime.now());
+            }
 
-            mealService.addMeal(meal);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Posiłek został zapisany!");
-            alert.showAndWait();
+            if (isEditing) {
+                mealService.updateMeal(meal);
+                showSuccess("Posiłek został zaktualizowany!");
+            } else {
+                mealService.addMeal(meal);
+                showSuccess("Posiłek został zapisany!");
+            }
             
             SceneManager.switchScene("/com/healthtracker/views/user_dashboard.fxml", "Panel użytkownika");
 
@@ -71,7 +122,29 @@ public class MealFormController {
             showError("Wprowadź poprawną liczbę kalorii");
         } catch (Exception e) {
             showError("Błąd zapisu: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private void showSuccess(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
+        alert.setTitle("Sukces");
+        alert.showAndWait();
+    }
+
+    private void initializeDefaultMealTypes() {
+        createAndSaveMealType("Śniadanie");
+        createAndSaveMealType("Obiad");
+        createAndSaveMealType("Kolacja");
+        createAndSaveMealType("Przekąska");
+        createAndSaveMealType("Drugie śniadanie");
+        createAndSaveMealType("Podwieczorek");
+    }
+
+    private void createAndSaveMealType(String name) {
+        MealType type = new MealType();
+        type.setName(name);
+        mealTypeDao.save(type);
     }
 
     @FXML
