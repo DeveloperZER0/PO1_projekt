@@ -1,0 +1,98 @@
+/* ===== DATA TABLES ===== */
+.data-table {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 1);
+    -fx-padding: 0;
+    -fx-pref-height: 400px;
+    -fx-min-height: 300px;
+}
+
+.data-table .column-header-background {
+    -fx-background-color: #FAFAFA;
+    -fx-padding: 0;
+}
+
+.data-table .column-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: #424242;
+    -fx-font-weight: 500;
+    -fx-font-size: 14px;
+    -fx-padding: 16px 8px;
+    -fx-border-color: transparent transparent #E0E0E0 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-alignment: CENTER;
+}
+
+.data-table .column-header .label {
+    -fx-text-overrun: clip;
+    -fx-wrap-text: true;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #424242 !important;
+}
+
+.data-table .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F5F5F5 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0;
+}
+
+.data-table .table-row-cell:hover {
+    -fx-background-color: #F8F9FA;
+}
+
+.data-table .table-row-cell:selected {
+    -fx-background-color: #E3F2FD;
+}
+
+.data-table .table-cell {
+    -fx-padding: 12px 8px;
+    -fx-text-fill: #212121 !important;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-wrap-text: true;
+    -fx-background-color: transparent;
+}
+
+.data-table .table-cell:selected {
+    -fx-text-fill: #212121 !important;
+    -fx-background-color: #E3F2FD;
+}
+
+/* ===== SPECJALNE WYRÓWNANIA DLA KOLUMN ===== */
+
+/* Kolumny numeryczne - wyrównanie do środka */
+.data-table .table-column:nth-child(2) .table-cell, /* Ciśnienie */
+.data-table .table-column:nth-child(3) .table-cell, /* Tętno */
+.data-table .table-column:nth-child(4) .table-cell, /* Waga */
+.data-table .table-column:nth-child(2) .table-cell, /* Czas (min) */
+.data-table .table-column:nth-child(3) .table-cell, /* Dystans */
+.data-table .table-column:nth-child(4) .table-cell, /* Kalorie aktywności */
+.data-table .table-column:nth-child(6) .table-cell, /* Śr. prędkość */
+.data-table .table-column:nth-child(2) .table-cell  /* Kalorie posiłków */
+{
+    -fx-alignment: CENTER;
+}
+
+/* Alternatywne podejście - dodaj klasę CSS */
+.center-aligned {
+    -fx-alignment: CENTER !important;
+}
+
+.left-aligned {
+    -fx-alignment: CENTER_LEFT !important;
+}
+
+.right-aligned {
+    -fx-alignment: CENTER_RIGHT !important;
+}
+
+/* ===== RESPONSIVE TABLE STYLES ===== */
+@media (max-width: 1200px) {
+    .data-table .table-cell {
+        -fx-font-size: 13px;
+        -fx-padding: 12px;
+    }
+}

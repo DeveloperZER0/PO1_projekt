@@ -12,6 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Kontroler formularza dodawania aktywności fizycznej.
@@ -31,6 +34,7 @@ public class ActivityFormController {
 
     private final ActivityService activityService = new ActivityServiceImpl();
     private final ActivityTypeDaoImpl activityTypeDao = new ActivityTypeDaoImpl();
+    private final MeasurementService measurementService = new MeasurementServiceImpl(); // Dodaj to
     private Activity existingActivity; // Dodaj to pole
 
     @FXML
@@ -332,9 +336,24 @@ public class ActivityFormController {
     }
 
     private double getUserWeight() {
-        // TODO: Pobierz ostatni pomiar wagi użytkownika z bazy
-        // Na razie zwróć domyślną wartość
-        return 70.0;
+        try {
+            User currentUser = SessionManager.getCurrentUser();
+            if (currentUser == null) {
+                return 70.0;
+            }
+
+            List<Measurement> measurements = measurementService.getMeasurementsByUser(currentUser);
+            
+            Optional<WeightMeasurement> latestWeight = measurements.stream()
+                .filter(m -> m instanceof WeightMeasurement)
+                .map(m -> (WeightMeasurement) m)
+                .max(Comparator.comparing(Measurement::getTimestamp));
+            
+            return latestWeight.map(WeightMeasurement::getWeight).orElse(70.0);
+        } catch (Exception e) {
+            System.err.println("Błąd podczas pobierania wagi użytkownika: " + e.getMessage());
+            return 70.0;
+        }
     }
 
     private void initializeDefaultActivityTypes() {

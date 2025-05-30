@@ -1,0 +1,66 @@
+/* ===== LOGIN SCREEN ===== */
+.login-container {
+    -fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);
+    -fx-alignment: center;
+    -fx-padding: 50px;
+}
+
+.login-form {
+    -fx-background-color: rgba(255, 255, 255, 0.95);
+    -fx-padding: 40px;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 5);
+    -fx-max-width: 400px;
+    -fx-alignment: center;
+}
+
+.login-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 30 0;
+}
+
+.login-field {
+    -fx-font-size: 16px;
+    -fx-padding: 15px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-pref-width: 300px;
+    -fx-text-fill: #212121;
+    -fx-background-color: #ffffff;
+}
+
+.login-field:focused {
+    -fx-border-color: #3498db;
+}
+
+.login-btn {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 15px 30px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-pref-width: 300px;
+}
+
+.login-btn:hover {
+    -fx-background-color: #2980b9;
+}
+
+.register-link {
+    -fx-text-fill: #3498db;
+    -fx-underline: true;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.register-link:hover {
+    -fx-text-fill: #2980b9;
+}

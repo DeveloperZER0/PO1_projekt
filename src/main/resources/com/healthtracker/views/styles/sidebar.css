@@ -1,0 +1,32 @@
+/* ===== SIDEBAR ===== */
+.sidebar {
+    -fx-background-color: #FFFFFF;
+    -fx-pref-width: 260px;
+    -fx-min-width: 260px;
+    -fx-max-width: 260px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 2, 0);
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #616161;
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-padding: 16px 24px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-background-insets: 0 8px 0 8px;
+    -fx-border-radius: 24px;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #E3F2FD;
+    -fx-text-fill: #1976D2;
+}
+
+.sidebar-button:pressed {
+    -fx-background-color: #BBDEFB;
+    -fx-text-fill: #0D47A1;
+}
