@@ -7,6 +7,7 @@
 .analysis-section {
     -fx-background-color: transparent;
     -fx-spacing: 20px;
+    -fx-padding: 20px;
 }
 
 .health-grid {
@@ -38,6 +39,7 @@
 .charts-section {
     -fx-background-color: transparent;
     -fx-spacing: 20px;
+    -fx-padding: 20px;
 }
 
 .charts-grid {

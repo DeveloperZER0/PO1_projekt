@@ -1,6 +1,6 @@
 /* ===== LOGIN SCREEN ===== */
 .login-container {
-    -fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);
+    -fx-background-color: linear-gradient(to bottom right, #5dfe60, #28d1ab);
     -fx-alignment: center;
     -fx-padding: 50px;
 }

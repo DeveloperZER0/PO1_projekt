@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.healthtracker.ui.components.SidebarController"
+      spacing="0"
       styleClass="sidebar"
       stylesheets="@../styles/style.css, @../styles/sidebar.css">
-
+    <padding>
+      <Insets top="0" right="0" bottom="0" left="0"/>
+    </padding>
+    <Label text="Health Tracker" styleClass="sidebar-title"/>
     <Button fx:id="dashboardButton" text="📊 Dashboard" styleClass="sidebar-button"/>
     <Button fx:id="statsButton" text="📈 Statystyki" styleClass="sidebar-button"/>
     <Button fx:id="profileButton" text="👤 Profil" styleClass="sidebar-button"/>

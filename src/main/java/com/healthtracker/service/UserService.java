@@ -16,4 +16,9 @@ public interface UserService {
     List<User> getAllUsers();
     User getById(Long id);
     void updateUser(User user);
+
+    /**
+     * Usuwa użytkownika i wszystkie powiązane dane.
+     */
+    void deleteUser(User user);
 }

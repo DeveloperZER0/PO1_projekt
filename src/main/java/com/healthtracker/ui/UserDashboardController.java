@@ -75,7 +75,7 @@ public class UserDashboardController {
     public void initialize() {
         // Pomiary - lepsze formatowanie kolumn
         timestampColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
-                c.getValue().getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy\nHH:mm"))));
+                c.getValue().getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
         
         bpColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getBloodPressure()));
         // USUŃ: bpColumn.setStyle("-fx-alignment: CENTER;");
@@ -183,7 +183,7 @@ public class UserDashboardController {
         
         activityDateColumn.setCellValueFactory(cellData -> 
             new SimpleStringProperty(cellData.getValue().getTimestamp()
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy\nHH:mm"))));
+                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
         
         // Ustaw proporcjonalne szerokości dla tabeli aktywności
         activityTypeColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.18));
@@ -207,7 +207,7 @@ public class UserDashboardController {
         
         mealDateColumn.setCellValueFactory(cellData ->
             new SimpleStringProperty(cellData.getValue().getTimestamp()
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy\nHH:mm"))));
+                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
         
         // Ustaw proporcjonalne szerokości dla tabeli posiłków
         mealTypeColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.18));

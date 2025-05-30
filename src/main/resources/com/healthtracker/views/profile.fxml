@@ -42,12 +42,6 @@
                         <TableColumn fx:id="goalDueColumn" text="Termin"/>
                     </columns>
                 </TableView>
-
-                <Label text="Waga w czasie" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
-                <LineChart fx:id="weightChart" title="Waga">
-                    <xAxis><CategoryAxis label="Data"/></xAxis>
-                    <yAxis><NumberAxis label="kg"/></yAxis>
-                </LineChart>
             </VBox>
         </ScrollPane>
     </center>

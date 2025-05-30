@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.healthtracker.ui.AdminUserDetailsController"
+            styleClass="main-container">
+
+    <top>
+        <VBox spacing="15" styleClass="header-section">
+            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+            
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="👤 Szczegóły użytkownika" styleClass="page-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="❌ Zamknij" onAction="#onCloseClicked" styleClass="secondary-button"/>
+            </HBox>
+            
+            <!-- User Info Section -->
+            <VBox spacing="8" styleClass="user-info-section">
+                <HBox spacing="20">
+                    <VBox spacing="5">
+                        <Label text="Login:" styleClass="info-label"/>
+                        <Label fx:id="usernameLabel" text="username" styleClass="info-value"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="Email:" styleClass="info-label"/>
+                        <Label fx:id="emailLabel" text="email@example.com" styleClass="info-value"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="Rola:" styleClass="info-label"/>
+                        <Label fx:id="roleLabel" text="USER" styleClass="info-value"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+            
+            <!-- Summary Section -->
+            <VBox fx:id="summaryBox" spacing="5" styleClass="summary-section">
+                <Label text="📊 Podsumowanie danych" styleClass="section-title"/>
+                <Label fx:id="measurementsSummaryLabel" text="📊 Pomiary: 0" styleClass="summary-text"/>
+                <Label fx:id="activitiesSummaryLabel" text="🏃 Aktywności: 0" styleClass="summary-text"/>
+                <Label fx:id="mealsSummaryLabel" text="🍽️ Posiłki: 0" styleClass="summary-text"/>
+                <Label fx:id="goalsSummaryLabel" text="🎯 Cele: 0" styleClass="summary-text"/>
+            </VBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TabPane fx:id="dataTabPane" styleClass="content-tabs" VBox.vgrow="ALWAYS">
+            <padding><Insets top="10" right="15" bottom="15" left="15"/></padding>
+            
+            <!-- Measurements Tab -->
+            <Tab text="📊 Pomiary" closable="false">
+                <TableView fx:id="measurementsTable" styleClass="data-table">
+                    <columns>
+                        <TableColumn fx:id="timestampColumn" text="Data i czas"/>
+                        <TableColumn fx:id="bpColumn" text="Ciśnienie" styleClass="center-aligned"/>
+                        <TableColumn fx:id="hrColumn" text="Tętno" styleClass="center-aligned"/>
+                        <TableColumn fx:id="weightColumn" text="Waga" styleClass="center-aligned"/>
+                        <TableColumn fx:id="summaryColumn" text="Podsumowanie"/>
+                    </columns>
+                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+                </TableView>
+            </Tab>
+            
+            <!-- Activities Tab -->
+            <Tab text="🏃 Aktywności" closable="false">
+                <TableView fx:id="activitiesTable" styleClass="data-table">
+                    <columns>
+                        <TableColumn fx:id="activityTypeColumn" text="Typ"/>
+                        <TableColumn fx:id="durationColumn" text="Czas" styleClass="center-aligned"/>
+                        <TableColumn fx:id="distanceColumn" text="Dystans" styleClass="center-aligned"/>
+                        <TableColumn fx:id="activityCaloriesColumn" text="Kalorie" styleClass="center-aligned"/>
+                        <TableColumn fx:id="intensityColumn" text="Intensywność" styleClass="center-aligned"/>
+                        <TableColumn fx:id="activityDateColumn" text="Data"/>
+                    </columns>
+                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+                </TableView>
+            </Tab>
+            
+            <!-- Meals Tab -->
+            <Tab text="🍽️ Posiłki" closable="false">
+                <TableView fx:id="mealsTable" styleClass="data-table">
+                    <columns>
+                        <TableColumn fx:id="mealTypeColumn" text="Typ posiłku"/>
+                        <TableColumn fx:id="mealCaloriesColumn" text="Kalorie" styleClass="center-aligned"/>
+                        <TableColumn fx:id="descriptionColumn" text="Opis"/>
+                        <TableColumn fx:id="mealDateColumn" text="Data"/>
+                    </columns>
+                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+                </TableView>
+            </Tab>
+            
+            <!-- Goals Tab -->
+            <Tab text="🎯 Cele" closable="false">
+                <TableView fx:id="goalsTable" styleClass="data-table">
+                    <columns>
+                        <TableColumn fx:id="goalTypeColumn" text="Typ celu"/>
+                        <TableColumn fx:id="goalTargetColumn" text="Cel" styleClass="center-aligned"/>
+                        <TableColumn fx:id="goalCurrentColumn" text="Aktualna" styleClass="center-aligned"/>
+                        <TableColumn fx:id="goalProgressColumn" text="Postęp" styleClass="center-aligned"/>
+                        <TableColumn fx:id="goalDueColumn" text="Termin" styleClass="center-aligned"/>
+                        <TableColumn fx:id="goalStatusColumn" text="Status" styleClass="center-aligned"/>
+                    </columns>
+                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
+                </TableView>
+            </Tab>
+        </TabPane>
+    </center>
+
+</BorderPane>

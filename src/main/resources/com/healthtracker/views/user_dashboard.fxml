@@ -15,14 +15,13 @@
 
     <!-- Główna zawartość -->
     <center>
-        <VBox spacing="0" styleClass="main-content">
+        <VBox styleClass="main-content">
             
             <!-- Nagłówek -->
             <VBox styleClass="dashboard-header">
-                <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-bar">
+                <HBox alignment="CENTER_LEFT" styleClass="header-bar">
                     <Label text="Panel użytkownika" styleClass="dashboard-title"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="userWelcomeLabel" styleClass="welcome-label"/>
                 </HBox>
             </VBox>
 
@@ -46,11 +45,11 @@
 
                         <TableView fx:id="measurementTable" styleClass="data-table" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="timestampColumn" text="Data i czas" prefWidth="160" minWidth="140"/>
+                                <TableColumn fx:id="timestampColumn" text="Data i czas" prefWidth="180" minWidth="160"/>
                                 <TableColumn fx:id="bpColumn" text="Ciśnienie" prefWidth="100" minWidth="80"/>
                                 <TableColumn fx:id="hrColumn" text="Tętno" prefWidth="80" minWidth="60"/>
                                 <TableColumn fx:id="weightColumn" text="Waga" prefWidth="80" minWidth="60"/>
-                                <TableColumn fx:id="summaryColumn" text="Podsumowanie" prefWidth="280" minWidth="200"/>
+                                <TableColumn fx:id="summaryColumn" text="Podsumowanie" prefWidth="260" minWidth="200"/>
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

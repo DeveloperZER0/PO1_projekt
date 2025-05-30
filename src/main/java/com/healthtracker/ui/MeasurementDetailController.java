@@ -54,7 +54,7 @@ public class MeasurementDetailController {
     private VBox createMeasurementView(Measurement current, List<Measurement> allMeasurements) {
         VBox box = new VBox(8);
         box.setStyle("-fx-padding: 15; -fx-border-color: #dee2e6; -fx-border-radius: 8; " +
-                    "-fx-background-color: #f8f9fa; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);");
+                    "-fx-background-color: #f8f9fa;");
 
         // Nagłówek typu pomiaru
         Label typeLabel = new Label(getMeasurementTypeName(current));
