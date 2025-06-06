@@ -18,7 +18,7 @@
 
 .dashboard-title {
     -fx-font-size: 28px;
-    -fx-font-weight: 400;
+    -fx-font-weight: 800;
     -fx-text-fill: #212121;
 }
 
@@ -86,7 +86,7 @@
 
 .section-title {
     -fx-font-size: 24px;
-    -fx-font-weight: 400;
+    -fx-font-weight: 800;
     -fx-text-fill: #212121;
     -fx-padding: 0 0 8 0;
 }

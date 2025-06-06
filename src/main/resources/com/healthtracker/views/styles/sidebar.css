@@ -1,7 +1,7 @@
 /* ===== SIDEBAR ===== */
 .sidebar {
-    -fx-background-color: #f8f8fa;
-    background-color: #f8f8fa;
+    -fx-background-color: #FFFFFF;
+    background-color: #FFFFFF;
     -fx-pref-width: 200px;
     -fx-min-width: 200px;
     min-width: 200px;
@@ -10,6 +10,7 @@
     -fx-spacing: 0;
     -fx-padding: 0;
     padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 1);
 }
 
 .sidebar-title {
@@ -19,38 +20,73 @@
     -fx-padding: 16px 24px;
     -fx-alignment: CENTER_LEFT;
     -fx-border-width: 0 0 1px 0;
-    -fx-border-color: #BDBDBD;
+    -fx-border-color: #E0E0E0;
     -fx-min-width: 200px;
     min-width: 200px;
     -fx-max-width: 200px;
     max-width: 200px;
     padding: 16px;
+    -fx-background-color: #FAFAFA;
 }
 
 .sidebar-button {
     -fx-background-color: transparent;
     background-color: transparent;
-    -fx-text-fill: #748a82;
+    -fx-text-fill: #757575;
     -fx-font-size: 16px;
     -fx-font-weight: 500;
     -fx-padding: 16px 24px;
     -fx-alignment: CENTER_LEFT;
     -fx-border-width: 0;
-    -fx-background-radius: 0;
+    -fx-background-radius: 8px;
     -fx-cursor: hand;
-    -fx-background-insets: 0 0 0 0;
-    -fx-border-radius: 24px;
+    -fx-background-insets: 8px;
+    -fx-border-radius: 8px;
     -fx-min-width: 200px;
     -fx-max-width: 200px;
 }
 
 .sidebar-button:hover {
-    -fx-background-color: #e2f0ed;
-    background-color: #e2f0ed;
-    -fx-text-fill: #20443a;
+    -fx-background-color: #E3F2FD;
+    background-color: #E3F2FD;
+    -fx-text-fill: #1976D2;
 }
 
 .sidebar-button:pressed {
-    -fx-background-color: #e2f0ed;
-    -fx-text-fill: #20443a;
+    -fx-background-color: #BBDEFB;
+    -fx-text-fill: #0D47A1;
+}
+
+/* Aktywny przycisk sidebara */
+.sidebar-button.active {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.3), 4, 0, 0, 2);
+}
+
+.sidebar-button.active:hover {
+    -fx-background-color: #1976D2;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Separator w sidebarze */
+.sidebar .separator {
+    -fx-background-color: #E0E0E0;
+    -fx-pref-height: 1px;
+    -fx-max-height: 1px;
+    -fx-padding: 8px 16px;
+}
+
+/* Sekcje w sidebarze */
+.sidebar-section {
+    -fx-padding: 8px 0;
+}
+
+.sidebar-section-title {
+    -fx-text-fill: #424242;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-padding: 8px 24px 4px 24px;
+    -fx-text-transform: uppercase;
+    -fx-letter-spacing: 0.5px;
 }

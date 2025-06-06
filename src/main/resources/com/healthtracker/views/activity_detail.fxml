@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" 
+           xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="com.healthtracker.ui.ActivityDetailController"
+           stylesheets="@styles/style.css, @styles/detail.css"
+           prefWidth="400" prefHeight="500">
+
+    <top>
+        <VBox styleClass="detail-header" spacing="10">
+            <padding>
+                <Insets top="20" right="20" bottom="15" left="20"/>
+            </padding>
+            <Label fx:id="activityTitleLabel" styleClass="detail-title"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="15" styleClass="detail-content">
+                <padding>
+                    <Insets top="15" right="20" bottom="20" left="20"/>
+                </padding>
+                
+                <VBox spacing="10" styleClass="detail-section">
+                    <Label text="Podstawowe informacje" styleClass="section-header"/>
+                    <Label fx:id="typeLabel" styleClass="detail-item"/>
+                    <Label fx:id="durationLabel" styleClass="detail-item"/>
+                    <Label fx:id="distanceLabel" styleClass="detail-item"/>
+                    <Label fx:id="caloriesLabel" styleClass="detail-item"/>
+                </VBox>
+                
+                <Separator/>
+                
+                <VBox spacing="10" styleClass="detail-section">
+                    <Label text="Szczegóły treningu" styleClass="section-header"/>
+                    <Label fx:id="heartRateLabel" styleClass="detail-item"/>
+                    <Label fx:id="intensityLabel" styleClass="detail-item"/>
+                </VBox>
+                
+                <Separator/>
+                
+                <VBox spacing="10" styleClass="detail-section">
+                    <Label text="Dodatkowe informacje" styleClass="section-header"/>
+                    <Label fx:id="timestampLabel" styleClass="detail-item"/>
+                    <Label fx:id="notesLabel" styleClass="detail-item" wrapText="true"/>
+                </VBox>
+                
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" styleClass="detail-buttons">
+            <padding>
+                <Insets top="15" right="20" bottom="20" left="20"/>
+            </padding>
+            <Button text="Zamknij" onAction="#onClose" styleClass="secondary-btn"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

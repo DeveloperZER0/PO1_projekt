@@ -41,18 +41,19 @@ public class StatisticsController {
         List<Activity> activities = activityService.getActivitiesByUser(user);
         List<Goal> goals = goalService.getGoalsByUser(user);
 
-        setupCharts(all);
+        setupCharts(all, goals);
         analyzeHealthStatus(user, all, activities, goals);
     }
 
-    private void setupCharts(List<Measurement> all) {
+    private void setupCharts(List<Measurement> all, List<Goal> goals) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd");
 
+        // Serie dla danych
         XYChart.Series<String, Number> weightSeries = new XYChart.Series<>();
         weightSeries.setName("Waga");
 
         XYChart.Series<String, Number> heartRateSeries = new XYChart.Series<>();
-        heartRateSeries.setName("Tętno");
+        heartRateSeries.setName("Tetno");
 
         XYChart.Series<String, Number> systolicSeries = new XYChart.Series<>();
         systolicSeries.setName("Skurczowe");
@@ -60,6 +61,26 @@ public class StatisticsController {
         XYChart.Series<String, Number> diastolicSeries = new XYChart.Series<>();
         diastolicSeries.setName("Rozkurczowe");
 
+        // Serie dla celów - tylko waga
+        XYChart.Series<String, Number> weightGoalSeries = new XYChart.Series<>();
+        weightGoalSeries.setName("Cel wagi");
+
+        // Znajdź aktywne cele wagi (nie zakończone - termin w przyszłości)
+        LocalDate today = LocalDate.now();
+        
+        Optional<Goal> weightGoal = goals.stream()
+            .filter(g -> (g.getGoalType() == GoalType.TARGET_WEIGHT || g.getGoalType() == GoalType.WEIGHT_LOSS))
+            .filter(g -> !g.getDueDate().isBefore(today)) // cel jeszcze aktualny
+            .findFirst();
+
+        // Zbierz wszystkie daty z pomiarów
+        List<String> allDates = all.stream()
+            .map(m -> m.getTimestamp().format(formatter))
+            .distinct()
+            .sorted()
+            .toList();
+
+        // Wypełnij serie danymi
         for (Measurement m : all) {
             String date = m.getTimestamp().format(formatter);
             if (m instanceof WeightMeasurement wm) {
@@ -74,8 +95,28 @@ public class StatisticsController {
             }
         }
 
+        // Dodaj linię celu wagi jeśli istnieje
+        if (weightGoal.isPresent() && !allDates.isEmpty()) {
+            double targetWeight = weightGoal.get().getTargetValue();
+            for (String date : allDates) {
+                weightGoalSeries.getData().add(new XYChart.Data<>(date, targetWeight));
+            }
+        }
+
+        // Dodaj serie do wykresów
+        weightChart.getData().clear();
         weightChart.getData().add(weightSeries);
+        if (weightGoal.isPresent() && !allDates.isEmpty()) {
+            weightChart.getData().add(weightGoalSeries);
+            // Ustaw styl linii celu
+            weightGoalSeries.getNode().setStyle("-fx-stroke: #ff6b6b; -fx-stroke-width: 3px; -fx-stroke-dash-array: 5 5;");
+        }
+
+        // Wykresy tętna i ciśnienia bez linii celów
+        heartRateChart.getData().clear();
         heartRateChart.getData().add(heartRateSeries);
+
+        bpChart.getData().clear();
         bpChart.getData().addAll(systolicSeries, diastolicSeries);
     }
 
@@ -94,13 +135,13 @@ public class StatisticsController {
             .max(Comparator.comparing(Measurement::getTimestamp));
 
         if (latestWeight.isEmpty()) {
-            safeSetText(weightStatusLabel, "❓ Brak danych o wadze");
+            safeSetText(weightStatusLabel, "Brak danych o wadze");
             return;
         }
 
         double weight = latestWeight.get().getWeight();
         StringBuilder status = new StringBuilder();
-        status.append("⚖️ Aktualna waga: ").append(String.format("%.1f kg", weight)).append("\n");
+        status.append("Aktualna waga: ").append(String.format("%.1f kg", weight)).append("\n");
 
         // Porównanie z celem
         Optional<Goal> weightGoal = goals.stream()
@@ -114,11 +155,11 @@ public class StatisticsController {
             
             if (goal.getGoalType() == GoalType.TARGET_WEIGHT) {
                 if (Math.abs(diff) <= 1.0) {
-                    status.append("🎯 Cel wagowy osiągnięty! (±1kg)");
+                    status.append("Cel wagowy osiagniety! (±1kg)");
                 } else if (diff > 0) {
-                    status.append("📈 ").append(String.format("%.1f kg", diff)).append(" ponad cel (").append(target).append(" kg)");
+                    status.append(String.format("%.1f kg", diff)).append(" ponad cel (").append(target).append(" kg)");
                 } else {
-                    status.append("📉 ").append(String.format("%.1f kg", -diff)).append(" poniżej celu (").append(target).append(" kg)");
+                    status.append(String.format("%.1f kg", -diff)).append(" ponizej celu (").append(target).append(" kg)");
                 }
             }
         } else {
@@ -127,13 +168,13 @@ public class StatisticsController {
             double bmi = weight / (height * height);
             
             if (bmi < 18.5) {
-                status.append("⚠️ Niedowaga (BMI: ").append(String.format("%.1f", bmi)).append(")");
+                status.append("Niedowaga (BMI: ").append(String.format("%.1f", bmi)).append(")");
             } else if (bmi < 25) {
-                status.append("✅ Waga prawidłowa (BMI: ").append(String.format("%.1f", bmi)).append(")");
+                status.append("Waga prawidlowa (BMI: ").append(String.format("%.1f", bmi)).append(")");
             } else if (bmi < 30) {
-                status.append("⚠️ Nadwaga (BMI: ").append(String.format("%.1f", bmi)).append(")");
+                status.append("Nadwaga (BMI: ").append(String.format("%.1f", bmi)).append(")");
             } else {
-                status.append("🚨 Otyłość (BMI: ").append(String.format("%.1f", bmi)).append(")");
+                status.append("Otylosc (BMI: ").append(String.format("%.1f", bmi)).append(")");
             }
         }
 
@@ -150,7 +191,7 @@ public class StatisticsController {
         
         double weeklyHours = weeklyMinutes / 60.0;
         StringBuilder status = new StringBuilder();
-        status.append("🏃 Aktywność w tym tygodniu: ").append(String.format("%.1f h", weeklyHours)).append("\n");
+        status.append("Aktywnosc w tym tygodniu: ").append(String.format("%.1f h", weeklyHours)).append("\n");
 
         // Porównanie z celem
         Optional<Goal> activityGoal = goals.stream()
@@ -162,19 +203,19 @@ public class StatisticsController {
             double progress = (weeklyHours / target) * 100;
             
             if (weeklyHours >= target) {
-                status.append("🎯 Cel aktywności osiągnięty! (").append(String.format("%.0f%%", progress)).append(")");
+                status.append("Cel aktywnosci osiagniety! (").append(String.format("%.0f%%", progress)).append(")");
             } else {
-                status.append("📊 Postęp: ").append(String.format("%.0f%%", progress)).append(" celu (")
+                status.append("Postep: ").append(String.format("%.0f%%", progress)).append(" celu (")
                       .append(target).append(" h)");
             }
         } else {
             // Porównanie z wytycznymi WHO (150 min/tydzień = 2.5h)
             double recommendedHours = 2.5;
             if (weeklyHours >= recommendedHours) {
-                status.append("✅ Spełnia wytyczne WHO (≥2.5h/tydzień)");
+                status.append("Spelnia wytyczne WHO (>=2.5h/tydzien)");
             } else {
                 double missing = recommendedHours - weeklyHours;
-                status.append("⚠️ Poniżej wytycznych WHO (brakuje ").append(String.format("%.1f h", missing)).append(")");
+                status.append("Ponizej wytycznych WHO (brakuje ").append(String.format("%.1f h", missing)).append(")");
             }
         }
 
@@ -188,21 +229,21 @@ public class StatisticsController {
             .max(Comparator.comparing(Measurement::getTimestamp));
 
         if (latestHR.isEmpty()) {
-            safeSetText(heartRateStatusLabel, "❓ Brak danych o tętnie");
+            safeSetText(heartRateStatusLabel, "Brak danych o tetnie");
             return;
         }
 
         int bpm = latestHR.get().getBpm();
         StringBuilder status = new StringBuilder();
-        status.append("❤️ Ostatnie tętno spoczynkowe: ").append(bpm).append(" BPM\n");
+        status.append("Ostatnie tetno spoczynkowe: ").append(bpm).append(" BPM\n");
 
         // Porównanie z wartościami typowymi
         if (bpm < 60) {
-            status.append("🔵 Bradykardia (poniżej normy)");
+            status.append("Bradykardia (ponizej normy)");
         } else if (bpm <= 100) {
-            status.append("✅ Prawidłowe (60-100 BPM)");
+            status.append("Prawidlowe (60-100 BPM)");
         } else {
-            status.append("🔴 Tachykardia (powyżej normy)");
+            status.append("Tachykardia (powyzej normy)");
         }
 
         safeSetText(heartRateStatusLabel, status.toString());
@@ -215,7 +256,7 @@ public class StatisticsController {
             .max(Comparator.comparing(Measurement::getTimestamp));
 
         if (latestBP.isEmpty()) {
-            safeSetText(bpStatusLabel, "❓ Brak danych o ciśnieniu");
+            safeSetText(bpStatusLabel, "Brak danych o cisnieniu");
             return;
         }
 
@@ -224,21 +265,21 @@ public class StatisticsController {
         int diastolic = bp.getDiastolic();
         
         StringBuilder status = new StringBuilder();
-        status.append("🩺 Ostatnie ciśnienie: ").append(systolic).append("/").append(diastolic).append(" mmHg\n");
+        status.append("Ostatnie cisnienie: ").append(systolic).append("/").append(diastolic).append(" mmHg\n");
 
         // Klasyfikacja według wytycznych ESC/ESH
         if (systolic < 120 && diastolic < 80) {
-            status.append("✅ Optymalne");
+            status.append("Optymalne");
         } else if (systolic < 130 && diastolic < 85) {
-            status.append("✅ Prawidłowe");
+            status.append("Prawidlowe");
         } else if (systolic < 140 && diastolic < 90) {
-            status.append("🟡 Wysokie prawidłowe");
+            status.append("Wysokie prawidlowe");
         } else if (systolic < 160 && diastolic < 100) {
-            status.append("🟠 Nadciśnienie 1° stopnia");
+            status.append("Nadcisnienie 1° stopnia");
         } else if (systolic < 180 && diastolic < 110) {
-            status.append("🔴 Nadciśnienie 2° stopnia");
+            status.append("Nadcisnienie 2° stopnia");
         } else {
-            status.append("🚨 Nadciśnienie 3° stopnia");
+            status.append("Nadcisnienie 3° stopnia");
         }
 
         safeSetText(bpStatusLabel, status.toString());

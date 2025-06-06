@@ -46,7 +46,7 @@
                             
                             <!-- Waga -->
                             <VBox spacing="10" styleClass="health-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                <Label text="⚖️ Waga" styleClass="card-title"/>
+                                <Label text="⚖ Waga" styleClass="card-title"/>
                                 <Label fx:id="weightStatusLabel" text="Ładowanie..." styleClass="card-content" wrapText="true"/>
                             </VBox>
                             
@@ -58,13 +58,13 @@
                             
                             <!-- Tętno -->
                             <VBox spacing="10" styleClass="health-card" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                <Label text="❤️ Tętno" styleClass="card-title"/>
+                                <Label text="♡ Tętno" styleClass="card-title"/>
                                 <Label fx:id="heartRateStatusLabel" text="Ładowanie..." styleClass="card-content" wrapText="true"/>
                             </VBox>
                             
                             <!-- Ciśnienie -->
                             <VBox spacing="10" styleClass="health-card" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <Label text="🩺 Ciśnienie" styleClass="card-title"/>
+                                <Label text="⏲ Ciśnienie" styleClass="card-title"/>
                                 <Label fx:id="bpStatusLabel" text="Ładowanie..." styleClass="card-content" wrapText="true"/>
                             </VBox>
                         </GridPane>

@@ -2,6 +2,7 @@ package com.healthtracker.model;
 
 import jakarta.persistence.*;
 import java.util.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -30,6 +31,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Goal> goals = new ArrayList<>();
+
+    private LocalDateTime createdAt;
+
     public User() {}
     public User(String username, String passwordHash, String email, Role role) {
         this.username = username;
@@ -110,5 +114,13 @@ public class User {
 
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

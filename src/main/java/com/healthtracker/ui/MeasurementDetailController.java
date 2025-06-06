@@ -96,9 +96,9 @@ public class MeasurementDetailController {
 
     private String getMeasurementTypeName(Measurement measurement) {
         return switch (measurement) {
-            case WeightMeasurement wm -> "🏋️ Waga";
-            case HeartRateMeasurement hr -> "❤️ Tętno spoczynkowe";
-            case BloodPressureMeasurement bp -> "🩺 Ciśnienie krwi";
+            case WeightMeasurement wm -> "⚖ Waga";
+            case HeartRateMeasurement hr -> "♡ Tętno spoczynkowe";
+            case BloodPressureMeasurement bp -> "⏲ Ciśnienie krwi";
             default -> "📊 Pomiar";
         };
     }

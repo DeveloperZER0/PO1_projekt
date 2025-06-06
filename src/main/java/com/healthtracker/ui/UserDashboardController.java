@@ -608,73 +608,39 @@ public class UserDashboardController {
     }
 
     private void showActivityDetails(Activity activity) {
-        Alert detailsAlert = new Alert(Alert.AlertType.INFORMATION);
-        detailsAlert.setTitle("Szczegóły aktywności");
-        detailsAlert.setHeaderText(activity.getType().getCategory().getEmoji() + " " + activity.getType().getName());
-        
-        // USUŃ TO - CSS już jest załadowany globalnie
-        // detailsAlert.getDialogPane().getStylesheets().add(
-        //     getClass().getResource("/com/healthtracker/style.css").toExternalForm()
-        // );
-        // detailsAlert.getDialogPane().getStyleClass().add("alert");
-        
-        StringBuilder details = new StringBuilder();
-        details.append("🕒 Czas trwania: ").append(activity.getDurationMinutes()).append(" min\n");
-        
-        if (activity.getDistanceKm() != null && activity.getDistanceKm() > 0) {
-            if ("m".equals(activity.getType().getUnit())) {
-                details.append("📏 Dystans: ").append(String.format("%.0f m", activity.getDistanceKm() * 1000)).append("\n");
-            } else {
-                details.append("📏 Dystans: ").append(String.format("%.2f km", activity.getDistanceKm())).append("\n");
-            }
-            details.append("⚡ Średnia prędkość: ").append(String.format("%.1f km/h", activity.calculateAvgSpeed())).append("\n");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/healthtracker/views/activity_detail.fxml"));
+            Parent root = loader.load();
+
+            ActivityDetailController controller = loader.getController();
+            controller.setActivity(activity);
+
+            Stage stage = new Stage();
+            stage.setTitle("Szczegóły aktywności");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Błąd podczas otwierania szczegółów aktywności").showAndWait();
         }
-        
-        if (activity.getCaloriesBurned() != null) {
-            details.append("🔥 Kalorie: ").append(activity.getCaloriesBurned()).append(" kcal\n");
-        }
-        
-        if (activity.getIntensity() != null) {
-            details.append("💪 Intensywność: ").append(activity.getIntensity().getEmoji()).append(" ")
-                    .append(activity.getIntensity().getDisplayName()).append("\n");
-        }
-        
-        if (activity.getHeartRateAvg() != null) {
-            details.append("❤️ Średnie tętno: ").append(activity.getHeartRateAvg()).append(" BPM\n");
-        }
-        
-        if (activity.getHeartRateMax() != null) {
-            details.append("💓 Maksymalne tętno: ").append(activity.getHeartRateMax()).append(" BPM\n");
-        }
-        
-        details.append("📅 Data: ").append(activity.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
-        
-        if (activity.getNotes() != null && !activity.getNotes().trim().isEmpty()) {
-            details.append("\n\n📝 Notatki:\n").append(activity.getNotes());
-        }
-        
-        detailsAlert.setContentText(details.toString());
-        detailsAlert.showAndWait();
     }
 
     private void showMealDetails(Meal meal) {
-        Alert detailsAlert = new Alert(Alert.AlertType.INFORMATION);
-        detailsAlert.setTitle("Szczegóły posiłku");
-        detailsAlert.setHeaderText("🍽️ " + meal.getType().getName());
-        
-        // Ustaw style dla alertu
-        detailsAlert.getDialogPane().getStylesheets().add(
-            getClass().getResource("/com/healthtracker/style.css").toExternalForm()
-        );
-        detailsAlert.getDialogPane().getStyleClass().add("alert");
-        
-        StringBuilder details = new StringBuilder();
-        details.append("🔥 Kalorie: ").append(meal.getCalories()).append(" kcal\n");
-        details.append("📅 Data: ").append(meal.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))).append("\n");
-        details.append("\n📝 Opis:\n").append(meal.getDescription());
-        
-        detailsAlert.setContentText(details.toString());
-        detailsAlert.showAndWait();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/healthtracker/views/meal_detail.fxml"));
+            Parent root = loader.load();
+
+            MealDetailController controller = loader.getController();
+            controller.setMeal(meal);
+
+            Stage stage = new Stage();
+            stage.setTitle("Szczegóły posiłku");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Błąd podczas otwierania szczegółów posiłku").showAndWait();
+        }
     }
 
     private double calculateCurrentValue(Goal goal) {
