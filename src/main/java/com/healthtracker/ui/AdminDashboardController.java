@@ -173,9 +173,10 @@ public class AdminDashboardController {
             long regularUsers = users.stream().filter(u -> u.getRole().name().equals("USER")).count();
             long adminUsers = users.stream().filter(u -> u.getRole().name().equals("ADMIN")).count();
             
-            totalUsersLabel.setText("Łącznie użytkowników: " + totalUsers);
-            regularUsersLabel.setText("Zwykli użytkownicy: " + regularUsers);
-            adminUsersLabel.setText("Administratorzy: " + adminUsers);
+            // Aktualizacja - tylko liczby
+            totalUsersLabel.setText(String.valueOf(totalUsers));
+            regularUsersLabel.setText(String.valueOf(regularUsers));
+            adminUsersLabel.setText(String.valueOf(adminUsers));
         } catch (Exception e) {
             e.printStackTrace();
         }

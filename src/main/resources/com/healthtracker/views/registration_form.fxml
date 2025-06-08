@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.healthtracker.ui.RegistrationController"
-      spacing="10" alignment="CENTER" style="-fx-padding: 20;"
-      stylesheets="@styles/style.css">
+           fx:controller="com.healthtracker.ui.RegistrationController"
+           styleClass="login-container"
+           stylesheets="@styles/style.css, @styles/login.css">
 
-    <Label text="Rejestracja" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+    <VBox styleClass="login-form" spacing="20" alignment="CENTER">
+        
+        <Label text="Rejestracja" styleClass="login-title"/>
 
-    <TextField fx:id="usernameField" promptText="Login" maxWidth="250"/>
-    <TextField fx:id="emailField" promptText="E-mail" maxWidth="250"/>
-    <PasswordField fx:id="passwordField" promptText="Hasło" maxWidth="250"/>
-    <PasswordField fx:id="confirmPasswordField" promptText="Powtórz hasło" maxWidth="250"/>
+        <TextField fx:id="usernameField" promptText="Login" styleClass="login-field"/>
+        <TextField fx:id="emailField" promptText="E-mail" styleClass="login-field"/>
+        <PasswordField fx:id="passwordField" promptText="Hasło" styleClass="login-field"/>
+        <PasswordField fx:id="confirmPasswordField" promptText="Powtórz hasło" styleClass="login-field"/>
 
-    <Label fx:id="errorLabel" textFill="red" visible="false"/>
-
-    <Button text="Zarejestruj się" onAction="#onRegisterClicked"
-            style="-fx-font-weight: bold; -fx-pref-width: 150;"/>
+        <VBox spacing="15" alignment="CENTER">
+            <Button text="Zarejestruj się" onAction="#onRegisterClicked" 
+                    styleClass="login-btn"/>
+                    
+            <Label text="Masz już konto? Zaloguj się" 
+                   onMouseClicked="#onLoginLinkClicked"
+                   styleClass="register-link"/>
+        </VBox>
+    </VBox>
+    
 </VBox>

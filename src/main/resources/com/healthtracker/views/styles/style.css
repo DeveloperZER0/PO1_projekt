@@ -5,101 +5,104 @@
 }
 
 .root {
-    -fx-background-color: #fafafa;
+    -fx-background-color: #f1f8e9;
 }
 
-/* ===== MATERIAL COLORS ===== */
-/* Primary: #2196F3 (Blue) */
-/* Secondary: #FF5722 (Deep Orange) */
+/* ===== HEALTH-FOCUSED COLOR PALETTE ===== */
+/* Primary: #4CAF50 (Green) */
+/* Primary Dark: #388E3C (Dark Green) */
+/* Primary Light: #81C784 (Light Green) */
+/* Secondary: #FF7043 (Deep Orange) */
+/* Accent: #66BB6A (Medium Green) */
 /* Success: #4CAF50 (Green) */
 /* Warning: #FF9800 (Orange) */
 /* Error: #F44336 (Red) */
 /* Surface: #FFFFFF */
-/* Background: #FAFAFA */
+/* Background: #F1F8E9 (Light Green) */
 /* On-Surface: #212121 */
 /* On-Primary: #FFFFFF */
 
 /* ===== BUTTONS ===== */
 .primary-btn {
-    -fx-background-color: #2196F3;
-    -fx-text-fill: #FFFFFF;
-    -fx-font-size: 14px;
-    -fx-font-weight: 500;
-    -fx-padding: 12px 24px;
-    -fx-background-radius: 4px;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.3), 4, 0, 0, 2);
-    -fx-border-width: 0;
-}
-
-.primary-btn:hover {
-    -fx-background-color: #1976D2;
-    -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.4), 6, 0, 0, 3);
-}
-
-.primary-btn:pressed {
-    -fx-background-color: #0D47A1;
-    -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.2), 2, 0, 0, 1);
-}
-
-.secondary-btn {
-    -fx-background-color: transparent;
-    -fx-text-fill: #2196F3;
-    -fx-font-size: 14px;
-    -fx-font-weight: 500;
-    -fx-padding: 12px 24px;
-    -fx-background-radius: 4px;
-    -fx-cursor: hand;
-    -fx-border-color: #2196F3;
-    -fx-border-width: 1;
-    -fx-border-radius: 4px;
-}
-
-.secondary-btn:hover {
-    -fx-background-color: #E3F2FD;
-}
-
-.secondary-btn:pressed {
-    -fx-background-color: #BBDEFB;
-}
-
-.export-btn {
     -fx-background-color: #4CAF50;
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 14px;
     -fx-font-weight: 500;
-    -fx-padding: 10px 20px;
+    -fx-padding: 12px 24px;
     -fx-background-radius: 4px;
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.3), 4, 0, 0, 2);
     -fx-border-width: 0;
 }
 
-.export-btn:hover {
+.primary-btn:hover {
     -fx-background-color: #388E3C;
     -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.4), 6, 0, 0, 3);
 }
 
-.import-btn {
-    -fx-background-color: #FF9800;
+.primary-btn:pressed {
+    -fx-background-color: #2E7D32;
+    -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.2), 2, 0, 0, 1);
+}
+
+.secondary-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #4CAF50;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-padding: 12px 24px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+    -fx-border-color: #4CAF50;
+    -fx-border-width: 1;
+    -fx-border-radius: 4px;
+}
+
+.secondary-btn:hover {
+    -fx-background-color: #E8F5E8;
+}
+
+.secondary-btn:pressed {
+    -fx-background-color: #C8E6C9;
+}
+
+.export-btn {
+    -fx-background-color: #66BB6A;
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 14px;
     -fx-font-weight: 500;
     -fx-padding: 10px 20px;
     -fx-background-radius: 4px;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(255,152,0,0.3), 4, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(102,187,106,0.3), 4, 0, 0, 2);
+    -fx-border-width: 0;
+}
+
+.export-btn:hover {
+    -fx-background-color: #4CAF50;
+    -fx-effect: dropshadow(gaussian, rgba(102,187,106,0.4), 6, 0, 0, 3);
+}
+
+.import-btn {
+    -fx-background-color: #81C784;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(129,199,132,0.3), 4, 0, 0, 2);
     -fx-border-width: 0;
 }
 
 .import-btn:hover {
-    -fx-background-color: #F57C00;
-    -fx-effect: dropshadow(gaussian, rgba(255,152,0,0.4), 6, 0, 0, 3);
+    -fx-background-color: #66BB6A;
+    -fx-effect: dropshadow(gaussian, rgba(129,199,132,0.4), 6, 0, 0, 3);
 }
 
 /* ===== UTILITY CLASSES ===== */
 .text-primary {
-    -fx-text-fill: #2196F3;
+    -fx-text-fill: #4CAF50;
 }
 
 .text-secondary {
@@ -123,7 +126,7 @@
 }
 
 .bg-background {
-    -fx-background-color: #FAFAFA;
+    -fx-background-color: #F1F8E9;
 }
 
 .elevation-1 {
@@ -158,13 +161,13 @@
 }
 
 .context-menu .menu-item:hover {
-    -fx-background-color: #F5F5F5;
-    -fx-text-fill: #1976D2;
+    -fx-background-color: #E8F5E8;
+    -fx-text-fill: #388E3C;
 }
 
 .context-menu .menu-item:focused {
-    -fx-background-color: #E3F2FD;
-    -fx-text-fill: #1976D2;
+    -fx-background-color: #C8E6C9;
+    -fx-text-fill: #2E7D32;
 }
 
 .context-menu .separator {
@@ -182,7 +185,7 @@
 }
 
 .alert .header-panel {
-    -fx-background-color: #F5F5F5;
+    -fx-background-color: #F1F8E9;
     -fx-padding: 20px;
 }
 
@@ -218,9 +221,9 @@
 }
 
 .alert .button-bar .button:default {
-    -fx-background-color: #2196F3;
+    -fx-background-color: #4CAF50;
     -fx-text-fill: #FFFFFF;
-    -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.3), 4, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(76,175,80,0.3), 4, 0, 0, 2);
 }
 
 .alert .button-bar .button:cancel {
@@ -267,9 +270,57 @@
 }
 .detail-container .measurements-container {
     -fx-padding: 16px;
-    -fx-background-color: #F5F5F5;
+    -fx-background-color: #F1F8E9;
 }
 .detail-container .detail-footer {
     -fx-padding: 16px;
     -fx-background-color: #fff;
+}
+
+/* ===== SCROLL PANE STYLING ===== */
+.content-scroll {
+    -fx-background-color: #F1F8E9;
+    -fx-background: #F1F8E9;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+
+.content-scroll .viewport {
+    -fx-background-color: #F1F8E9;
+}
+
+.content-scroll .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.content-scroll .scroll-bar .track {
+    -fx-background-color: #E8F5E8;
+    -fx-background-radius: 4px;
+}
+
+.content-scroll .scroll-bar .thumb {
+    -fx-background-color: #C8E6C9;
+    -fx-background-radius: 4px;
+}
+
+.content-scroll .scroll-bar .thumb:hover {
+    -fx-background-color: #A5D6A7;
+}
+
+.content-scroll .scroll-bar .thumb:pressed {
+    -fx-background-color: #81C784;
+}
+
+/* Ukryj scrollbar gdy nie jest potrzebny */
+.content-scroll .scroll-bar:horizontal {
+    -fx-opacity: 0;
+}
+
+.content-scroll .scroll-bar:vertical {
+    -fx-pref-width: 12px;
+    -fx-opacity: 0.6;
+}
+
+.content-scroll:hover .scroll-bar:vertical {
+    -fx-opacity: 1;
 }

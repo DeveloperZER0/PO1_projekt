@@ -1,33 +1,34 @@
 /* ===== MAIN CONTENT ===== */
 .main-content {
-    -fx-background-color: linear-gradient(to bottom right, #5dfe60, #28d1ab);
-    -fx-padding: 16px;
+    -fx-background-color: #F1F8E9;
+    -fx-padding: 0;
 }
 
 /* ===== HEADER ===== */
 .dashboard-header {
     -fx-background-color: #FFFFFF;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 4, 0, 0, 1);
-    -fx-padding: 16px 24px;
-    -fx-background-radius: 16px 16px 0 0;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 1);
+    -fx-border-color: #E8F5E8;
+    -fx-border-width: 0 0 1 0;
 }
 
 .header-bar {
+    -fx-padding: 20px 24px;
     -fx-background-color: transparent;
 }
 
 .dashboard-title {
-    -fx-font-size: 28px;
-    -fx-font-weight: 800;
-    -fx-text-fill: #212121;
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #2E7D32;
 }
 
 /* ===== TABS ===== */
 .main-tabpane {
-    -fx-background-color: #Fff;
-    -fx-tab-min-width: 120px;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
     -fx-padding: 0;
-    -fx-background-radius: 0 0 16px 16px;
 }
 
 .main-tabpane .tab-header-area {
@@ -52,16 +53,16 @@
 
 .main-tabpane .tab:selected {
     -fx-background-color: transparent;
-    -fx-border-color: transparent transparent #2196F3 transparent;
+    -fx-border-color: transparent transparent #4CAF50 transparent;
     -fx-border-width: 0 0 2 0;
-    -fx-text-fill: #2196F3;
+    -fx-text-fill: #4CAF50;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
 
 .main-tabpane .tab:hover {
-    -fx-background-color: #F5F5F5;
-    -fx-text-fill: #424242;
+    -fx-background-color: #E8F5E8;
+    -fx-text-fill: #388E3C;
 }
 
 .main-tabpane .tab:focused {
@@ -87,7 +88,7 @@
 .section-title {
     -fx-font-size: 24px;
     -fx-font-weight: 800;
-    -fx-text-fill: #212121;
+    -fx-text-fill: #2E7D32;
     -fx-padding: 0 0 8 0;
 }
 
@@ -101,4 +102,77 @@
 .separator .line {
     -fx-pref-height: 5;
     -fx-border-color: null;
+}
+
+/* ===== SCROLL PANE CONTENT ===== */
+.content-scroll {
+    -fx-background-color: #F1F8E9;
+    -fx-background: #F1F8E9;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+
+.content-scroll .viewport {
+    -fx-background-color: #F1F8E9;
+    -fx-background: #F1F8E9;
+}
+
+.content-scroll .content {
+    -fx-background-color: #F1F8E9;
+}
+
+/* Scroll bars styling */
+.content-scroll .scroll-bar {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.content-scroll .scroll-bar .track {
+    -fx-background-color: #E8F5E8;
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.content-scroll .scroll-bar .thumb {
+    -fx-background-color: #C8E6C9;
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.content-scroll .scroll-bar .thumb:hover {
+    -fx-background-color: #A5D6A7;
+}
+
+.content-scroll .scroll-bar .thumb:pressed {
+    -fx-background-color: #81C784;
+}
+
+/* Scrollbar dimensions */
+.content-scroll .scroll-bar:vertical {
+    -fx-pref-width: 14px;
+    -fx-min-width: 14px;
+    -fx-max-width: 14px;
+}
+
+.content-scroll .scroll-bar:horizontal {
+    -fx-pref-height: 14px;
+    -fx-min-height: 14px;
+    -fx-max-height: 14px;
+}
+
+/* Hide increment/decrement arrows */
+.content-scroll .scroll-bar .increment-button,
+.content-scroll .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+/* Smooth scrolling */
+.content-scroll {
+    -fx-smooth: true;
 }

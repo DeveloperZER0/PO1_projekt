@@ -3,110 +3,143 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.healthtracker.ui.AdminUserDetailsController"
-            styleClass="main-container">
+<BorderPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.healthtracker.ui.AdminUserDetailsController"
+           stylesheets="@styles/style.css, @styles/admin.css, @styles/tables.css, @styles/profile.css">
 
+    <!-- Header z informacjami o użytkowniku -->
     <top>
-        <VBox spacing="15" styleClass="header-section">
-            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+        <VBox styleClass="user-details-header">
+            <padding><Insets top="20" right="30" bottom="20" left="30"/></padding>
             
-            <HBox alignment="CENTER_LEFT" spacing="15">
-                <Label text="👤 Szczegóły użytkownika" styleClass="page-title"/>
+            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="user-header-bar">
+                <Label text="👤 Szczegóły użytkownika" styleClass="user-details-title"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="❌ Zamknij" onAction="#onCloseClicked" styleClass="secondary-button"/>
+                <Button text="✖ Zamknij" onAction="#onCloseClicked" styleClass="secondary-btn"/>
             </HBox>
             
-            <!-- User Info Section -->
-            <VBox spacing="8" styleClass="user-info-section">
-                <HBox spacing="20">
-                    <VBox spacing="5">
-                        <Label text="Login:" styleClass="info-label"/>
-                        <Label fx:id="usernameLabel" text="username" styleClass="info-value"/>
+            <!-- Informacje o użytkowniku -->
+            <GridPane hgap="30" vgap="15" styleClass="user-info-grid">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="120"/>
+                    <ColumnConstraints minWidth="200"/>
+                    <ColumnConstraints minWidth="120"/>
+                    <ColumnConstraints minWidth="200"/>
+                </columnConstraints>
+                
+                <Label text="Nazwa użytkownika:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label fx:id="usernameLabel" styleClass="info-value" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                
+                <Label text="Adres e-mail:" styleClass="info-label" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <Label fx:id="emailLabel" styleClass="info-value" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                
+                <Label text="Uprawnienia:" styleClass="info-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label fx:id="roleLabel" styleClass="info-value role-badge" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                
+                <Label text="Data utworzenia:" styleClass="info-label" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <Label fx:id="createdAtLabel" styleClass="info-value" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            </GridPane>
+            
+            <!-- Podsumowanie aktywności -->
+            <VBox spacing="10" styleClass="activity-summary">
+                <Label text="📊 Podsumowanie aktywności" styleClass="summary-title"/>
+                <HBox spacing="30" styleClass="summary-cards">
+                    <VBox styleClass="summary-card">
+                        <Label fx:id="measurementsSummaryLabel" styleClass="summary-text"/>
                     </VBox>
-                    <VBox spacing="5">
-                        <Label text="Email:" styleClass="info-label"/>
-                        <Label fx:id="emailLabel" text="email@example.com" styleClass="info-value"/>
+                    <VBox styleClass="summary-card">
+                        <Label fx:id="activitiesSummaryLabel" styleClass="summary-text"/>
                     </VBox>
-                    <VBox spacing="5">
-                        <Label text="Rola:" styleClass="info-label"/>
-                        <Label fx:id="roleLabel" text="USER" styleClass="info-value"/>
+                    <VBox styleClass="summary-card">
+                        <Label fx:id="mealsSummaryLabel" styleClass="summary-text"/>
+                    </VBox>
+                    <VBox styleClass="summary-card">
+                        <Label fx:id="goalsSummaryLabel" styleClass="summary-text"/>
                     </VBox>
                 </HBox>
-            </VBox>
-            
-            <!-- Summary Section -->
-            <VBox fx:id="summaryBox" spacing="5" styleClass="summary-section">
-                <Label text="📊 Podsumowanie danych" styleClass="section-title"/>
-                <Label fx:id="measurementsSummaryLabel" text="📊 Pomiary: 0" styleClass="summary-text"/>
-                <Label fx:id="activitiesSummaryLabel" text="🏃 Aktywności: 0" styleClass="summary-text"/>
-                <Label fx:id="mealsSummaryLabel" text="🍽️ Posiłki: 0" styleClass="summary-text"/>
-                <Label fx:id="goalsSummaryLabel" text="🎯 Cele: 0" styleClass="summary-text"/>
             </VBox>
         </VBox>
     </top>
 
+    <!-- Główna zawartość z tabelami -->
     <center>
-        <TabPane fx:id="dataTabPane" styleClass="content-tabs" VBox.vgrow="ALWAYS">
-            <padding><Insets top="10" right="15" bottom="15" left="15"/></padding>
-            
-            <!-- Measurements Tab -->
-            <Tab text="📊 Pomiary" closable="false">
-                <TableView fx:id="measurementsTable" styleClass="data-table">
-                    <columns>
-                        <TableColumn fx:id="timestampColumn" text="Data i czas"/>
-                        <TableColumn fx:id="bpColumn" text="Ciśnienie" styleClass="center-aligned"/>
-                        <TableColumn fx:id="hrColumn" text="Tętno" styleClass="center-aligned"/>
-                        <TableColumn fx:id="weightColumn" text="Waga" styleClass="center-aligned"/>
-                        <TableColumn fx:id="summaryColumn" text="Podsumowanie"/>
-                    </columns>
-                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
-                </TableView>
-            </Tab>
-            
-            <!-- Activities Tab -->
-            <Tab text="🏃 Aktywności" closable="false">
-                <TableView fx:id="activitiesTable" styleClass="data-table">
-                    <columns>
-                        <TableColumn fx:id="activityTypeColumn" text="Typ"/>
-                        <TableColumn fx:id="durationColumn" text="Czas" styleClass="center-aligned"/>
-                        <TableColumn fx:id="distanceColumn" text="Dystans" styleClass="center-aligned"/>
-                        <TableColumn fx:id="activityCaloriesColumn" text="Kalorie" styleClass="center-aligned"/>
-                        <TableColumn fx:id="intensityColumn" text="Intensywność" styleClass="center-aligned"/>
-                        <TableColumn fx:id="activityDateColumn" text="Data"/>
-                    </columns>
-                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
-                </TableView>
-            </Tab>
-            
-            <!-- Meals Tab -->
-            <Tab text="🍽️ Posiłki" closable="false">
-                <TableView fx:id="mealsTable" styleClass="data-table">
-                    <columns>
-                        <TableColumn fx:id="mealTypeColumn" text="Typ posiłku"/>
-                        <TableColumn fx:id="mealCaloriesColumn" text="Kalorie" styleClass="center-aligned"/>
-                        <TableColumn fx:id="descriptionColumn" text="Opis"/>
-                        <TableColumn fx:id="mealDateColumn" text="Data"/>
-                    </columns>
-                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
-                </TableView>
-            </Tab>
-            
-            <!-- Goals Tab -->
-            <Tab text="🎯 Cele" closable="false">
-                <TableView fx:id="goalsTable" styleClass="data-table">
-                    <columns>
-                        <TableColumn fx:id="goalTypeColumn" text="Typ celu"/>
-                        <TableColumn fx:id="goalTargetColumn" text="Cel" styleClass="center-aligned"/>
-                        <TableColumn fx:id="goalCurrentColumn" text="Aktualna" styleClass="center-aligned"/>
-                        <TableColumn fx:id="goalProgressColumn" text="Postęp" styleClass="center-aligned"/>
-                        <TableColumn fx:id="goalDueColumn" text="Termin" styleClass="center-aligned"/>
-                        <TableColumn fx:id="goalStatusColumn" text="Status" styleClass="center-aligned"/>
-                    </columns>
-                    <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
-                </TableView>
-            </Tab>
-        </TabPane>
+        <VBox styleClass="user-details-content">
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="content-scroll">
+                <VBox styleClass="details-container">
+                    <padding><Insets top="20" right="30" bottom="30" left="30"/></padding>
+                    
+                    <TabPane fx:id="dataTabPane" styleClass="details-tabpane">
+                        
+                        <!-- Tab pomiarów -->
+                        <Tab text="📏 Pomiary" closable="false">
+                            <VBox spacing="15" styleClass="tab-content">
+                                <Label text="Historia pomiarów zdrowotnych" styleClass="tab-title"/>
+                                <TableView fx:id="measurementsTable" styleClass="details-table">
+                                    <columns>
+                                        <TableColumn fx:id="timestampColumn" text="Data i czas"/>
+                                        <TableColumn fx:id="bpColumn" text="Ciśnienie" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="hrColumn" text="Tętno" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="weightColumn" text="Waga" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="summaryColumn" text="Opis"/>
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </Tab>
+                        
+                        <!-- Tab aktywności -->
+                        <Tab text="🏃 Aktywności" closable="false">
+                            <VBox spacing="15" styleClass="tab-content">
+                                <Label text="Historia aktywności fizycznych" styleClass="tab-title"/>
+                                <TableView fx:id="activitiesTable" styleClass="details-table">
+                                    <columns>
+                                        <TableColumn fx:id="activityTypeColumn" text="Rodzaj aktywności"/>
+                                        <TableColumn fx:id="durationColumn" text="Czas" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="distanceColumn" text="Dystans" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="activityCaloriesColumn" text="Kalorie" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="intensityColumn" text="Intensywność"/>
+                                        <TableColumn fx:id="activityDateColumn" text="Data"/>
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </Tab>
+                        
+                        <!-- Tab posiłków -->
+                        <Tab text="🍽️ Posiłki" closable="false">
+                            <VBox spacing="15" styleClass="tab-content">
+                                <Label text="Historia spożywanych posiłków" styleClass="tab-title"/>
+                                <TableView fx:id="mealsTable" styleClass="details-table">
+                                    <columns>
+                                        <TableColumn fx:id="mealTypeColumn" text="Rodzaj posiłku"/>
+                                        <TableColumn fx:id="mealCaloriesColumn" text="Kalorie" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="descriptionColumn" text="Opis"/>
+                                        <TableColumn fx:id="mealDateColumn" text="Data"/>
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </Tab>
+                        
+                        <!-- Tab celów -->
+                        <Tab text="🎯 Cele" closable="false">
+                            <VBox spacing="15" styleClass="tab-content">
+                                <Label text="Cele zdrowotne użytkownika" styleClass="tab-title"/>
+                                <TableView fx:id="goalsTable" styleClass="details-table">
+                                    <columns>
+                                        <TableColumn fx:id="goalTypeColumn" text="Rodzaj celu"/>
+                                        <TableColumn fx:id="goalTargetColumn" text="Cel" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="goalCurrentColumn" text="Aktualnie" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="goalProgressColumn" text="Postęp" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="goalDueColumn" text="Termin"/>
+                                        <TableColumn fx:id="goalStatusColumn" text="Status"/>
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </Tab>
+                        
+                    </TabPane>
+                </VBox>
+            </ScrollPane>
+        </VBox>
     </center>
 
 </BorderPane>

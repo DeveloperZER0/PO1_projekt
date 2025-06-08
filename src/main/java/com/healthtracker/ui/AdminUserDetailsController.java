@@ -11,10 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Kontroler szczegółowego widoku danych użytkownika dla administratora.
@@ -231,29 +231,55 @@ public class AdminUserDetailsController {
     private void loadMeasurementsData() {
         try {
             List<Measurement> measurements = measurementService.getMeasurementsByUser(currentUser);
-            List<MeasurementRow> rows = new java.util.ArrayList<>();
             
-            for (Measurement measurement : measurements) {
-                MeasurementRow row = new MeasurementRow(measurement.getTimestamp());
+            // Grupuj pomiary według timestamp
+            Map<LocalDateTime, List<Measurement>> groupedMeasurements = measurements.stream()
+                .collect(Collectors.groupingBy(Measurement::getTimestamp));
+            
+            List<MeasurementRow> rows = new ArrayList<>();
+            
+            for (Map.Entry<LocalDateTime, List<Measurement>> entry : groupedMeasurements.entrySet()) {
+                LocalDateTime timestamp = entry.getKey();
+                List<Measurement> measurementsAtTime = entry.getValue();
                 
-                if (measurement instanceof BloodPressureMeasurement) {
-                    BloodPressureMeasurement bp = (BloodPressureMeasurement) measurement;
-                    row.setBloodPressure(bp.getSystolic() + "/" + bp.getDiastolic() + " mmHg");
+                MeasurementRow row = new MeasurementRow(timestamp);
+                StringBuilder summaryBuilder = new StringBuilder();
+                
+                for (Measurement measurement : measurementsAtTime) {
+                    if (measurement instanceof BloodPressureMeasurement) {
+                        BloodPressureMeasurement bp = (BloodPressureMeasurement) measurement;
+                        row.setBloodPressure(bp.getSystolic() + "/" + bp.getDiastolic() + " mmHg");
+                        if (summaryBuilder.length() > 0) summaryBuilder.append(", ");
+                        summaryBuilder.append("Ciśnienie: ").append(bp.getSystolic()).append("/").append(bp.getDiastolic());
+                    }
+                    
+                    if (measurement instanceof HeartRateMeasurement) {
+                        HeartRateMeasurement hr = (HeartRateMeasurement) measurement;
+                        row.setHeartRate(hr.getBpm() + " bpm");
+                        if (summaryBuilder.length() > 0) summaryBuilder.append(", ");
+                        summaryBuilder.append("Tętno: ").append(hr.getBpm()).append(" bpm");
+                    }
+                    
+                    if (measurement instanceof WeightMeasurement) {
+                        WeightMeasurement w = (WeightMeasurement) measurement;
+                        row.setWeight(w.getWeight() + " kg");
+                        if (summaryBuilder.length() > 0) summaryBuilder.append(", ");
+                        summaryBuilder.append("Waga: ").append(w.getWeight()).append(" kg");
+                    }
+                    
+                    // Dodaj summary z poszczególnych pomiarów
+                    if (measurement.getSummary() != null && !measurement.getSummary().trim().isEmpty()) {
+                        if (summaryBuilder.length() > 0) summaryBuilder.append(" | ");
+                        summaryBuilder.append(measurement.getSummary());
+                    }
                 }
                 
-                if (measurement instanceof HeartRateMeasurement) {
-                    HeartRateMeasurement hr = (HeartRateMeasurement) measurement;
-                    row.setHeartRate(hr.getBpm() + " bpm");
-                }
-                
-                if (measurement instanceof WeightMeasurement) {
-                    WeightMeasurement w = (WeightMeasurement) measurement;
-                    row.setWeight(w.getWeight() + " kg");
-                }
-                
-                row.setSummary(measurement.getSummary() != null ? measurement.getSummary() : "");
+                row.setSummary(summaryBuilder.toString());
                 rows.add(row);
             }
+            
+            // Sortuj według daty (najnowsze na górze)
+            rows.sort((r1, r2) -> r2.getTimestamp().compareTo(r1.getTimestamp()));
             
             measurementsTable.setItems(FXCollections.observableArrayList(rows));
         } catch (Exception e) {

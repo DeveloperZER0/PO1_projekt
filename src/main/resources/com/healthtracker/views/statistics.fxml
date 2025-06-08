@@ -28,7 +28,7 @@
             </VBox>
 
             <!-- Główna zawartość ze scrollem -->
-            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="content-scroll">
                 <VBox spacing="30" styleClass="statistics-content">
                     <padding>
                         <Insets top="30" right="30" bottom="30" left="30"/>

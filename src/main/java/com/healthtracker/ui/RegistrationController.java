@@ -19,7 +19,6 @@ public class RegistrationController {
 
     @FXML
     private void onRegisterClicked() {
-        errorLabel.setVisible(false);
         String username = usernameField.getText().trim();
         String email    = emailField.getText().trim();
         String pwd      = passwordField.getText();
@@ -45,11 +44,21 @@ public class RegistrationController {
             alert.showAndWait();
         } catch (IllegalArgumentException ex) {
             showError(ex.getMessage());
+        } catch (Exception ex) {
+            showError("Błąd podczas rejestracji: " + ex.getMessage());
         }
     }
 
-    private void showError(String msg) {
-        errorLabel.setText(msg);
-        errorLabel.setVisible(true);
+    @FXML
+    private void onLoginLinkClicked() {
+        SceneManager.switchScene("/com/healthtracker/views/login.fxml", "Logowanie");
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Błąd rejestracji");
+        alert.setHeaderText("Nieprawidłowe dane");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

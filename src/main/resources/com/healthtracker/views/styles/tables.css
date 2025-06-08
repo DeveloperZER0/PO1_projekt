@@ -96,3 +96,29 @@
         -fx-padding: 12px;
     }
 }
+
+/* ===== STATISTICS SCROLL PANE ===== */
+.statistics-scroll {
+    -fx-background-color: #F1F8E9;
+    -fx-background: #F1F8E9;
+    -fx-border-width: 0;
+}
+
+.statistics-scroll .viewport {
+    -fx-background-color: #F1F8E9;
+}
+
+.statistics-scroll .content {
+    -fx-background-color: #F1F8E9;
+}
+
+/* Ensure white backgrounds for chart containers */
+.chart-container {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 12px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0, 0, 2);
+    -fx-border-color: #E8F5E8;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+}
