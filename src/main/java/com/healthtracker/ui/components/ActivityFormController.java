@@ -8,6 +8,7 @@ import com.healthtracker.service.impl.ActivityServiceImpl;
 import com.healthtracker.service.impl.MeasurementServiceImpl;
 import com.healthtracker.util.SessionManager;
 import com.healthtracker.ui.SceneManager;
+import com.healthtracker.util.ValidationUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -149,14 +150,14 @@ public class ActivityFormController {
         
         // Walidacja liczb w polach tętna
         heartRateAvgField.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.matches("\\d*")) {
-                heartRateAvgField.setText(newVal.replaceAll("[^\\d]", ""));
+            if (!ValidationUtil.matches(newVal, "\\d*")) {
+                heartRateAvgField.setText(ValidationUtil.keepOnlyDigits(newVal));
             }
         });
         
         heartRateMaxField.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.matches("\\d*")) {
-                heartRateMaxField.setText(newVal.replaceAll("[^\\d]", ""));
+            if (!ValidationUtil.matches(newVal, "\\d*")) {
+                heartRateMaxField.setText(ValidationUtil.keepOnlyDigits(newVal));
             }
         });
     }
@@ -221,32 +222,24 @@ public class ActivityFormController {
             }
 
             int duration = Integer.parseInt(durationText);
-            if (duration <= 0) {
-                showError("Czas trwania musi być większy od 0");
-                return;
-            }
-
-            // Walidacja dystansu jeśli wymagany
+            
+            // Parsowanie dystansu jeśli wymagany
             Double distance = null;
             if (selectedType.isRequiresDistance()) {
                 String distanceText = distanceField.getText().trim();
                 if (distanceText.isEmpty()) {
-                    showError("Wprowadź dystans dla tego typu aktywności");
+                    showError("Wprowadź dystans");
                     return;
                 }
                 
                 distance = Double.parseDouble(distanceText);
-                if (distance <= 0) {
-                    showError("Dystans musi być większy od 0");
-                    return;
-                }
-
-                // Konwertuj jednostki jeśli potrzeba
+                
+                // Konwersja na kilometry jeśli jednostka to metry
                 if ("m".equals(selectedType.getUnit())) {
-                    distance = distance / 1000.0; // konwersja m -> km
+                    distance = distance / 1000.0;
                 }
             }
-
+            
             // Parsowanie opcjonalnych pól
             Integer calories = parseOptionalInteger(caloriesField.getText().trim());
             Integer heartRateAvg = parseOptionalInteger(heartRateAvgField.getText().trim());
@@ -254,14 +247,25 @@ public class ActivityFormController {
             String notes = notesField.getText().trim();
             IntensityLevel intensity = intensityCombo.getValue();
 
-            // Walidacja tętna
-            if (heartRateAvg != null && (heartRateAvg < 40 || heartRateAvg > 220)) {
+            // Walidacja za pomocą ValidationUtil
+            if (heartRateAvg != null && !ValidationUtil.isHeartRateValid(heartRateAvg)) {
                 showError("Średnie tętno powinno być między 40 a 220 BPM");
                 return;
             }
             
-            if (heartRateMax != null && (heartRateMax < 40 || heartRateMax > 220)) {
+            if (heartRateMax != null && !ValidationUtil.isHeartRateValid(heartRateMax)) {
                 showError("Maksymalne tętno powinno być między 40 a 220 BPM");
+                return;
+            }
+
+            if (!ValidationUtil.isDurationValid(duration)) {
+                showError("Czas trwania musi być większy od 0");
+                return;
+            }
+
+            // Walidacja dystansu jeśli wymagany
+            if (selectedType.isRequiresDistance() && !ValidationUtil.isDistanceValid(distance)) {
+                showError("Dystans musi być większy od 0");
                 return;
             }
             

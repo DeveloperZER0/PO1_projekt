@@ -47,16 +47,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isEmailValid(String email) {
-        // prosty regex e-mail
-        return ValidationUtil.matches(email,
-                "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        return ValidationUtil.isEmailValid(email);
     }
 
     @Override
     public boolean isPasswordValid(String password) {
-        // min 8 znaków, co najmniej 1 wielka litera, 1 cyfra, 1 znak specjalny
-        return ValidationUtil.matches(password,
-                "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$");
+        return ValidationUtil.isPasswordValid(password);
     }
 
     @Override
