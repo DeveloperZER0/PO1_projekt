@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -12,8 +13,15 @@
 
     <VBox styleClass="login-form" spacing="20" alignment="CENTER">
         
-        <Label text="Health Tracker" styleClass="login-title"/>
-        
+        <HBox alignment="CENTER" styleClass="login-header">
+            <ImageView fx:id="logoImageView" fitWidth="50" fitHeight="50" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@img/logo_zielone.png"/>
+                </image>
+            </ImageView>
+            <Label text="Health Tracker" styleClass="login-title"/>
+        </HBox>
+
         <VBox spacing="15" alignment="CENTER">
             <TextField fx:id="usernameField" styleClass="login-field" promptText="Nazwa użytkownika"/>
             <PasswordField fx:id="passwordField" styleClass="login-field" promptText="Hasło"/>

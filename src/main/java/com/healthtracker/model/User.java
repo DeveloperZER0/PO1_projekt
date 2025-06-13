@@ -34,7 +34,9 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    public User() {}
+    public User() {
+        this.createdAt = LocalDateTime.now();
+    }
     public User(String username, String passwordHash, String email, Role role) {
         this.username = username;
         this.passwordHash = passwordHash;

@@ -5,8 +5,8 @@
 <BorderPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.healthtracker.ui.components.MeasurementFormController"
-           styleClass="measurement-form-container"
-           stylesheets="@styles/style.css">
+           styleClass="form-container"
+           stylesheets="@styles/style.css, @styles/forms.css">
 
     <!-- Header -->
     <top>
@@ -19,54 +19,46 @@
     <!-- Main Content -->
     <center>
         <ScrollPane fitToWidth="true" styleClass="form-scroll-pane">
-            <VBox spacing="20" styleClass="form-content">
+            <VBox spacing="0" styleClass="form-content">
                 
                 <!-- Weight Section -->
-                <VBox styleClass="measurement-section">
-                    <Label text="Waga" styleClass="section-title"/>
-                    <HBox spacing="15" alignment="CENTER_LEFT" styleClass="measurement-row">
-                        <CheckBox fx:id="weightCheck" styleClass="measurement-checkbox"/>
-                        <VBox spacing="5">
-                            <TextField fx:id="weightField" promptText="Wprowadź wagę w kg" 
-                                     styleClass="measurement-field" disable="true"/>
-                            <Label text="kg" styleClass="unit-label"/>
-                        </VBox>
-                    </HBox>
-                </VBox>
-
-                <!-- Heart Rate Section -->
-                <VBox styleClass="measurement-section">
-                    <Label text="Tętno" styleClass="section-title"/>
-                    <HBox spacing="15" alignment="CENTER_LEFT" styleClass="measurement-row">
-                        <CheckBox fx:id="hrCheck" styleClass="measurement-checkbox"/>
-                        <VBox spacing="5">
-                            <TextField fx:id="hrField" promptText="Wprowadź tętno" 
-                                     styleClass="measurement-field" disable="true"/>
-                            <Label text="uderzeń/min" styleClass="unit-label"/>
-                        </VBox>
+                <VBox styleClass="field-group">
+                    <Label text="Waga" styleClass="field-label"/>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <CheckBox fx:id="weightCheck" styleClass="form-checkbox"/>
+                        <TextField fx:id="weightField" promptText="np. 70.5" styleClass="form-field" disable="true"/>
+                        <Label text="kg" styleClass="unit-label"/>
                     </HBox>
                 </VBox>
 
                 <!-- Blood Pressure Section -->
-                <VBox styleClass="measurement-section">
-                    <Label text="Ciśnienie krwi" styleClass="section-title"/>
-                    <HBox spacing="15" alignment="CENTER_LEFT" styleClass="measurement-row">
-                        <CheckBox fx:id="bpCheck" styleClass="measurement-checkbox"/>
-                        <HBox spacing="10">
-                            <VBox spacing="5">
-                                <TextField fx:id="systolicField" promptText="Skurczowe" 
-                                         styleClass="measurement-field bp-field" disable="true"/>
-                                <Label text="mmHg" styleClass="unit-label"/>
-                            </VBox>
-                            <Label text="/" styleClass="bp-separator"/>
-                            <VBox spacing="5">
-                                <TextField fx:id="diastolicField" promptText="Rozkurczowe" 
-                                         styleClass="measurement-field bp-field" disable="true"/>
-                                <Label text="mmHg" styleClass="unit-label"/>
-                            </VBox>
-                        </HBox>
+                <VBox styleClass="field-group">
+                    <Label text="Ciśnienie krwi" styleClass="field-label"/>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <CheckBox fx:id="bpCheck" styleClass="form-checkbox"/>
+                        <TextField fx:id="systolicField" promptText="Skurczowe" styleClass="form-field" disable="true"/>
+                        <Label text="/" styleClass="separator-label"/>
+                        <TextField fx:id="diastolicField" promptText="Rozkurczowe" styleClass="form-field" disable="true"/>
+                        <Label text="mmHg" styleClass="unit-label"/>
                     </HBox>
                 </VBox>
+
+                <!-- Heart Rate Section -->
+                <VBox styleClass="field-group">
+                    <Label text="Tętno spoczynkowe" styleClass="field-label"/>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <CheckBox fx:id="hrCheck" styleClass="form-checkbox"/>
+                        <TextField fx:id="hrField" promptText="np. 65" styleClass="form-field" disable="true"/>
+                        <Label text="BPM" styleClass="unit-label"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Notes Section 
+                <VBox styleClass="field-group">
+                    <Label text="Notatki (opcjonalne)" styleClass="field-label"/>
+                    <TextArea fx:id="notesField" promptText="Dodatkowe informacje o pomiarach..." 
+                             styleClass="form-textarea" prefRowCount="3"/>
+                </VBox>-->
 
             </VBox>
         </ScrollPane>

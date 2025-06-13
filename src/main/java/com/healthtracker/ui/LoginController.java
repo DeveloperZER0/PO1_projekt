@@ -10,23 +10,35 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Kontroler odpowiedzialny za obsługę ekranu logowania.
  * Po zalogowaniu użytkownika przekierowuje do widoku głównego lub admina.
  */
 public class LoginController {
-
-    @FXML
-    private TextField usernameField;
-
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private Button loginButton;
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+    @FXML private Button loginButton;
+    @FXML private Button registerButton;
+    @FXML private ImageView logoImageView; // Dodaj to pole
 
     private final LoginService loginService = new LoginService(new UserDaoImpl());
+
+    @FXML
+    public void initialize() {
+        // Załaduj logo
+        try {
+            Image logo = new Image(getClass().getResourceAsStream("/com/healthtracker/img/logo_zielone.png"));
+            logoImageView.setImage(logo);
+            logoImageView.setFitWidth(50);
+            logoImageView.setFitHeight(50);
+            logoImageView.setPreserveRatio(true);
+        } catch (Exception e) {
+            System.err.println("Nie można załadować logo: " + e.getMessage());
+        }
+    }
 
     @FXML
     private void onLoginClicked() {

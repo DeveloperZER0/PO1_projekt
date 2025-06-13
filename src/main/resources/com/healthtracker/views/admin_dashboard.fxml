@@ -14,10 +14,7 @@
             
             <HBox alignment="CENTER_LEFT" spacing="20" styleClass="admin-title-bar">
                 <Label text="🛡️ Panel Administratora" styleClass="admin-title"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Button text="🔄 Odśwież" onAction="#onRefreshClicked" styleClass="secondary-btn"/>
-                <Button text="👤 Mój dashboard" onAction="#onBackToDashboardClicked" styleClass="primary-btn"/>
-                <Button text="🚪 Wyloguj" onAction="#onLogoutClicked" styleClass="logout-btn"/>
+                
             </HBox>
             
             <HBox spacing="30" alignment="CENTER_LEFT" styleClass="admin-stats">
@@ -33,6 +30,13 @@
                     <Label fx:id="adminUsersLabel" text="0" styleClass="stat-number"/>
                     <Label text="Administratorzy" styleClass="stat-label"/>
                 </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+                <HBox alignment="CENTER" style="-fx-spacing: 8px; -fx-padding: 24px;">
+                    <Button text="🔄 Odśwież" onAction="#onRefreshClicked" styleClass="refresh-btn"/>
+                    <Button text="👤 Mój dashboard" onAction="#onBackToDashboardClicked" styleClass="primary-btn"/>
+                    <Button text="🚪 Wyloguj" onAction="#onLogoutClicked" styleClass="logout-btn"/>
+                </HBox>
             </HBox>
         </VBox>
     </top>

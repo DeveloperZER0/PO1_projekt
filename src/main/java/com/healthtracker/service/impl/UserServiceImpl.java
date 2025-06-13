@@ -2,9 +2,11 @@ package com.healthtracker.service.impl;
 
 import com.healthtracker.dao.UserDao;
 import com.healthtracker.dao.impl.UserDaoImpl;
+import com.healthtracker.model.Role;
 import com.healthtracker.model.User;
 import com.healthtracker.service.UserService;
 import com.healthtracker.util.HashUtil;
+import com.healthtracker.util.SessionManager;
 import com.healthtracker.util.ValidationUtil;
 
 import java.util.List;
@@ -36,6 +38,12 @@ public class UserServiceImpl implements UserService {
         // 4. Haszowanie i zapis
         String hashed = HashUtil.hash(user.getPasswordHash());
         user.setPasswordHash(hashed);
+
+        // 5. Ustaw datę utworzenia
+        if (user.getCreatedAt() == null) {
+            user.setCreatedAt(java.time.LocalDateTime.now());
+        }
+
         userDao.save(user);
         return user;
     }
@@ -72,6 +80,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
+        // Zabezpieczenie - sprawdź czy to nie jest aktualnie zalogowany użytkownik
+        User currentUser = SessionManager.getCurrentUser();
+        if (currentUser != null && currentUser.equals(user)) {
+            throw new IllegalStateException("Nie można usunąć aktualnie zalogowanego użytkownika!");
+        }
+
+        // Sprawdź czy próbuje usunąć administratora będąc administratorem
+        if (SessionManager.isAdmin() && user.getRole() == Role.ADMIN && user.equals(currentUser)) {
+            throw new IllegalStateException("Administrator nie może usunąć samego siebie!");
+        }
+
         userDao.delete(user);
     }
 }

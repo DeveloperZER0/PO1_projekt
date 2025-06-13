@@ -5,6 +5,7 @@ import com.healthtracker.service.*;
 import com.healthtracker.service.impl.*;
 import com.healthtracker.model.MeasurementRow;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -33,27 +34,27 @@ public class AdminUserDetailsController {
 
     // Measurements tab
     @FXML private TableView<MeasurementRow> measurementsTable;
-    @FXML private TableColumn<MeasurementRow, String> timestampColumn;
     @FXML private TableColumn<MeasurementRow, String> bpColumn;
     @FXML private TableColumn<MeasurementRow, String> hrColumn;
     @FXML private TableColumn<MeasurementRow, String> weightColumn;
     @FXML private TableColumn<MeasurementRow, String> summaryColumn;
+    @FXML private TableColumn<MeasurementRow, LocalDateTime> timestampColumn;
 
     // Activities tab
     @FXML private TableView<Activity> activitiesTable;
     @FXML private TableColumn<Activity, String> activityTypeColumn;
     @FXML private TableColumn<Activity, String> durationColumn;
     @FXML private TableColumn<Activity, String> distanceColumn;
-    @FXML private TableColumn<Activity, String> activityDateColumn;
     @FXML private TableColumn<Activity, String> activityCaloriesColumn;
     @FXML private TableColumn<Activity, String> intensityColumn;
+    @FXML private TableColumn<Activity, LocalDateTime> activityDateColumn;
 
     // Meals tab
     @FXML private TableView<Meal> mealsTable;
     @FXML private TableColumn<Meal, String> mealTypeColumn;
     @FXML private TableColumn<Meal, String> mealCaloriesColumn;
     @FXML private TableColumn<Meal, String> descriptionColumn;
-    @FXML private TableColumn<Meal, String> mealDateColumn;
+    @FXML private TableColumn<Meal, LocalDateTime> mealDateColumn;
 
     // Goals tab
     @FXML private TableView<Goal> goalsTable;
@@ -94,11 +95,31 @@ public class AdminUserDetailsController {
         setupActivitiesTable();
         setupMealsTable();
         setupGoalsTable();
+        
+        // Dodaj wspólne klasy CSS dla wszystkich tabel
+        measurementsTable.getStyleClass().add("data-table");
+        activitiesTable.getStyleClass().add("data-table");
+        mealsTable.getStyleClass().add("data-table");
+        goalsTable.getStyleClass().add("data-table");
     }
 
     private void setupMeasurementsTable() {
-        timestampColumn.setCellValueFactory(c -> new SimpleStringProperty(
-            c.getValue().getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
+        timestampColumn.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getTimestamp()));
+        timestampColumn.setCellFactory(column -> new TableCell<MeasurementRow, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                }
+            }
+        });
+        
+        timestampColumn.setComparator(Comparator.reverseOrder());
+        measurementsTable.getSortOrder().add(timestampColumn);
+        
         bpColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getBloodPressure()));
         hrColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getHeartRate()));
         weightColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getWeight()));
@@ -145,8 +166,21 @@ public class AdminUserDetailsController {
                 cellData.getValue().getIntensity().getEmoji() + " " + cellData.getValue().getIntensity().getDisplayName() : "-"));
 
         activityDateColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getTimestamp()
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
+            new SimpleObjectProperty<>(cellData.getValue().getTimestamp()));
+        activityDateColumn.setCellFactory(column -> new TableCell<Activity, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                }
+            }
+        });
+        
+        activityDateColumn.setComparator(Comparator.reverseOrder());
+        activitiesTable.getSortOrder().add(activityDateColumn);
 
         // Proporcjonalne szerokości
         activityTypeColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.25));
@@ -168,8 +202,21 @@ public class AdminUserDetailsController {
             new SimpleStringProperty(cellData.getValue().getDescription()));
 
         mealDateColumn.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getTimestamp()
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
+            new SimpleObjectProperty<>(cellData.getValue().getTimestamp()));
+        mealDateColumn.setCellFactory(column -> new TableCell<Meal, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                }
+            }
+        });
+        
+        mealDateColumn.setComparator(Comparator.reverseOrder());
+        mealsTable.getSortOrder().add(mealDateColumn);
 
         // Proporcjonalne szerokości
         mealTypeColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.2));
@@ -219,6 +266,13 @@ public class AdminUserDetailsController {
         usernameLabel.setText(currentUser.getUsername());
         emailLabel.setText(currentUser.getEmail());
         roleLabel.setText(currentUser.getRole().toString());
+        
+        // Dodaj wyświetlanie daty utworzenia
+        if (currentUser.getCreatedAt() != null) {
+            createdAtLabel.setText(currentUser.getCreatedAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+        } else {
+            createdAtLabel.setText("Nieznana");
+        }
     }
 
     private void loadAllData() {

@@ -6,49 +6,56 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.healthtracker.ui.components.GoalFormController"
            styleClass="form-container"
-           stylesheets="@styles/style.css">
+           stylesheets="@styles/style.css, @styles/forms.css">
 
+    <!-- Header -->
     <top>
         <VBox styleClass="form-header">
-            <Label text="Cel zdrowotny" styleClass="form-title"/>
-            <Label text="Ustaw nowy cel i monitoruj swoje postępy" styleClass="form-subtitle"/>
+            <Label text="Dodaj cel zdrowotny" styleClass="form-title"/>
+            <Label text="Ustaw nowy cel do osiągnięcia" styleClass="form-subtitle"/>
         </VBox>
     </top>
 
+    <!-- Main Content -->
     <center>
-        <VBox spacing="20" styleClass="form-content">
-            
-            <VBox styleClass="field-group">
-                <Label text="Typ celu" styleClass="field-label"/>
-                <ComboBox fx:id="typeCombo" styleClass="form-field" promptText="Wybierz typ celu"/>
-            </VBox>
-            
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <VBox spacing="10" styleClass="field-group" HBox.hgrow="ALWAYS">
-                    <Label text="Wartość docelowa" styleClass="field-label"/>
-                    <TextField fx:id="targetField" styleClass="form-field" 
-                             promptText="Wprowadź wartość"/>
+        <ScrollPane fitToWidth="true" styleClass="form-scroll-pane">
+            <VBox spacing="0" styleClass="form-content">
+
+                <!-- Goal Type -->
+                <VBox styleClass="field-group">
+                    <Label text="Typ celu *" styleClass="field-label"/>
+                    <ComboBox fx:id="typeCombo" promptText="Wybierz typ celu" 
+                             styleClass="form-combo" maxWidth="Infinity"/>
                 </VBox>
-                <Label fx:id="unitLabel" text="" styleClass="unit-label"/>
-            </HBox>
-            
-            <VBox styleClass="field-group">
-                <Label text="Termin realizacji" styleClass="field-label"/>
-                <DatePicker fx:id="dueDatePicker" styleClass="form-field"/>
+
+                <!-- Target Value -->
+                <VBox styleClass="field-group">
+                    <Label text="Wartość docelowa *" styleClass="field-label"/>
+                    <TextField fx:id="targetField" promptText="np. 70" styleClass="form-field"/>
+                </VBox>
+
+                <!-- Due Date -->
+                <VBox styleClass="field-group">
+                    <Label text="Termin realizacji *" styleClass="field-label"/>
+                    <DatePicker fx:id="dueDatePicker" promptText="Wybierz datę" 
+                               styleClass="form-datepicker" maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- Description -->
+                <VBox styleClass="field-group">
+                    <Label text="Opis (opcjonalnie)" styleClass="field-label"/>
+                    <TextArea fx:id="descriptionField" promptText="Opisz swój cel..." 
+                             styleClass="form-textarea" prefRowCount="3"/>
+                </VBox>
+
             </VBox>
-            
-            <VBox styleClass="field-group">
-                <Label text="Opis (opcjonalnie)" styleClass="field-label"/>
-                <TextArea fx:id="descriptionField" styleClass="form-field" 
-                         prefRowCount="3" wrapText="true"/>
-            </VBox>
-            
-        </VBox>
+        </ScrollPane>
     </center>
 
+    <!-- Footer -->
     <bottom>
         <HBox spacing="15" alignment="CENTER" styleClass="form-footer">
-            <Button text="Zapisz cel" fx:id="saveButton" onAction="#onSaveClicked" 
+            <Button fx:id="saveButton" text="Zapisz cel" onAction="#onSaveClicked" 
                    styleClass="primary-btn"/>
             <Button text="Anuluj" onAction="#onCancelClicked" 
                    styleClass="secondary-btn"/>

@@ -25,6 +25,10 @@
     -fx-font-weight: 700;
     -fx-text-fill: #2E7D32;
     -fx-alignment: center;
+    -fx-padding: 0 0 0 10;
+    
+}
+.login-header {
     -fx-padding: 0 0 10 0;
 }
 

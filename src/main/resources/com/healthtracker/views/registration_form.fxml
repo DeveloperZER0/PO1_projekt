@@ -2,6 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.*?>
 
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.healthtracker.ui.RegistrationController"
@@ -10,7 +11,10 @@
 
     <VBox styleClass="login-form" spacing="20" alignment="CENTER">
         
-        <Label text="Rejestracja" styleClass="login-title"/>
+        <HBox alignment="CENTER" styleClass="login-header">
+            <ImageView fx:id="logoImageView" styleClass="login-logo"/>
+            <Label text="Rejestracja" styleClass="login-title"/>
+        </HBox>
 
         <TextField fx:id="usernameField" promptText="Login" styleClass="login-field"/>
         <TextField fx:id="emailField" promptText="E-mail" styleClass="login-field"/>

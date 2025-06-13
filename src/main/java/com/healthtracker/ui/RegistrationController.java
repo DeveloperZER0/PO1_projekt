@@ -6,6 +6,8 @@ import com.healthtracker.service.UserService;
 import com.healthtracker.service.impl.UserServiceImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class RegistrationController {
 
@@ -14,8 +16,23 @@ public class RegistrationController {
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
     @FXML private Label errorLabel;
+    @FXML private ImageView logoImageView;
 
     private final UserService userService = new UserServiceImpl();
+
+    @FXML
+    public void initialize() {
+        // Załaduj logo
+        try {
+            Image logo = new Image(getClass().getResourceAsStream("/com/healthtracker/img/logo_zielone.png"));
+            logoImageView.setImage(logo);
+            logoImageView.setFitWidth(50);
+            logoImageView.setFitHeight(50);
+            logoImageView.setPreserveRatio(true);
+        } catch (Exception e) {
+            System.err.println("Nie można załadować logo: " + e.getMessage());
+        }
+    }
 
     @FXML
     private void onRegisterClicked() {

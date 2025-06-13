@@ -1,5 +1,6 @@
 package com.healthtracker.ui;
 
+import com.healthtracker.model.Role;
 import com.healthtracker.model.User;
 import com.healthtracker.service.UserService;
 import com.healthtracker.service.impl.UserServiceImpl;
@@ -48,6 +49,9 @@ public class AdminDashboardController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
 
+        // Dodaj klasę CSS dla spójnego stylu
+        userTable.getStyleClass().add("data-table");
+
         // Ustaw proporcjonalne szerokości kolumn (bez daty utworzenia)
         idColumn.prefWidthProperty().bind(userTable.widthProperty().multiply(0.1));
         usernameColumn.prefWidthProperty().bind(userTable.widthProperty().multiply(0.3));
@@ -83,21 +87,20 @@ public class AdminDashboardController {
             MenuItem deleteItem = new MenuItem("Usuń użytkownika");
             deleteItem.setOnAction(event -> {
                 User selectedUser = row.getItem();
-                if (selectedUser != null && !selectedUser.equals(SessionManager.getCurrentUser())) {
+                if (selectedUser != null && canDeleteUser(selectedUser)) {
                     deleteUser(selectedUser);
                 }
             });
             
-            // Nie pozwalaj usunąć siebie
+            // Zabezpieczenie - aktualizuj stan przycisku przy każdej zmianie wiersza
             row.itemProperty().addListener((obs, oldUser, newUser) -> {
-                if (newUser != null && newUser.equals(SessionManager.getCurrentUser())) {
-                    deleteItem.setDisable(true);
-                    deleteItem.setText("Usuń użytkownika (nie można usunąć siebie)");
-                } else {
-                    deleteItem.setDisable(false);
-                    deleteItem.setText("Usuń użytkownika");
-                }
+                updateDeleteItemState(deleteItem, newUser);
             });
+            
+            // Dodatkowo aktualizuj przy pierwszym utworzeniu
+            if (row.getItem() != null) {
+                updateDeleteItemState(deleteItem, row.getItem());
+            }
             
             contextMenu.getItems().addAll(detailsItem, new SeparatorMenuItem(), deleteItem);
             
@@ -108,8 +111,47 @@ public class AdminDashboardController {
                     .otherwise(contextMenu)
             );
             
+            // Podświetl własne konto
+            row.itemProperty().addListener((obs, oldUser, newUser) -> {
+                if (newUser != null && newUser.equals(SessionManager.getCurrentUser())) {
+                    row.setStyle("-fx-background-color: #e8f5e8;");
+                } else {
+                    row.setStyle("");
+                }
+            });
+            
             return row;
         });
+    }
+
+    private void updateDeleteItemState(MenuItem deleteItem, User user) {
+        if (user != null && !canDeleteUser(user)) {
+            deleteItem.setDisable(true);
+            if (user.equals(SessionManager.getCurrentUser())) {
+                deleteItem.setText("🚫 Nie można usunąć własnego konta");
+            } else {
+                deleteItem.setText("🚫 Nie można usunąć tego użytkownika");
+            }
+        } else {
+            deleteItem.setDisable(false);
+            deleteItem.setText("🗑️ Usuń użytkownika");
+        }
+    }
+
+    private boolean canDeleteUser(User user) {
+        User currentUser = SessionManager.getCurrentUser();
+        
+        // Nie można usunąć siebie
+        if (user.equals(currentUser)) {
+            return false;
+        }
+        
+        // Administrator nie może usunąć innego administratora (opcjonalne - usuń tę linię jeśli chcesz pozwolić)
+        if (currentUser.getRole() == Role.ADMIN && user.getRole() == Role.ADMIN) {
+            return false;
+        }
+        
+        return true;
     }
 
     private void openUserDetails(User user) {
@@ -132,6 +174,12 @@ public class AdminDashboardController {
     }
 
     private void deleteUser(User user) {
+        // Dodatkowe zabezpieczenie na poziomie metody
+        if (!canDeleteUser(user)) {
+            showError("Nie można usunąć tego użytkownika!");
+            return;
+        }
+        
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION,
             "Czy na pewno chcesz usunąć użytkownika?\n\n" +
             "Login: " + user.getUsername() + "\n" +

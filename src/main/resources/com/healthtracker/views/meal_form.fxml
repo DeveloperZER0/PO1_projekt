@@ -6,40 +6,49 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.healthtracker.ui.components.MealFormController"
            styleClass="form-container"
-           stylesheets="@styles/style.css">
+           stylesheets="@styles/style.css, @styles/forms.css">
 
+    <!-- Header -->
     <top>
         <VBox styleClass="form-header">
             <Label text="Dodaj posiłek" styleClass="form-title"/>
-            <Label text="Wprowadź dane swojego posiłku" styleClass="form-subtitle"/>
+            <Label text="Zapisz szczegóły swojego posiłku" styleClass="form-subtitle"/>
         </VBox>
     </top>
 
+    <!-- Main Content -->
     <center>
-        <VBox spacing="20" styleClass="form-content">
-            
-            <VBox styleClass="field-group">
-                <Label text="Typ posiłku" styleClass="field-label"/>
-                <ComboBox fx:id="typeCombo" styleClass="form-field" promptText="Wybierz typ posiłku"/>
+        <ScrollPane fitToWidth="true" styleClass="form-scroll-pane">
+            <VBox spacing="0" styleClass="form-content">
+
+                <!-- Meal Type -->
+                <VBox styleClass="field-group">
+                    <Label text="Typ posiłku *" styleClass="field-label"/>
+                    <ComboBox fx:id="typeCombo" promptText="Wybierz typ posiłku" 
+                             styleClass="form-combo" maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- Calories -->
+                <VBox styleClass="field-group">
+                    <Label text="Kalorie *" styleClass="field-label"/>
+                    <TextField fx:id="caloriesField" promptText="np. 450" styleClass="form-field"/>
+                </VBox>
+
+                <!-- Description -->
+                <VBox styleClass="field-group">
+                    <Label text="Opis posiłku *" styleClass="field-label"/>
+                    <TextArea fx:id="descriptionField" promptText="Opisz co jadłeś..." 
+                             styleClass="form-textarea" prefRowCount="4"/>
+                </VBox>
+
             </VBox>
-            
-            <VBox styleClass="field-group">
-                <Label text="Kalorie" styleClass="field-label"/>
-                <TextField fx:id="caloriesField" styleClass="form-field" promptText="Wprowadź liczbę kalorii"/>
-            </VBox>
-            
-            <VBox styleClass="field-group">
-                <Label text="Opis" styleClass="field-label"/>
-                <TextArea fx:id="descriptionField" styleClass="form-field" 
-                         promptText="Opisz swój posiłek..." prefRowCount="3"/>
-            </VBox>
-            
-        </VBox>
+        </ScrollPane>
     </center>
 
+    <!-- Footer -->
     <bottom>
         <HBox spacing="15" alignment="CENTER" styleClass="form-footer">
-            <Button text="Zapisz posiłek" fx:id="saveButton" onAction="#onSaveClicked" 
+            <Button fx:id="saveButton" text="Zapisz posiłek" onAction="#onSaveClicked" 
                    styleClass="primary-btn"/>
             <Button text="Anuluj" onAction="#onCancelClicked" 
                    styleClass="secondary-btn"/>

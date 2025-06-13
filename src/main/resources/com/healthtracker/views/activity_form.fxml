@@ -8,81 +8,83 @@
            styleClass="form-container"
            stylesheets="@styles/style.css, @styles/forms.css">
 
+    <!-- Header -->
     <top>
         <VBox styleClass="form-header">
-            <Label text="Dodaj aktywność" styleClass="form-title"/>
-            <Label text="Wprowadź szczegóły swojej aktywności fizycznej" styleClass="form-subtitle"/>
+            <Label text="Dodaj aktywność fizyczną" styleClass="form-title"/>
+            <Label text="Zapisz szczegóły swojego treningu" styleClass="form-subtitle"/>
         </VBox>
     </top>
 
+    <!-- Main Content -->
     <center>
         <ScrollPane fitToWidth="true" styleClass="form-scroll-pane">
-            <VBox spacing="20" styleClass="form-content">
-                
-                <!-- Typ aktywności -->
+            <VBox spacing="0" styleClass="form-content">
+
+                <!-- Activity Type -->
                 <VBox styleClass="field-group">
-                    <Label text="Typ aktywności" styleClass="field-label"/>
-                    <ComboBox fx:id="typeCombo" styleClass="form-field" promptText="Wybierz typ aktywności"/>
+                    <Label text="Typ aktywności *" styleClass="field-label"/>
+                    <ComboBox fx:id="typeCombo" promptText="Wybierz typ aktywności" 
+                             styleClass="form-combo" maxWidth="Infinity"/>
                 </VBox>
-                
-                <!-- Czas trwania -->
+
+                <!-- Duration -->
                 <VBox styleClass="field-group">
-                    <Label text="Czas trwania (minuty)" styleClass="field-label"/>
-                    <TextField fx:id="durationField" styleClass="form-field" 
-                             promptText="Wprowadź czas w minutach"/>
+                    <Label text="Czas trwania (minuty) *" styleClass="field-label"/>
+                    <TextField fx:id="durationField" promptText="np. 45" styleClass="form-field"/>
                 </VBox>
-                
-                <!-- Dystans (dynamicznie ukrywany) -->
+
+                <!-- Distance (conditional) -->
                 <VBox fx:id="distanceGroup" styleClass="field-group">
                     <Label fx:id="distanceLabel" text="Dystans" styleClass="field-label"/>
-                    <TextField fx:id="distanceField" styleClass="form-field" 
-                             promptText="Wprowadź dystans"/>
+                    <TextField fx:id="distanceField" promptText="Wprowadź dystans" styleClass="form-field"/>
                 </VBox>
-                
-                <!-- Intensywność -->
+
+                <!-- Intensity -->
                 <VBox styleClass="field-group">
                     <Label text="Intensywność" styleClass="field-label"/>
-                    <ComboBox fx:id="intensityCombo" styleClass="form-field" 
-                             promptText="Wybierz intensywność"/>
+                    <ComboBox fx:id="intensityCombo" promptText="Wybierz intensywność" 
+                             styleClass="form-combo" maxWidth="Infinity"/>
                 </VBox>
 
-                <!-- Dodatkowe pola -->
-                <HBox spacing="20">
-                    <VBox spacing="10" styleClass="field-group" HBox.hgrow="ALWAYS">
-                        <Label text="Średnie tętno (opcjonalne)" styleClass="field-label"/>
-                        <TextField fx:id="heartRateAvgField" styleClass="form-field" 
-                                 promptText="np. 120"/>
-                    </VBox>
-                    
-                    <VBox spacing="10" styleClass="field-group" HBox.hgrow="ALWAYS">
-                        <Label text="Maksymalne tętno (opcjonalne)" styleClass="field-label"/>
-                        <TextField fx:id="heartRateMaxField" styleClass="form-field" 
-                                 promptText="np. 150"/>
-                    </VBox>
-                </HBox>
-
-                <!-- Szacunkowe kalorie -->
+                <!-- Calories -->
                 <VBox styleClass="field-group">
                     <Label text="Spalone kalorie (opcjonalne)" styleClass="field-label"/>
-                    <TextField fx:id="caloriesField" styleClass="form-field" 
-                             promptText="Zostanie wyliczone automatycznie"/>
+                    <TextField fx:id="caloriesField" promptText="Zostanie oszacowane automatycznie" 
+                              styleClass="form-field"/>
                 </VBox>
-                
-                <!-- Notatki -->
+
+                <!-- Heart Rate Section -->
+                <VBox styleClass="field-section">
+                    <Label text="Tętno (opcjonalne)" styleClass="section-label"/>
+                    
+                    <HBox spacing="15" styleClass="field-row">
+                        <VBox styleClass="field-group" HBox.hgrow="ALWAYS">
+                            <Label text="Średnie" styleClass="field-label"/>
+                            <TextField fx:id="heartRateAvgField" promptText="np. 140" styleClass="form-field"/>
+                        </VBox>
+                        <VBox styleClass="field-group" HBox.hgrow="ALWAYS">
+                            <Label text="Maksymalne" styleClass="field-label"/>
+                            <TextField fx:id="heartRateMaxField" promptText="np. 180" styleClass="form-field"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Notes -->
                 <VBox styleClass="field-group">
-                    <Label text="Notatki" styleClass="field-label"/>
-                    <TextArea fx:id="notesField" styleClass="form-field" 
-                             promptText="Dodaj swoje uwagi o aktywności..." 
-                             prefRowCount="3" wrapText="true"/>
+                    <Label text="Notatki (opcjonalne)" styleClass="field-label"/>
+                    <TextArea fx:id="notesField" promptText="Dodatkowe informacje o treningu..." 
+                             styleClass="form-textarea" prefRowCount="3"/>
                 </VBox>
-                
+
             </VBox>
         </ScrollPane>
     </center>
 
+    <!-- Footer -->
     <bottom>
         <HBox spacing="15" alignment="CENTER" styleClass="form-footer">
-            <Button text="Zapisz aktywność" fx:id="saveButton" onAction="#onSaveClicked" 
+            <Button fx:id="saveButton" text="Zapisz aktywność" onAction="#onSaveClicked" 
                    styleClass="primary-btn"/>
             <Button text="Anuluj" onAction="#onCancelClicked" 
                    styleClass="secondary-btn"/>

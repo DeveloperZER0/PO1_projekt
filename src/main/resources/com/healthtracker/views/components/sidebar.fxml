@@ -2,6 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -12,7 +13,14 @@
 
     <!-- Header z tytułem aplikacji -->
     <VBox styleClass="sidebar-header">
+        <HBox alignment="CENTER" styleClass="sidebar-header-bar">
+            <ImageView fx:id="logoImageView" fitWidth="28" fitHeight="28" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../img/logo_biale.png"/>
+                </image>
+            </ImageView>
         <Label text="HealthTracker" styleClass="sidebar-title"/>
+        </HBox>
         <Label text="System monitorowania zdrowia" styleClass="sidebar-subtitle"/>
     </VBox>
 

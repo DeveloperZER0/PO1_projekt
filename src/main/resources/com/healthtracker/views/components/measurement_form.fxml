@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.healthtracker.ui.components.MeasurementFormController"
+            styleClass="form-container"
+            stylesheets="@../styles/style.css, @../styles/forms.css">
+
+    <!-- Header -->
+    <top>
+        <VBox styleClass="form-header">
+            <Label text="Dodaj pomiary" styleClass="form-title"/>
+            <Label text="Wybierz parametry które chcesz zmierzyć" styleClass="form-subtitle"/>
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="form-scroll-pane">
+            <VBox styleClass="form-content">
+                
+                <!-- Weight Section -->
+                <VBox styleClass="field-group">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <CheckBox fx:id="weightCheck" text="Waga"/>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <TextField fx:id="weightField" promptText="Wprowadź wagę w kg" 
+                                     styleClass="form-field" disable="true"/>
+                            <Label text="kg" styleClass="field-label"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Heart Rate Section -->
+                <VBox styleClass="field-group">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <CheckBox fx:id="hrCheck" text="Tętno"/>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <TextField fx:id="hrField" promptText="Wprowadź tętno" 
+                                     styleClass="form-field" disable="true"/>
+                            <Label text="uderzeń/min" styleClass="field-label"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Blood Pressure Section -->
+                <VBox styleClass="field-group">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <CheckBox fx:id="bpCheck" text="Ciśnienie krwi"/>
+                        <HBox spacing="10" HBox.hgrow="ALWAYS">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <TextField fx:id="systolicField" promptText="Skurczowe" 
+                                         styleClass="form-field" disable="true"/>
+                                <Label text="mmHg" styleClass="field-label"/>
+                            </VBox>
+                            <Label text="/" style="-fx-font-size: 20px; -fx-text-fill: #757575; -fx-alignment: center;"/>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <TextField fx:id="diastolicField" promptText="Rozkurczowe" 
+                                         styleClass="form-field" disable="true"/>
+                                <Label text="mmHg" styleClass="field-label"/>
+                            </VBox>
+                        </HBox>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- Footer with buttons -->
+    <bottom>
+        <HBox spacing="15" alignment="CENTER" styleClass="form-footer">
+            <Button text="Zapisz pomiary" fx:id="saveButton" onAction="#onSaveClicked" 
+                   styleClass="primary-btn"/>
+            <Button text="Anuluj" onAction="#onCancelClicked" 
+                   styleClass="secondary-btn"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -26,23 +26,18 @@
             </VBox>
 
             <!-- Zakładki bez możliwości zamykania -->
-            <TabPane fx:id="mainTabPane" styleClass="main-tabpane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <TabPane fx:id="mainTabPane" styleClass="main-tabpane" VBox.vgrow="ALWAYS">
                 
                 <!-- Zakładka Pomiary -->
-                <Tab text="📊 Pomiary" fx:id="measurementsTab">
+                <Tab text="📏 Pomiary" closable="false">
                     <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
-                        </padding>
-                        <Label text="Twoje pomiary zdrowotne" styleClass="section-title"/>
-                        
-                        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="action-bar">
-                            <Button text="➕ Dodaj pomiar" onAction="#onAddMeasurement" styleClass="primary-btn"/>
-                            <Separator orientation="VERTICAL"/>
-                            <Button text="📤 Eksportuj CSV" onAction="#onExportMeasurementsClicked" styleClass="export-btn"/>
-                            <Button text="📥 Importuj CSV" onAction="#onImportMeasurementsClicked" styleClass="import-btn"/>
+                        <HBox alignment="CENTER_LEFT" styleClass="action-bar">
+                            <Label text="Historia pomiarów zdrowotnych" styleClass="section-title"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="📤 Eksport" onAction="#onExportClicked" styleClass="secondary-btn"/>
+                            <Button text="📥 Import" onAction="#onImportClicked" styleClass="secondary-btn"/>
+                            <Button text="➕ Nowy pomiar" onAction="#onAddMeasurement" styleClass="primary-btn"/>
                         </HBox>
-
                         <TableView fx:id="measurementTable" styleClass="data-table" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="timestampColumn" text="Data i czas"/>
@@ -59,20 +54,15 @@
                 </Tab>
 
                 <!-- Zakładka Aktywności -->
-                <Tab text="🏃 Aktywności" fx:id="activitiesTab">
+                <Tab text="🏃 Aktywności" closable="false">
                     <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
-                        </padding>
-                        <Label text="Twoje aktywności fizyczne" styleClass="section-title"/>
-                        
-                        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="action-bar">
-                            <Button text="➕ Dodaj aktywność" onAction="#onAddActivity" styleClass="primary-btn"/>
-                            <Separator orientation="VERTICAL"/>
-                            <Button text="📤 Eksportuj CSV" onAction="#onExportActivitiesClicked" styleClass="export-btn"/>
-                            <Button text="📥 Importuj CSV" onAction="#onImportActivitiesClicked" styleClass="import-btn"/>
+                        <HBox alignment="CENTER_LEFT" styleClass="action-bar">
+                            <Label text="Historia aktywności fizycznych" styleClass="section-title"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="📤 Eksport" onAction="#onExportActivitiesClicked" styleClass="secondary-btn"/>
+                            <Button text="📥 Import" onAction="#onImportActivitiesClicked" styleClass="secondary-btn"/>
+                            <Button text="➕ Nowa aktywność" onAction="#onAddActivity" styleClass="primary-btn"/>
                         </HBox>
-
                         <TableView fx:id="activitiesTable" styleClass="data-table" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="activityTypeColumn" text="Typ aktywności" prefWidth="140" minWidth="120"/>
@@ -91,20 +81,15 @@
                 </Tab>
 
                 <!-- Zakładka Posiłki -->
-                <Tab text="🍽 Posiłki" fx:id="mealsTab">
+                <Tab text="🍽 Posiłki" closable="false">
                     <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
-                        </padding>
-                        <Label text="Twoje posiłki" styleClass="section-title"/>
-                        
-                        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="action-bar">
+                        <HBox alignment="CENTER_LEFT" styleClass="action-bar">
+                            <Label text="Historia spożywanych posiłków" styleClass="section-title"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="📤 Eksport" onAction="#onExportMealsClicked" styleClass="secondary-btn"/>
+                            <Button text="📥 Import" onAction="#onImportMealsClicked" styleClass="secondary-btn"/>
                             <Button text="➕ Dodaj posiłek" onAction="#onAddMeal" styleClass="primary-btn"/>
-                            <Separator orientation="VERTICAL"/>
-                            <Button text="📤 Eksportuj CSV" onAction="#onExportMealsClicked" styleClass="export-btn"/>
-                            <Button text="📥 Importuj CSV" onAction="#onImportMealsClicked" styleClass="import-btn"/>
                         </HBox>
-
                         <TableView fx:id="mealsTable" styleClass="data-table" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="mealTypeColumn" text="Typ posiłku" prefWidth="120" minWidth="100"/>
@@ -120,17 +105,13 @@
                 </Tab>
 
                 <!-- Zakładka Cele -->
-                <Tab text="🎯 Cele" fx:id="goalsTab">
+                <Tab text="🎯 Cele" closable="false">
                     <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="20" right="20" bottom="20" left="20"/>
-                        </padding>
-                        <Label text="Twoje cele zdrowotne" styleClass="section-title"/>
-                        
-                        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="action-bar">
+                        <HBox alignment="CENTER_LEFT" styleClass="action-bar">
+                            <Label text="Cele zdrowotne użytkownika" styleClass="section-title"/>
+                            <Region HBox.hgrow="ALWAYS"/>
                             <Button text="➕ Dodaj cel" onAction="#onAddGoal" styleClass="primary-btn"/>
                         </HBox>
-
                         <TableView fx:id="goalsTable" styleClass="data-table" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="goalTypeColumn" text="Typ celu" prefWidth="150" minWidth="120"/>

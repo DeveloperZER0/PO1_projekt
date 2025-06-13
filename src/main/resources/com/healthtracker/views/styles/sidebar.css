@@ -20,6 +20,7 @@
     -fx-font-weight: 700;
     -fx-text-fill: #fff;
     -fx-alignment: center;
+    -fx-padding: 0 0 0 5px;
 }
 
 .sidebar-subtitle {

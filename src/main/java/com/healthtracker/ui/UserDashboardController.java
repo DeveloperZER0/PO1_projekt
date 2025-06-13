@@ -25,7 +25,7 @@ import java.util.*;
 
 public class UserDashboardController {
     @FXML private TableView<MeasurementRow> measurementTable;
-    @FXML private TableColumn<MeasurementRow, String> timestampColumn;
+    @FXML private TableColumn<MeasurementRow, LocalDateTime> timestampColumn;
     @FXML private TableColumn<MeasurementRow, String> bpColumn;
     @FXML private TableColumn<MeasurementRow, String> hrColumn;
     @FXML private TableColumn<MeasurementRow, String> weightColumn;
@@ -50,7 +50,7 @@ public class UserDashboardController {
     @FXML private TableColumn<Activity, String> activityTypeColumn;
     @FXML private TableColumn<Activity, String> durationColumn; // ZMIENIONE z Integer na String
     @FXML private TableColumn<Activity, String> distanceColumn;
-    @FXML private TableColumn<Activity, String> activityDateColumn;
+    @FXML private TableColumn<Activity, LocalDateTime> activityDateColumn;
     @FXML private TableColumn<Activity, String> activityCaloriesColumn;
     @FXML private TableColumn<Activity, String> intensityColumn;
     @FXML private TableColumn<Activity, String> speedColumn;
@@ -60,7 +60,7 @@ public class UserDashboardController {
     @FXML private TableColumn<Meal, String> mealTypeColumn;
     @FXML private TableColumn<Meal, String> mealCaloriesColumn; // ZMIENIONE z Integer na String
     @FXML private TableColumn<Meal, String> descriptionColumn;
-    @FXML private TableColumn<Meal, String> mealDateColumn;
+    @FXML private TableColumn<Meal, LocalDateTime> mealDateColumn;
 
     // Goals table columns
     @FXML private TableView<Goal> goalsTable;
@@ -73,21 +73,46 @@ public class UserDashboardController {
 
     @FXML
     public void initialize() {
-        // Pomiary - lepsze formatowanie kolumn
-        timestampColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
-                c.getValue().getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
+        // NAJPIERW skonfiguruj wszystkie tabele
+        setupMeasurementsTable();
+        setupActivitiesTable();
+        setupMealsTable();
+        setupGoalsTable();
+        
+        // POTEM skonfiguruj menu kontekstowe
+        setupContextMenu();
+        setupActivitiesContextMenu();
+        setupMealsContextMenu();
+        setupGoalsContextMenu();
+        
+        // DOPIERO NA KOŃCU załaduj dane
+        loadData();
+    }
+
+    private void setupMeasurementsTable() {
+        // Konfiguracja kolumn pomiarów
+        timestampColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleObjectProperty<>(c.getValue().getTimestamp()));
+        timestampColumn.setCellFactory(column -> new TableCell<MeasurementRow, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                }
+            }
+        });
+        
+        // Ustaw domyślne sortowanie po dacie (najnowsze na górze) - TUTAJ!
+        timestampColumn.setComparator(Comparator.reverseOrder());
+        measurementTable.getSortOrder().add(timestampColumn);
         
         bpColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getBloodPressure()));
-        // USUŃ: bpColumn.setStyle("-fx-alignment: CENTER;");
-        
         hrColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getHeartRate()));
-        // USUŃ: hrColumn.setStyle("-fx-alignment: CENTER;");
-        
         weightColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getWeight()));
-        // USUŃ: weightColumn.setStyle("-fx-alignment: CENTER;");
-        
         summaryColumn.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getSummary()));
-        
+
         // Ustaw preferowane szerokości w proporcjach
         timestampColumn.prefWidthProperty().bind(measurementTable.widthProperty().multiply(0.2));
         bpColumn.prefWidthProperty().bind(measurementTable.widthProperty().multiply(0.15));
@@ -95,23 +120,8 @@ public class UserDashboardController {
         weightColumn.prefWidthProperty().bind(measurementTable.widthProperty().multiply(0.1));
         summaryColumn.prefWidthProperty().bind(measurementTable.widthProperty().multiply(0.45));
         
-        // Ustaw welcome label
-//        if (SessionManager.isLoggedIn()) {
-//            userWelcomeLabel.setText("Witaj, " + SessionManager.getCurrentUser().getUsername() + "!");
-//        }
-        
-        setupContextMenu();
-        setupActivitiesContextMenu();
-        setupMealsContextMenu();
-        setupGoalsContextMenu();
-        loadData();
-
-        setupActivitiesTable();
-        setupMealsTable();
-        setupGoalsTable();
-        loadActivitiesData();
-        loadMealsData();
-        loadGoalsData();
+        // Dodaj wspólne klasy CSS dla wszystkich tabel
+        measurementTable.getStyleClass().add("data-table");
     }
 
     private void loadData() {
@@ -133,7 +143,13 @@ public class UserDashboardController {
             }
         }
 
-        measurementTable.setItems(FXCollections.observableArrayList(grouped.values()));
+        List<MeasurementRow> sortedRows = new ArrayList<>(grouped.values());
+    sortedRows.sort((r1, r2) -> r2.getTimestamp().compareTo(r1.getTimestamp()));
+
+        measurementTable.setItems(FXCollections.observableArrayList(sortedRows));
+        loadActivitiesData();
+        loadMealsData();
+        loadGoalsData();
     }
 
     private void setupActivitiesTable() {
@@ -182,8 +198,22 @@ public class UserDashboardController {
         });
         
         activityDateColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getTimestamp()
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
+            new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getTimestamp()));
+        activityDateColumn.setCellFactory(column -> new TableCell<Activity, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                }
+            }
+        });
+        
+        // Ustaw domyślne sortowanie po dacie (najnowsze na górze)
+        activityDateColumn.setComparator(Comparator.reverseOrder());
+        activitiesTable.getSortOrder().add(activityDateColumn);
         
         // Ustaw proporcjonalne szerokości dla tabeli aktywności
         activityTypeColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.18));
@@ -193,6 +223,9 @@ public class UserDashboardController {
         intensityColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.15));
         speedColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.13));
         activityDateColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.2));
+        
+        // Dodaj klasę CSS
+        activitiesTable.getStyleClass().add("data-table");
     }
 
     private void setupMealsTable() {
@@ -206,14 +239,31 @@ public class UserDashboardController {
             new SimpleStringProperty(cellData.getValue().getDescription()));
         
         mealDateColumn.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getTimestamp()
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))));
+            new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getTimestamp()));
+        mealDateColumn.setCellFactory(column -> new TableCell<Meal, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                }
+            }
+        });
+        
+        // Ustaw domyślne sortowanie po dacie (najnowsze na górze)
+        mealDateColumn.setComparator(Comparator.reverseOrder());
+        mealsTable.getSortOrder().add(mealDateColumn);
         
         // Ustaw proporcjonalne szerokości dla tabeli posiłków
         mealTypeColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.18));
         mealCaloriesColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.12));
         descriptionColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.48));
         mealDateColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.22));
+        
+        // Dodaj klasę CSS
+        mealsTable.getStyleClass().add("data-table");
     }
 
     private void setupGoalsTable() {
@@ -257,6 +307,9 @@ public class UserDashboardController {
         goalProgressColumn.prefWidthProperty().bind(goalsTable.widthProperty().multiply(0.13));
         goalDueColumn.prefWidthProperty().bind(goalsTable.widthProperty().multiply(0.16));
         goalStatusColumn.prefWidthProperty().bind(goalsTable.widthProperty().multiply(0.16));
+        
+        // Dodaj klasę CSS
+        goalsTable.getStyleClass().add("data-table");
     }
 
     private void loadActivitiesData() {
@@ -312,9 +365,11 @@ public class UserDashboardController {
         if (file != null) {
             try {
                 exportImportService.importMeasurementsFromCsv(SessionManager.getCurrentUser(), file);
-                new Alert(Alert.AlertType.INFORMATION, "Import zakończony!").showAndWait();
+                // NAPRAWKA: Odśwież dane w tabeli
                 loadData();
+                new Alert(Alert.AlertType.INFORMATION, "Import pomiarów zakończony pomyślnie!").showAndWait();
             } catch (IOException e) {
+                e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "Błąd importu: " + e.getMessage()).showAndWait();
             }
         }
@@ -331,17 +386,17 @@ public class UserDashboardController {
                 MeasurementRow selectedRow = row.getItem();
                 if (selectedRow == null) return;
 
-                // znajdź Measurement z bazy (po timestamp i userze)
+                // Znajdź WSZYSTKIE pomiary z tego samego timestamp
                 List<Measurement> all = measurementService.getMeasurementsByUser(SessionManager.getCurrentUser());
-                Measurement toEdit = all.stream()
+                List<Measurement> measurementsToEdit = all.stream()
                         .filter(m -> m.getTimestamp().equals(selectedRow.getTimestamp()))
-                        .findFirst()
-                        .orElse(null);
+                        .toList();
 
-                if (toEdit != null) {
+                if (!measurementsToEdit.isEmpty()) {
                     try {
-                        SessionManager.setAttribute("editedMeasurement", toEdit);
-                        SceneManager.switchScene("/com/healthtracker/views/measurement_form.fxml", "Edytuj pomiar");
+                        // Przekaż całą listę pomiarów do edycji
+                        SessionManager.setAttribute("editedMeasurements", measurementsToEdit);
+                        SceneManager.switchScene("/com/healthtracker/views/measurement_form.fxml", "Edytuj pomiary");
                     } catch (Exception e) {
                         e.printStackTrace();
                         new Alert(Alert.AlertType.ERROR, "Błąd podczas otwierania edycji").showAndWait();
@@ -749,9 +804,11 @@ public class UserDashboardController {
         if (file != null) {
             try {
                 exportImportService.importActivitiesFromCsv(SessionManager.getCurrentUser(), file);
-                new Alert(Alert.AlertType.INFORMATION, "Import aktywności zakończony!").showAndWait();
+                // NAPRAWKA: Odśwież dane w tabeli
                 loadActivitiesData();
+                new Alert(Alert.AlertType.INFORMATION, "Import aktywności zakończony pomyślnie!").showAndWait();
             } catch (IOException e) {
+                e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "Błąd importu: " + e.getMessage()).showAndWait();
             }
         }
@@ -788,9 +845,11 @@ public class UserDashboardController {
         if (file != null) {
             try {
                 exportImportService.importMealsFromCsv(SessionManager.getCurrentUser(), file);
-                new Alert(Alert.AlertType.INFORMATION, "Import posiłków zakończony!").showAndWait();
+                // NAPRAWKA: Odśwież dane w tabeli
                 loadMealsData();
+                new Alert(Alert.AlertType.INFORMATION, "Import posiłków zakończony pomyślnie!").showAndWait();
             } catch (IOException e) {
+                e.printStackTrace();
                 new Alert(Alert.AlertType.ERROR, "Błąd importu: " + e.getMessage()).showAndWait();
             }
         }

@@ -64,74 +64,86 @@
 
     <!-- Główna zawartość z tabelami -->
     <center>
-        <VBox styleClass="user-details-content">
+        <VBox styleClass="user-details-content" VBox.vgrow="ALWAYS">
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="content-scroll">
-                <VBox styleClass="details-container">
+                <VBox styleClass="details-container" VBox.vgrow="ALWAYS">
                     <padding><Insets top="20" right="30" bottom="30" left="30"/></padding>
                     
-                    <TabPane fx:id="dataTabPane" styleClass="details-tabpane">
+                    <TabPane fx:id="dataTabPane" styleClass="details-tabpane" VBox.vgrow="ALWAYS">
                         
                         <!-- Tab pomiarów -->
                         <Tab text="📏 Pomiary" closable="false">
-                            <VBox spacing="15" styleClass="tab-content">
+                            <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
                                 <Label text="Historia pomiarów zdrowotnych" styleClass="tab-title"/>
-                                <TableView fx:id="measurementsTable" styleClass="details-table">
+                                <TableView fx:id="measurementsTable" styleClass="details-table" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="timestampColumn" text="Data i czas"/>
-                                        <TableColumn fx:id="bpColumn" text="Ciśnienie" styleClass="center-aligned"/>
-                                        <TableColumn fx:id="hrColumn" text="Tętno" styleClass="center-aligned"/>
-                                        <TableColumn fx:id="weightColumn" text="Waga" styleClass="center-aligned"/>
-                                        <TableColumn fx:id="summaryColumn" text="Opis"/>
+                                        <TableColumn fx:id="bpColumn" text="Ciśnienie"/>
+                                        <TableColumn fx:id="hrColumn" text="Tętno"/>
+                                        <TableColumn fx:id="weightColumn" text="Waga"/>
+                                        <TableColumn fx:id="summaryColumn" text="Podsumowanie"/>
                                     </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                    </columnResizePolicy>
                                 </TableView>
                             </VBox>
                         </Tab>
                         
                         <!-- Tab aktywności -->
                         <Tab text="🏃 Aktywności" closable="false">
-                            <VBox spacing="15" styleClass="tab-content">
+                            <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
                                 <Label text="Historia aktywności fizycznych" styleClass="tab-title"/>
-                                <TableView fx:id="activitiesTable" styleClass="details-table">
+                                <TableView fx:id="activitiesTable" styleClass="details-table" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="activityTypeColumn" text="Rodzaj aktywności"/>
-                                        <TableColumn fx:id="durationColumn" text="Czas" styleClass="center-aligned"/>
-                                        <TableColumn fx:id="distanceColumn" text="Dystans" styleClass="center-aligned"/>
-                                        <TableColumn fx:id="activityCaloriesColumn" text="Kalorie" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="activityTypeColumn" text="Typ aktywności"/>
+                                        <TableColumn fx:id="durationColumn" text="Czas (min)"/>
+                                        <TableColumn fx:id="distanceColumn" text="Dystans"/>
+                                        <TableColumn fx:id="activityCaloriesColumn" text="Kalorie"/>
                                         <TableColumn fx:id="intensityColumn" text="Intensywność"/>
-                                        <TableColumn fx:id="activityDateColumn" text="Data"/>
+                                        <TableColumn fx:id="activityDateColumn" text="Data i czas"/>
                                     </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                    </columnResizePolicy>
                                 </TableView>
                             </VBox>
                         </Tab>
                         
                         <!-- Tab posiłków -->
                         <Tab text="🍽️ Posiłki" closable="false">
-                            <VBox spacing="15" styleClass="tab-content">
+                            <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
                                 <Label text="Historia spożywanych posiłków" styleClass="tab-title"/>
-                                <TableView fx:id="mealsTable" styleClass="details-table">
+                                <TableView fx:id="mealsTable" styleClass="details-table" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="mealTypeColumn" text="Rodzaj posiłku"/>
-                                        <TableColumn fx:id="mealCaloriesColumn" text="Kalorie" styleClass="center-aligned"/>
-                                        <TableColumn fx:id="descriptionColumn" text="Opis"/>
-                                        <TableColumn fx:id="mealDateColumn" text="Data"/>
+                                        <TableColumn fx:id="mealTypeColumn" text="Typ posiłku"/>
+                                        <TableColumn fx:id="mealCaloriesColumn" text="Kalorie"/>
+                                        <TableColumn fx:id="descriptionColumn" text="Opis posiłku"/>
+                                        <TableColumn fx:id="mealDateColumn" text="Data i czas"/>
                                     </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                    </columnResizePolicy>
                                 </TableView>
                             </VBox>
                         </Tab>
                         
                         <!-- Tab celów -->
                         <Tab text="🎯 Cele" closable="false">
-                            <VBox spacing="15" styleClass="tab-content">
+                            <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
                                 <Label text="Cele zdrowotne użytkownika" styleClass="tab-title"/>
-                                <TableView fx:id="goalsTable" styleClass="details-table">
+                                <TableView fx:id="goalsTable" styleClass="details-table" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="goalTypeColumn" text="Rodzaj celu"/>
-                                        <TableColumn fx:id="goalTargetColumn" text="Cel" styleClass="center-aligned"/>
-                                        <TableColumn fx:id="goalCurrentColumn" text="Aktualnie" styleClass="center-aligned"/>
-                                        <TableColumn fx:id="goalProgressColumn" text="Postęp" styleClass="center-aligned"/>
+                                        <TableColumn fx:id="goalTypeColumn" text="Typ celu"/>
+                                        <TableColumn fx:id="goalTargetColumn" text="Wartość docelowa"/>
+                                        <TableColumn fx:id="goalCurrentColumn" text="Obecny stan"/>
+                                        <TableColumn fx:id="goalProgressColumn" text="Postęp"/>
                                         <TableColumn fx:id="goalDueColumn" text="Termin"/>
                                         <TableColumn fx:id="goalStatusColumn" text="Status"/>
                                     </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                    </columnResizePolicy>
                                 </TableView>
                             </VBox>
                         </Tab>
