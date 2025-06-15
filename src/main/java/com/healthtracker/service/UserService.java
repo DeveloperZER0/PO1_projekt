@@ -1,5 +1,6 @@
 package com.healthtracker.service;
 
+import com.healthtracker.exception.RegistrationException;
 import com.healthtracker.model.User;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    User register(User user) throws IllegalArgumentException;
+    User register(User user) throws RegistrationException;
     boolean isUsernameAvailable(String username);
     boolean isEmailValid(String email);
     boolean isPasswordValid(String password);

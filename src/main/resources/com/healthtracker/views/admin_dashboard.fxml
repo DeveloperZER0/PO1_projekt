@@ -13,7 +13,7 @@
             <padding><Insets top="20" right="30" bottom="20" left="30"/></padding>
             
             <HBox alignment="CENTER_LEFT" spacing="20" styleClass="admin-title-bar">
-                <Label text="🛡️ Panel Administratora" styleClass="admin-title"/>
+                <Label text="Panel Administratora" styleClass="admin-title"/>
                 
             </HBox>
             

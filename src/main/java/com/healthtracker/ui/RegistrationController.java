@@ -1,5 +1,6 @@
 package com.healthtracker.ui;
 
+import com.healthtracker.exception.RegistrationException;
 import com.healthtracker.model.Role;
 import com.healthtracker.model.User;
 import com.healthtracker.service.UserService;
@@ -59,10 +60,10 @@ public class RegistrationController {
             SceneManager.switchScene("/com/healthtracker/views/login.fxml", "Logowanie");
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Rejestracja zakończona sukcesem!");
             alert.showAndWait();
-        } catch (IllegalArgumentException ex) {
+        } catch (RegistrationException ex) {
             showError(ex.getMessage());
         } catch (Exception ex) {
-            showError("Błąd podczas rejestracji: " + ex.getMessage());
+            showError("Nieoczekiwany błąd podczas rejestracji: " + ex.getMessage());
         }
     }
 

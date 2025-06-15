@@ -44,20 +44,28 @@
             <!-- Podsumowanie aktywności -->
             <VBox spacing="10" styleClass="activity-summary">
                 <Label text="📊 Podsumowanie aktywności" styleClass="summary-title"/>
-                <HBox spacing="30" styleClass="summary-cards">
-                    <VBox styleClass="summary-card">
-                        <Label fx:id="measurementsSummaryLabel" styleClass="summary-text"/>
+                <GridPane hgap="30" vgap="10" styleClass="summary-cards" alignment="CENTER_LEFT">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="200"/>
+                        <ColumnConstraints minWidth="200"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="40"/>
+                        <RowConstraints minHeight="40"/>
+                    </rowConstraints>
+                    <VBox styleClass="summary-item" GridPane.columnIndex="0" GridPane.rowIndex="0" alignment="CENTER_LEFT">
+                        <Label fx:id="measurementsSummaryLabel" styleClass="summary-text" alignment="CENTER_LEFT"/>
                     </VBox>
-                    <VBox styleClass="summary-card">
-                        <Label fx:id="activitiesSummaryLabel" styleClass="summary-text"/>
+                    <VBox styleClass="summary-item" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment="CENTER_LEFT">
+                        <Label fx:id="activitiesSummaryLabel" styleClass="summary-text" alignment="CENTER_LEFT"/>
                     </VBox>
-                    <VBox styleClass="summary-card">
-                        <Label fx:id="mealsSummaryLabel" styleClass="summary-text"/>
+                    <VBox styleClass="summary-item" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="CENTER_LEFT">
+                        <Label fx:id="mealsSummaryLabel" styleClass="summary-text" alignment="CENTER_LEFT"/>
                     </VBox>
-                    <VBox styleClass="summary-card">
-                        <Label fx:id="goalsSummaryLabel" styleClass="summary-text"/>
+                    <VBox styleClass="summary-item" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT">
+                        <Label fx:id="goalsSummaryLabel" styleClass="summary-text" alignment="CENTER_LEFT"/>
                     </VBox>
-                </HBox>
+                </GridPane>
             </VBox>
         </VBox>
     </top>
@@ -111,7 +119,7 @@
                         </Tab>
                         
                         <!-- Tab posiłków -->
-                        <Tab text="🍽️ Posiłki" closable="false">
+                        <Tab text="🍽 Posiłki" closable="false">
                             <VBox spacing="15" styleClass="tab-content" VBox.vgrow="ALWAYS">
                                 <Label text="Historia spożywanych posiłków" styleClass="tab-title"/>
                                 <TableView fx:id="mealsTable" styleClass="details-table" VBox.vgrow="ALWAYS">

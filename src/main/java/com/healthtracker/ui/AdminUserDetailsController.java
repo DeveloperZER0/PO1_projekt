@@ -375,14 +375,20 @@ public class AdminUserDetailsController {
         try {
             // Podsumowanie pomiarów
             List<Measurement> measurements = measurementService.getMeasurementsByUser(currentUser);
+
+            long uniqueMeasurementSessions = measurements.stream()
+            .map(Measurement::getTimestamp)
+            .distinct()
+            .count();
+
             measurementsSummaryLabel.setText(String.format(
                 "📊 Pomiary: %d | Ostatni: %s",
-                measurements.size(),
+                uniqueMeasurementSessions,
                 measurements.isEmpty() ? "brak" : 
                 measurements.stream()
-                    .max(Comparator.comparing(Measurement::getTimestamp))
-                    .get().getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-            ));
+                .max(Comparator.comparing(Measurement::getTimestamp))
+                .get().getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+        ));
 
             // Podsumowanie aktywności
             List<Activity> activities = activityService.getActivitiesByUser(currentUser);
@@ -404,7 +410,7 @@ public class AdminUserDetailsController {
             int totalMealCalories = meals.stream().mapToInt(Meal::getCalories).sum();
             
             mealsSummaryLabel.setText(String.format(
-                "🍽️ Posiłki: %d | Łącznie kalorii: %d kcal",
+                "🍽 Posiłki: %d | Łącznie kalorii: %d kcal",
                 meals.size(),
                 totalMealCalories
             ));

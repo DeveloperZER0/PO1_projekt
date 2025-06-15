@@ -2,6 +2,7 @@ package com.healthtracker.service.impl;
 
 import com.healthtracker.dao.UserDao;
 import com.healthtracker.dao.impl.UserDaoImpl;
+import com.healthtracker.exception.RegistrationException;
 import com.healthtracker.model.Role;
 import com.healthtracker.model.User;
 import com.healthtracker.service.UserService;
@@ -20,32 +21,39 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao = new UserDaoImpl();
 
     @Override
-    public User register(User user) {
-        // 1. Walidacja username
-        if (!isUsernameAvailable(user.getUsername())) {
-            throw new IllegalArgumentException("Nazwa użytkownika jest zajęta.");
-        }
-        // 2. Walidacja e-maila
-        if (!isEmailValid(user.getEmail())) {
-            throw new IllegalArgumentException("Nieprawidłowy format e-maila.");
-        }
-        // 3. Walidacja hasła
-        if (!isPasswordValid(user.getPasswordHash())) {
-            throw new IllegalArgumentException(
-                    "Hasło musi mieć min. 8 znaków, wielką literę, cyfrę i znak specjalny."
-            );
-        }
-        // 4. Haszowanie i zapis
-        String hashed = HashUtil.hash(user.getPasswordHash());
-        user.setPasswordHash(hashed);
+    public User register(User user) throws RegistrationException {
+        try {
+            // 1. Walidacja username
+            if (!isUsernameAvailable(user.getUsername())) {
+                throw new RegistrationException("Nazwa użytkownika jest już zajęta.");
+            }
+            // 2. Walidacja e-maila
+            if (!isEmailValid(user.getEmail())) {
+                throw new RegistrationException("Nieprawidłowy format adresu e-mail.");
+            }
+            // 3. Walidacja hasła
+            if (!isPasswordValid(user.getPasswordHash())) {
+                throw new RegistrationException(
+                        "Hasło musi mieć minimum 8 znaków, wielką literę, cyfrę i znak specjalny."
+                );
+            }
+            // 4. Haszowanie i zapis
+            String hashed = HashUtil.hash(user.getPasswordHash());
+            user.setPasswordHash(hashed);
 
-        // 5. Ustaw datę utworzenia
-        if (user.getCreatedAt() == null) {
-            user.setCreatedAt(java.time.LocalDateTime.now());
-        }
+            // 5. Ustaw datę utworzenia
+            if (user.getCreatedAt() == null) {
+                user.setCreatedAt(java.time.LocalDateTime.now());
+            }
 
-        userDao.save(user);
-        return user;
+            userDao.save(user);
+            return user;
+        } catch (Exception e) {
+            if (e instanceof RegistrationException) {
+                throw e; // Przepuść nasze wyjątki
+            }
+            throw new RegistrationException("Błąd podczas rejestracji: " + e.getMessage(), e);
+        }
     }
 
     @Override

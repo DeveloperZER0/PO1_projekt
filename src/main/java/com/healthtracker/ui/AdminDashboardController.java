@@ -134,7 +134,7 @@ public class AdminDashboardController {
             }
         } else {
             deleteItem.setDisable(false);
-            deleteItem.setText("🗑️ Usuń użytkownika");
+            deleteItem.setText("Usuń użytkownika");
         }
     }
 
@@ -164,7 +164,7 @@ public class AdminDashboardController {
             
             Stage stage = new Stage();
             stage.setTitle("Szczegóły użytkownika: " + user.getUsername());
-            stage.setScene(new Scene(root, 1000, 700));
+            stage.setScene(new Scene(root, 1200, 800));
             stage.show();
             
         } catch (Exception e) {
