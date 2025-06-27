@@ -5,6 +5,7 @@ import com.healthtracker.ui.SceneManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 
@@ -15,6 +16,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/com/healthtracker/img/logo_zielone.png")));
         stage.setTitle("Health Tracker"); // Zmień na sensowny tytuł
         stage.setScene(scene);
         stage.show();

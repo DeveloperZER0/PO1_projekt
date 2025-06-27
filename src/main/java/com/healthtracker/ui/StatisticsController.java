@@ -17,7 +17,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class StatisticsController {
 
@@ -73,26 +75,43 @@ public class StatisticsController {
             .filter(g -> !g.getDueDate().isBefore(today)) // cel jeszcze aktualny
             .findFirst();
 
-        // Zbierz wszystkie daty z pomiarów
+        // POPRAWKA: Zbierz wszystkie daty z pomiarów i posortuj chronologicznie
         List<String> allDates = all.stream()
-            .map(m -> m.getTimestamp().format(formatter))
+            .map(Measurement::getTimestamp)
             .distinct()
-            .sorted()
-            .toList();
+            .sorted() // Sortuj LocalDateTime chronologicznie
+            .map(dt -> dt.format(formatter)) // Potem formatuj na stringi
+            .collect(Collectors.toList());
 
-        // Wypełnij serie danymi
-        for (Measurement m : all) {
-            String date = m.getTimestamp().format(formatter);
-            if (m instanceof WeightMeasurement wm) {
-                weightSeries.getData().add(new XYChart.Data<>(date, wm.getWeight()));
-            }
-            if (m instanceof HeartRateMeasurement hr) {
-                heartRateSeries.getData().add(new XYChart.Data<>(date, hr.getBpm()));
-            }
-            if (m instanceof BloodPressureMeasurement bp) {
-                systolicSeries.getData().add(new XYChart.Data<>(date, bp.getSystolic()));
-                diastolicSeries.getData().add(new XYChart.Data<>(date, bp.getDiastolic()));
-            }
+        // Wypełnij serie danymi - grupuj pomiary według daty
+        Map<String, List<Measurement>> measurementsByDate = all.stream()
+            .collect(Collectors.groupingBy(m -> m.getTimestamp().format(formatter)));
+
+        // Dla każdej daty w chronologicznej kolejności
+        for (String date : allDates) {
+            List<Measurement> dailyMeasurements = measurementsByDate.get(date);
+            
+            // Znajdź najnowszy pomiar każdego typu dla danego dnia
+            dailyMeasurements.stream()
+                .filter(m -> m instanceof WeightMeasurement)
+                .map(m -> (WeightMeasurement) m)
+                .max(Comparator.comparing(Measurement::getTimestamp))
+                .ifPresent(wm -> weightSeries.getData().add(new XYChart.Data<>(date, wm.getWeight())));
+                
+            dailyMeasurements.stream()
+                .filter(m -> m instanceof HeartRateMeasurement)
+                .map(m -> (HeartRateMeasurement) m)
+                .max(Comparator.comparing(Measurement::getTimestamp))
+                .ifPresent(hr -> heartRateSeries.getData().add(new XYChart.Data<>(date, hr.getBpm())));
+                
+            dailyMeasurements.stream()
+                .filter(m -> m instanceof BloodPressureMeasurement)
+                .map(m -> (BloodPressureMeasurement) m)
+                .max(Comparator.comparing(Measurement::getTimestamp))
+                .ifPresent(bp -> {
+                    systolicSeries.getData().add(new XYChart.Data<>(date, bp.getSystolic()));
+                    diastolicSeries.getData().add(new XYChart.Data<>(date, bp.getDiastolic()));
+                });
         }
 
         // Dodaj linię celu wagi jeśli istnieje

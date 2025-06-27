@@ -11,12 +11,11 @@
       styleClass="sidebar"
       stylesheets="@../styles/style.css, @../styles/sidebar.css">
 
-    <!-- Header z tytułem aplikacji -->
     <VBox styleClass="sidebar-header">
         <HBox alignment="CENTER" styleClass="sidebar-header-bar">
             <ImageView fx:id="logoImageView" fitWidth="28" fitHeight="28" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="@../img/logo_biale.png"/>
+                    <Image url="@../../img/logo_biale.png"/>
                 </image>
             </ImageView>
         <Label text="HealthTracker" styleClass="sidebar-title"/>
@@ -24,13 +23,11 @@
         <Label text="System monitorowania zdrowia" styleClass="sidebar-subtitle"/>
     </VBox>
 
-    <!-- Menu nawigacyjne -->
     <VBox VBox.vgrow="ALWAYS">
         <Button fx:id="dashboardButton" text="📊 Dashboard" styleClass="sidebar-button"/>
         <Button fx:id="statsButton" text="📈 Statystyki" styleClass="sidebar-button"/>
         <Button fx:id="profileButton" text="👤 Profil" styleClass="sidebar-button"/>
-        
-        <!-- Spacer -->
+
         <Region VBox.vgrow="ALWAYS"/>
         
         <Button fx:id="logoutButton" text="🚪 Wyloguj" styleClass="sidebar-button"/>

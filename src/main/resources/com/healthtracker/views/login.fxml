@@ -16,7 +16,7 @@
         <HBox alignment="CENTER" styleClass="login-header">
             <ImageView fx:id="logoImageView" fitWidth="50" fitHeight="50" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="@img/logo_zielone.png"/>
+                    <Image url="@../img/logo_zielone.png"/>
                 </image>
             </ImageView>
             <Label text="Health Tracker" styleClass="login-title"/>

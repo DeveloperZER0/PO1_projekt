@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -73,19 +74,16 @@ public class UserDashboardController {
 
     @FXML
     public void initialize() {
-        // NAJPIERW skonfiguruj wszystkie tabele
         setupMeasurementsTable();
         setupActivitiesTable();
         setupMealsTable();
         setupGoalsTable();
-        
-        // POTEM skonfiguruj menu kontekstowe
+
         setupContextMenu();
         setupActivitiesContextMenu();
         setupMealsContextMenu();
         setupGoalsContextMenu();
-        
-        // DOPIERO NA KOŃCU załaduj dane
+
         loadData();
     }
 
@@ -103,8 +101,7 @@ public class UserDashboardController {
                 }
             }
         });
-        
-        // Ustaw domyślne sortowanie po dacie (najnowsze na górze) - TUTAJ!
+
         timestampColumn.setComparator(Comparator.reverseOrder());
         measurementTable.getSortOrder().add(timestampColumn);
         
@@ -119,8 +116,7 @@ public class UserDashboardController {
         hrColumn.prefWidthProperty().bind(measurementTable.widthProperty().multiply(0.1));
         weightColumn.prefWidthProperty().bind(measurementTable.widthProperty().multiply(0.1));
         summaryColumn.prefWidthProperty().bind(measurementTable.widthProperty().multiply(0.45));
-        
-        // Dodaj wspólne klasy CSS dla wszystkich tabel
+
         measurementTable.getStyleClass().add("data-table");
     }
 
@@ -210,8 +206,7 @@ public class UserDashboardController {
                 }
             }
         });
-        
-        // Ustaw domyślne sortowanie po dacie (najnowsze na górze)
+
         activityDateColumn.setComparator(Comparator.reverseOrder());
         activitiesTable.getSortOrder().add(activityDateColumn);
         
@@ -223,8 +218,7 @@ public class UserDashboardController {
         intensityColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.15));
         speedColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.13));
         activityDateColumn.prefWidthProperty().bind(activitiesTable.widthProperty().multiply(0.2));
-        
-        // Dodaj klasę CSS
+
         activitiesTable.getStyleClass().add("data-table");
     }
 
@@ -251,8 +245,7 @@ public class UserDashboardController {
                 }
             }
         });
-        
-        // Ustaw domyślne sortowanie po dacie (najnowsze na górze)
+
         mealDateColumn.setComparator(Comparator.reverseOrder());
         mealsTable.getSortOrder().add(mealDateColumn);
         
@@ -261,8 +254,7 @@ public class UserDashboardController {
         mealCaloriesColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.12));
         descriptionColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.48));
         mealDateColumn.prefWidthProperty().bind(mealsTable.widthProperty().multiply(0.22));
-        
-        // Dodaj klasę CSS
+
         mealsTable.getStyleClass().add("data-table");
     }
 
@@ -308,7 +300,6 @@ public class UserDashboardController {
         goalDueColumn.prefWidthProperty().bind(goalsTable.widthProperty().multiply(0.16));
         goalStatusColumn.prefWidthProperty().bind(goalsTable.widthProperty().multiply(0.16));
         
-        // Dodaj klasę CSS
         goalsTable.getStyleClass().add("data-table");
     }
 
@@ -645,14 +636,13 @@ public class UserDashboardController {
             Parent root = loader.load();
 
             MeasurementDetailController controller = loader.getController();
-            
-            // Pobierz wszystkie pomiary użytkownika
+
             List<Measurement> allMeasurements = measurementService.getMeasurementsByUser(SessionManager.getCurrentUser());
-            
-            // Przekaż timestamp i wszystkie pomiary
+
             controller.setMeasurements(timestamp, allMeasurements);
 
             Stage stage = new Stage();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/com/healthtracker/img/logo_zielone.png")));
             stage.setTitle("Szczegóły pomiarów");
             stage.setScene(new Scene(root));
             stage.show();
@@ -671,6 +661,7 @@ public class UserDashboardController {
             controller.setActivity(activity);
 
             Stage stage = new Stage();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/com/healthtracker/img/logo_zielone.png")));
             stage.setTitle("Szczegóły aktywności");
             stage.setScene(new Scene(root));
             stage.show();
@@ -689,6 +680,7 @@ public class UserDashboardController {
             controller.setMeal(meal);
 
             Stage stage = new Stage();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/com/healthtracker/img/logo_zielone.png")));
             stage.setTitle("Szczegóły posiłku");
             stage.setScene(new Scene(root));
             stage.show();
@@ -742,15 +734,13 @@ public class UserDashboardController {
         
         return switch (goal.getGoalType()) {
             case WEIGHT_LOSS -> {
-                // Dla utraty wagi - im mniej tym lepiej
-                double startWeight = 80.0; // Można pobrać z pierwszego pomiaru
+                double startWeight = 80.0;
                 if (current <= target) yield 100.0;
                 yield Math.max(0, ((startWeight - current) / (startWeight - target)) * 100);
             }
             case TARGET_WEIGHT -> {
-                // Dla wagi docelowej - im bliżej tym lepiej
                 double diff = Math.abs(current - target);
-                yield Math.max(0, 100 - (diff * 10)); // Każdy kg różnicy = -10%
+                yield Math.max(0, 100 - (diff * 10));
             }
             default -> Math.min(100, (current / target) * 100);
         };
@@ -773,7 +763,6 @@ public class UserDashboardController {
         }
     }
 
-    // Export/Import methods for Activities
     @FXML
     private void onExportActivitiesClicked() {
         FileChooser fileChooser = new FileChooser();
@@ -804,7 +793,6 @@ public class UserDashboardController {
         if (file != null) {
             try {
                 exportImportService.importActivitiesFromCsv(SessionManager.getCurrentUser(), file);
-                // NAPRAWKA: Odśwież dane w tabeli
                 loadActivitiesData();
                 new Alert(Alert.AlertType.INFORMATION, "Import aktywności zakończony pomyślnie!").showAndWait();
             } catch (IOException e) {
@@ -814,7 +802,6 @@ public class UserDashboardController {
         }
     }
 
-    // Export/Import methods for Meals
     @FXML
     private void onExportMealsClicked() {
         FileChooser fileChooser = new FileChooser();
@@ -845,7 +832,6 @@ public class UserDashboardController {
         if (file != null) {
             try {
                 exportImportService.importMealsFromCsv(SessionManager.getCurrentUser(), file);
-                // NAPRAWKA: Odśwież dane w tabeli
                 loadMealsData();
                 new Alert(Alert.AlertType.INFORMATION, "Import posiłków zakończony pomyślnie!").showAndWait();
             } catch (IOException e) {
@@ -855,7 +841,7 @@ public class UserDashboardController {
         }
     }
 
-    // Rename existing methods for consistency
+
     @FXML
     private void onExportMeasurementsClicked() {
         onExportClicked();

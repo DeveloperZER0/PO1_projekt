@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -163,6 +164,7 @@ public class AdminDashboardController {
             controller.setUser(user);
             
             Stage stage = new Stage();
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/com/healthtracker/img/logo_zielone.png")));
             stage.setTitle("Szczegóły użytkownika: " + user.getUsername());
             stage.setScene(new Scene(root, 1200, 800));
             stage.show();
